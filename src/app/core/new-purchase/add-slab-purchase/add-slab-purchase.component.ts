@@ -364,7 +364,7 @@ export class AddSlabPurchaseComponent {
     this.addbarcodevisible = false;
   }
 
-  addSlabDetails(myForm: NgForm) {
+  addSlabDetails(myForm: NgForm,rowsCopy:any) {
     this.addvisible = false;
     this.cdRef.detectChanges();
 
@@ -400,7 +400,10 @@ export class AddSlabPurchaseComponent {
       // warehouseDetails: this.slabAddForm.get("warehouse").value,
 
       sqftPerPiece: Number(this.quantity / this.noOfPieces).toFixed(2),
+      piecesDetails: rowsCopy
     };
+
+    console.log(this.quantity,"newSlab", newSlab,'noOfPieces',this.noOfPieces);
 
     this.slabDetails.push(newSlab);
     this.NewPurchaseService.slabDetailsLengthCount(this.slabDetails?.length);
@@ -1057,9 +1060,9 @@ export class AddSlabPurchaseComponent {
     const rowsCopy = JSON.parse(JSON.stringify(this.rows));
     // Calculate total amount and add slab details
     this.calculateTotalAmount();
-    this.addSlabDetails(myForm);
+    this.addSlabDetails(myForm,rowsCopy);
     // Set form data after processing is complete, using the preserved copy
-    this.NewPurchaseService.setFormData("piecesDetails", rowsCopy);
+    // this.NewPurchaseService.setFormData("piecesDetails", rowsCopy);
   }
 
 

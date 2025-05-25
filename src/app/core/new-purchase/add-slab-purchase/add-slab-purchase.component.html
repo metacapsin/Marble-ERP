@@ -97,13 +97,11 @@
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center gap-3">
-                                                <p-radioButton name="paidBy_{{i}}" [value]="'self'"
-                                                    [formControlName]="'paidBy'" (onClick)="updatePaidBy(i, 'self')">
+                                                <p-radioButton [name]="'paidBy'" [value]="'self'" [formControlName]="'paidBy'" (onClick)="updatePaidBy(i, 'self')">
                                                 </p-radioButton>
                                                 <label class="me-3">Self</label>
 
-                                                <p-radioButton name="paidBy_{{i}}" [value]="'supplier'"
-                                                    [formControlName]="'paidBy'"
+                                                <p-radioButton [name]="'paidBy'" [value]="'supplier'" [formControlName]="'paidBy'"
                                                     (onClick)="updatePaidBy(i, 'supplier')">
                                                 </p-radioButton>
                                                 <label>Supplier</label>

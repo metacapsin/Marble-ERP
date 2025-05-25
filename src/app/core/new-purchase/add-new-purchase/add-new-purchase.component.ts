@@ -297,6 +297,13 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         });
       });
     });
+
+    // Restore attachments from local storage if available
+    // const savedAttachments = this.localStorageService.getItem('purchase_attachments');
+    // if (savedAttachments) {
+    //   this.attachments = JSON.parse(savedAttachments);
+    //   console.log('Restored attachments on init:', this.attachments);
+    // }
   }
 
   public setValidations(formControlName: string) {
@@ -324,6 +331,10 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
 
   backStep(prevCallback: any, type: string) {
     console.log(this.lotTypeValue, type);
+    // Save attachments to local storage to preserve them when navigating back
+    // if (this.attachments && this.attachments.length > 0) {
+    //   this.localStorageService.setItem('purchase_attachments', JSON.stringify(this.attachments));
+    // }
     prevCallback.emit();
     this.addNewPurchaseForm.get("taxVendor").clearValidators();
     this.addNewPurchaseForm.get("taxVendorAmount").clearValidators();
@@ -332,10 +343,17 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     this.addNewPurchaseForm.get("taxVendorAmount").updateValueAndValidity();
     this.addNewPurchaseForm.get("vendorTaxApplied").updateValueAndValidity();
   }
+
   nextStep(nextCallback: any, page: string) {
     console.log(this.ItemDetails);
     this.piecesDetails = this.NewPurchaseService.getFormData("piecesDetails");
     console.log(this.piecesDetails, "piecesDetails");
+    // Retrieve saved attachments from local storage when navigating to the next step
+    // const savedAttachments = this.localStorageService.getItem('purchase_attachments');
+    // if (savedAttachments) {
+    //   this.attachments = JSON.parse(savedAttachments);
+    //   console.log('Restored attachments:', this.attachments);
+    // }
     setTimeout(() => {
       const expensesData = this.NewPurchaseService.getFormData("expensesData");
       console.log("expensesData", expensesData);
@@ -853,6 +871,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     if (response && response.status === 'success' && response.data) {
       // Store the attachment data
       this.attachments.push(...response.data);
+      console.log(this.attachments, 'attachments');
       // this.messageService.add({
       //   severity: 'success',
       //   detail: 'File uploaded successfully'
@@ -862,6 +881,17 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       //   severity: 'error',
       //   detail: 'Failed to upload file'
       // });
+    }
+  }
+
+  handleFileDeleted(event: any) {
+    console.log('File deleted:', event);
+    if (event && event.id) {
+      // Remove the deleted file from attachments array
+      this.attachments = this.attachments.filter(attachment => 
+        attachment._id !== event.id && attachment.id !== event.id
+      );
+      console.log('Updated attachments after deletion:', this.attachments);
     }
   }
 
@@ -895,6 +925,10 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
 
   onnextBtnDisabled(data: any) {
     this.addSlabData = data.controls;
+  }
+
+  hasAnyPayment(): boolean {
+    return this.expenses?.controls?.some(ctrl => !!ctrl.get('payment')?.value);
   }
 
 }

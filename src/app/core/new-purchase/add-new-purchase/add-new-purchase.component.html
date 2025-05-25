@@ -1088,7 +1088,8 @@
                         </p-accordion>
                       </div>
 
-                      <form [formGroup]="expensesForm">
+                      <form *ngIf="expenses.controls[0].get('payment')?.value != ''"
+                      [formGroup]="expensesForm" >
                         <p-accordion [activeIndex]="0">
                           <p-accordionTab>
                             <ng-template pTemplate="header">
@@ -1172,8 +1173,11 @@
                                 <div id="collapseattachFile" class="panel-collapse" role="tabpanel"
                                   aria-labelledby="attachFile" data-bs-parent="#attachFile">
                                   <div class="panel-body">
-                                    <app-file-upload type="purchase" (filesChanged)="salesFilesChangedHandler($event)"
-                                      (uploadComplete)="salesUploadCompleteHandler($event)">
+                                    <app-file-upload type="purchase" 
+                                      [existingAttachments]="attachments"
+                                      (filesChanged)="salesFilesChangedHandler($event)"
+                                      (uploadComplete)="salesUploadCompleteHandler($event)"
+                                      (fileDeleted)="handleFileDeleted($event)">
                                     </app-file-upload>
                                   </div>
                                 </div>
@@ -1362,7 +1366,7 @@
                                   </span>
                               </p>
                               <!-- Expenses Section -->
-                              <ng-container *ngIf="expenses && expenses.length > 0">
+                              <ng-container *ngIf="expenses && hasAnyPayment()">
                                 <div class="mt-3 mb-2">
                                   <h5 class="expenses-title">Expenses</h5>
                                 </div>

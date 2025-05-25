@@ -37,7 +37,7 @@
           </div>
         </div>
         <div class="actions">
-          <button class="btn btn-link text-danger" (click)="removeFile(fileItem.id)" 
+          <button type="button" class="btn btn-link text-danger" (click)="removeFile(fileItem.id, $event)" 
                   [disabled]="fileItem.uploadStatus === 'uploading'">
             <i class="fa fa-trash"></i>
           </button>

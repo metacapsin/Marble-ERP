@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild, ElementRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild, ElementRef, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { FileUploadService } from './file-upload.service';
 
@@ -16,10 +16,12 @@ interface FileItem {
   templateUrl: './file-upload.component.html',
   styleUrls: ['./file-upload.component.scss']
 })
-export class FileUploadComponent {
+export class FileUploadComponent implements OnInit, OnChanges {
   @Input() type: string = 'blocks';
+  @Input() existingAttachments: any[] = [];
   @Output() filesChanged = new EventEmitter<File[]>();
   @Output() uploadComplete = new EventEmitter<any>();
+  @Output() fileDeleted = new EventEmitter<any>();
   @ViewChild('fileInput') fileInput: ElementRef;
   
   selectedFiles: FileItem[] = [];
@@ -30,6 +32,57 @@ export class FileUploadComponent {
     private messageService: MessageService,
     private uploadService: FileUploadService
   ) {}
+
+  ngOnInit(): void {
+    this.restoreExistingAttachments();
+  }
+  
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['existingAttachments']) {
+      this.restoreExistingAttachments();
+    }
+  }
+  
+  private restoreExistingAttachments(): void {
+    if (this.existingAttachments && this.existingAttachments.length > 0) {
+      // Clear existing files to avoid duplicates
+      this.selectedFiles = this.existingAttachments.map(attachment => {
+        // Create a placeholder file since we can't recreate the original file
+        const filename = attachment.filename || attachment.name || 'file';
+        
+        // Create a buffer with some data to make sure the file has a size
+        // Use the file's size if available, otherwise use a default size
+        const fileSize = attachment.size || attachment.file?.size || 1024;
+        const buffer = new ArrayBuffer(Math.min(fileSize, 1024)); // Use at least some data but not too much
+        
+        const placeholderFile = new File([
+          buffer
+        ], filename, {
+          type: attachment.mimetype || attachment.type || 'application/octet-stream',
+          lastModified: attachment.lastModified || Date.now()
+        });
+        
+        // Set custom size property if the real size is known
+        if (attachment.size && attachment.size > 1024) {
+          Object.defineProperty(placeholderFile, 'size', {
+            value: attachment.size,
+            writable: false
+          });
+        }
+        
+        return {
+          file: placeholderFile,
+          id: attachment._id || attachment.id || this.generateUniqueId(),
+          uploadStatus: 'success',
+          path: attachment.path,
+          size: attachment.size || fileSize // Store the size separately as well
+        };
+      });
+      
+      // Emit the restored files
+      this.emitFiles();
+    }
+  }
 
   onFileSelect(event: any): void {
     const files = event.target.files;
@@ -130,7 +183,12 @@ export class FileUploadComponent {
       });
   }
 
-  removeFile(fileId: string): void {
+  removeFile(fileId: string, event?: Event): void {
+    // Prevent the default action to avoid form submission
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
     const fileItem = this.selectedFiles.find(f => f.id === fileId);
     if (!fileItem) return;
 
@@ -140,6 +198,8 @@ export class FileUploadComponent {
           next: (response) => {
             this.selectedFiles = this.selectedFiles.filter(f => f.id !== fileId);
             this.emitFiles();
+            // Emit the deleted file information
+            this.fileDeleted.emit({ id: fileId, response });
             this.messageService.add({
               severity: 'success',
               summary: 'File Deleted',
@@ -157,6 +217,8 @@ export class FileUploadComponent {
         });
     } else {
       this.selectedFiles = this.selectedFiles.filter(f => f.id !== fileId);
+      // Emit the deleted file information for non-uploaded files too
+      this.fileDeleted.emit({ id: fileId });
       this.emitFiles();
       this.resetFileInput();
     }
