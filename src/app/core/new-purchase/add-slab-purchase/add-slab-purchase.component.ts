@@ -239,7 +239,8 @@ export class AddSlabPurchaseComponent {
     if (this.previousSlabData) {
       console.log("previousSlabData", this.previousSlabData);
 
-      this.slabDetails = this.previousSlabData.slabDetails;
+      // Create a deep copy of slabDetails array to avoid reference issues
+      this.slabDetails = this.previousSlabData.slabDetails ? JSON.parse(JSON.stringify(this.previousSlabData.slabDetails)) : [];
       this.slabTotalCost = this.previousSlabData.slabTotalCost;
       console.log("previousSlabData", this.previousSlabData);
 
@@ -290,11 +291,45 @@ export class AddSlabPurchaseComponent {
   }
 
   deleteAccordian(index: number) {
-    this.slabTotalCost -= Number(this.slabDetails[index].totalCosting);
+    // Subtract the cost of the deleted slab from the total
+    this.slabTotalCost -= Number(this.slabDetails[index].totalCosting || 0);
+  
+    // Remove the slab at the specified index
     this.slabDetails.splice(index, 1);
+  
+    // Update the slab count in the service
     this.NewPurchaseService.slabDetailsLengthCount(this.slabDetails?.length);
+  
+    // Update calculations
     this.calculateTotalAmount();
-    this.saveClicked.emit()
+  
+    // Get the current form data
+    const formData = this.slabAddForm.value;
+  
+    // Update the service data with the modified slabDetails array
+    const payload = {
+      warehouseDetails: formData?.warehouse,
+      vehicleNo: formData?.vehicleNo ? (formData.vehicleNo.length === 0 ? null : formData.vehicleNo) : null,
+      transportationCharge: Number(formData?.transportationCharge || 0),
+      royaltyCharge: Number(formData?.royaltyCharge || 0),
+      slabDetails: this.slabDetails || [], // Updated slab details with deleted slab removed
+      slabTotalCost: Number(this.slabTotalCost || 0)?.toFixed(2),
+      totalCost: Number(formData?.totalCost || 0)?.toFixed(2),
+      paidToSupplierSlabCost: Number(formData?.paidToSupplierSlabCost || 0),
+      purchaseDiscount: Number(formData?.purchaseDiscount || 0)?.toFixed(2),
+      nonTaxableAmount: Number(formData?.nonTaxableAmount || 0)?.toFixed(2),
+      taxableAmount: Number(formData?.taxableAmount || 0)?.toFixed(2),
+      taxable: Number(formData?.taxable || 0)?.toFixed(2),
+      purchaseItemTax: formData?.ItemTax,
+      taxApplied: Number(formData?.taxApplied || 0)?.toFixed(2),
+      totalSQFT: Number(formData?.totalSQFT || 0),
+    };
+  
+    // Update the service with the modified data
+    this.NewPurchaseService.setFormData("stepFirstSlabData", payload);
+  
+    // Emit event for parent component
+    this.saveClicked.emit();
   }
 
   // for get hsn code
@@ -383,23 +418,30 @@ export class AddSlabPurchaseComponent {
       return;
     }
 
-    const newSlab = {
+    // Ensure values are numbers and not null/undefined before calculations
+  const totalQuantity = Number(this.totalQuantity) || 0;
+  const totalAmount = Number(this.totalAmount) || 0;
+  const noOfPieces = Number(this.noOfPieces) || 1; // Avoid division by zero
+  const quantity = Number(this.quantity) || 0;
+  
+  const newSlab = {
       slabName: this.marbleName,
       slabNo: this.slabNumber,
       categoryDetail: this.category,
       subCategoryDetail: this.subCategory,
-      noOfPieces: this.noOfPieces,
+      noOfPieces: noOfPieces,
       width: this.width,
       length: this.length,
       thickness: this.thickness,
       finishes: this.finishes,
-      totalSQFT: this.totalQuantity,
+      totalSQFT: totalQuantity,
       ratePerSqFeet: this.ratePerSqFeet,
-      totalCosting: this.totalAmount,
+      totalCosting: totalAmount,
       // purchaseCost: this.totalAmount,
       // warehouseDetails: this.slabAddForm.get("warehouse").value,
 
-      sqftPerPiece: Number(this.quantity / this.noOfPieces).toFixed(2),
+      sqftPerPiece: Number(quantity / noOfPieces || 0).toFixed(2),
+      costPerSQFT: totalQuantity > 0 ? Number(totalAmount / totalQuantity || 0).toFixed(2) : "0",
       piecesDetails: rowsCopy
     };
 
@@ -604,9 +646,27 @@ export class AddSlabPurchaseComponent {
   }
 
 
+  // Helper method to prevent NaN values and ensure proper formatting
+  safeNumber(value: any, defaultValue: number = 0): string {
+    const num = Number(value);
+    return isNaN(num) ? defaultValue.toFixed(2) : num.toFixed(2);
+  }
+
   calculateTotalAmount() {
     this.nextBtnDisabled.emit(this.slabAddForm);
     const expenseBreakdown = this.calculateExpenseCharges();
+    
+    // Fix any existing NaN values in slabDetails
+    if (this.slabDetails && this.slabDetails.length > 0) {
+      this.slabDetails = this.slabDetails.map(slab => {
+        if (slab && (slab.costPerSQFT === 'NaN' || isNaN(slab.costPerSQFT))) {
+          const totalSQFT = Number(slab.totalSQFT) || 0;
+          const totalCosting = Number(slab.totalCosting) || 0;
+          slab.costPerSQFT = totalSQFT > 0 ? this.safeNumber(totalCosting / totalSQFT) : '0.00';
+        }
+        return slab;
+      });
+    }
     this.NewPurchaseService.taxableAmountFun(this.slabAddForm.get('taxableAmount')?.value);
     console.log(this.slabAddForm.get('ItemTax')?.value, "ItemTax");
     this.NewPurchaseService.taxFun(this.slabAddForm.get('ItemTax')?.value);
@@ -829,18 +889,26 @@ export class AddSlabPurchaseComponent {
 
     taxable = taxApplied + taxableAmount;
 
-    calculatedDetails = calculatedDetails.map((e: any, index: any) => ({
-      ...e,
-      costPerSQFT: Number(
-        Number(e.ratePerSqFeet) +
-        Number(e.taxAmountPerSQFT) +
-        Number(transportationAndOtherChargePerSQFT)
-      ).toFixed(2),
-      sellingPricePerSQFT: Number(
-        Number(e.ratePerSqFeet) +
-        Number(e.taxAmountPerSQFT) +
-        Number(transportationAndOtherChargePerSQFT)
-      ).toFixed(2),
+    calculatedDetails = calculatedDetails.map((e: any, index: any) => {
+      // Calculate costPerSQFT with fallback to prevent NaN
+      const ratePerSqFeet = Number(e.ratePerSqFeet) || 0;
+      const taxAmountPerSQFT = Number(e.taxAmountPerSQFT) || 0;
+      const transportCharge = Number(transportationAndOtherChargePerSQFT) || 0;
+      
+      // Calculate the cost - this should never be NaN now
+      const costValue = ratePerSqFeet + taxAmountPerSQFT + transportCharge;
+      
+      // Final safety check - if somehow it's still NaN, use 0
+      const finalCostPerSQFT = isNaN(costValue) ? 0 : costValue;
+      
+      return {
+        ...e,
+        costPerSQFT: Number(finalCostPerSQFT).toFixed(2),
+        sellingPricePerSQFT: Number(
+          (Number(e.ratePerSqFeet) || 0) +
+          (Number(e.taxAmountPerSQFT) || 0) +
+          (Number(transportationAndOtherChargePerSQFT) || 0)
+        ).toFixed(2),
       transportationCharges: Number(
         transportationChargesPerSlab * e.totalSQFT
       ).toFixed(2),
@@ -849,12 +917,13 @@ export class AddSlabPurchaseComponent {
       slabSize: `${e.width ? e.width : " "} x ${e.length ? e.length : " "} x ${e.thickness ? e.thickness : " "
         }`,
       purchaseCost:
-        (Number(e.ratePerSqFeet) +
-          Number(e.taxAmountPerSQFT) +
-          Number(transportationAndOtherChargePerSQFT)) *
-        e.totalSQFT,
+        ((Number(e.ratePerSqFeet) || 0) +
+          (Number(e.taxAmountPerSQFT) || 0) +
+          (Number(transportationAndOtherChargePerSQFT) || 0)) *
+        (Number(e.totalSQFT) || 0),
       warehouseDetails: this.slabAddForm?.value?.warehouse,
-    }));
+    };
+    });
 
     taxable = taxApplied + taxableAmount;
     const paidToSupplierSlabAmount = taxable + nonTaxableAmount;
