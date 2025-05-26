@@ -667,6 +667,14 @@ export class AddSlabPurchaseComponent {
         return slab;
       });
     }
+    
+    // Ensure we have a valid slabTotalCost
+    if (this.slabDetails && this.slabDetails.length > 0 && (!this.slabTotalCost || isNaN(this.slabTotalCost))) {
+      // Recalculate slabTotalCost if it's invalid
+      this.slabTotalCost = this.slabDetails.reduce((total, slab) => {
+        return total + (Number(slab.totalCosting) || 0);
+      }, 0);
+    }
     this.NewPurchaseService.taxableAmountFun(this.slabAddForm.get('taxableAmount')?.value);
     console.log(this.slabAddForm.get('ItemTax')?.value, "ItemTax");
     this.NewPurchaseService.taxFun(this.slabAddForm.get('ItemTax')?.value);
@@ -985,26 +993,52 @@ export class AddSlabPurchaseComponent {
     this.calculateTotalAmount(); // Ensure calculations are up-to-date
     const formData = this.slabAddForm.value;
     console.log('formData', formData)
-    if (this.slabTotalCost) {
-      const payload = {
-        warehouseDetails: formData?.warehouse,
-        vehicleNo: formData?.vehicleNo ? (formData.vehicleNo.length === 0 ? null : formData.vehicleNo) : null,
-        transportationCharge: Number(formData?.transportationCharge),
-        royaltyCharge: Number(formData?.royaltyCharge),
-        slabDetails: this.slabDetails || [],
-        slabTotalCost: Number(this.slabTotalCost)?.toFixed(2),
-        totalCost: Number(formData?.totalCost)?.toFixed(2),
-        paidToSupplierSlabCost: Number(formData?.paidToSupplierSlabCost),
-        purchaseDiscount: Number(formData?.purchaseDiscount)?.toFixed(2),
-        nonTaxableAmount: Number(formData?.nonTaxableAmount)?.toFixed(2),
-        taxableAmount: Number(formData?.taxableAmount)?.toFixed(2),
-        taxable: Number(formData?.taxable)?.toFixed(2),
-        purchaseItemTax: formData?.ItemTax,
-        taxApplied: Number(formData?.taxApplied)?.toFixed(2),
-        totalSQFT: Number(formData?.totalSQFT),
-      };
-      this.NewPurchaseService.setFormData("stepFirstSlabData", payload);
+    
+    // Helper function to safely convert values to numbers and format them
+    const safeNumberFormat = (value: any, defaultValue: number = 0): string => {
+      const num = Number(value);
+      return isNaN(num) ? defaultValue.toFixed(2) : num.toFixed(2);
+    };
+    
+    // Ensure we have valid values for all numeric fields
+    const slabTotalCost = Number(this.slabTotalCost) || 0;
+    
+    // Check if nonTaxableAmount is 0 but there's a total amount, recalculate it
+    let nonTaxableAmount = Number(formData?.nonTaxableAmount || 0);
+    if (nonTaxableAmount === 0 && slabTotalCost > 0 && this.slabDetails?.length > 0) {
+      // If nonTaxableAmount is 0 but we have slabs, recalculate it
+      const taxableAmount = Number(formData?.taxableAmount || 0);
+      nonTaxableAmount = slabTotalCost - taxableAmount;
+      if (nonTaxableAmount < 0) nonTaxableAmount = 0;
+      
+      // Update the form value
+      this.slabAddForm.patchValue({
+        nonTaxableAmount: nonTaxableAmount.toFixed(2)
+      });
+      
+      // Get the updated form data
+      formData.nonTaxableAmount = nonTaxableAmount.toFixed(2);
     }
+    
+    const payload = {
+      warehouseDetails: formData?.warehouse,
+      vehicleNo: formData?.vehicleNo ? (formData.vehicleNo.length === 0 ? null : formData.vehicleNo) : null,
+      transportationCharge: Number(formData?.transportationCharge || 0),
+      royaltyCharge: Number(formData?.royaltyCharge || 0),
+      slabDetails: this.slabDetails || [],
+      slabTotalCost: safeNumberFormat(slabTotalCost),
+      totalCost: safeNumberFormat(formData?.totalCost),
+      paidToSupplierSlabCost: Number(formData?.paidToSupplierSlabCost || 0),
+      purchaseDiscount: safeNumberFormat(formData?.purchaseDiscount),
+      nonTaxableAmount: safeNumberFormat(formData?.nonTaxableAmount),
+      taxableAmount: safeNumberFormat(formData?.taxableAmount),
+      taxable: safeNumberFormat(formData?.taxable),
+      purchaseItemTax: formData?.ItemTax,
+      taxApplied: safeNumberFormat(formData?.taxApplied),
+      totalSQFT: Number(formData?.totalSQFT || 0),
+    };
+    
+    this.NewPurchaseService.setFormData("stepFirstSlabData", payload);
     // this.saveClicked.emit()
   }
 
