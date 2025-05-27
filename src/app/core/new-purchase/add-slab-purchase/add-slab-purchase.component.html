@@ -8,7 +8,7 @@
                         <h3>Add Slab Details</h3>
                     </div>
                     <div class="col-md-6 col-sm-12 text-end">
-                        <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                        <button [disabled]="addSlabdisableBtn" type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
                             (click)="addSlabDialog()">
                             Add Slab
                         </button>
@@ -57,89 +57,70 @@
             </div>
         </div>
 
-            <form [formGroup]="expensesForm">
-  <p-accordion *ngIf="tab == 'purchase'" [activeIndex]="0">
-    <p-accordionTab>
-      <ng-template pTemplate="header">
-        <div class="d-flex justify-content-between align-items-center w-100">
-          <span class="font-bold">Expenses</span>
-          <button pButton type="button" icon="fa fa-plus" class="p-button-text p-0" (click)="addExpense($event)"></button>
-        </div>
-      </ng-template>
+        <form [formGroup]="expensesForm">
+            <p-accordion *ngIf="tab == 'purchase'" [activeIndex]="0">
+                <p-accordionTab>
+                    <ng-template pTemplate="header">
+                        <div class="d-flex justify-content-between align-items-center w-100">
+                            <span class="font-bold">Expenses</span>
+                            <button pButton type="button" icon="fa fa-plus" class="p-button-text p-0"
+                                (click)="addExpense($event)"></button>
+                        </div>
+                    </ng-template>
 
-      <div class="row">
-        <div class="expenses-content" *ngIf="expensesExpanded">
-          <table class="expenses-table w-100" formArrayName="expenses">
-            <thead>
-              <tr>
-                <th>Type</th>
-                <th>Payment</th>
-                <th>Paid by:</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let expense of expenses.controls; let i = index" [formGroupName]="i">
-                <td>
-                  <p-dropdown 
-                    [options]="expenseTypeOptions" 
-                    formControlName="type"
-                    placeholder="Select Type"
-                    (onChange)="calculateTotalAmount()"
-                    optionLabel="name"
-                    optionValue="value"
-                    styleClass="w-100"
-                    appendTo="body">
-                  </p-dropdown>
-                </td>
-                <td>
-                  <div class="input-with-icon">
-                    <input 
-                      type="text" 
-                      pInputText 
-                      formControlName="payment"
-                      (change)="calculateTotalAmount()"
-                      class="form-control">
-                    <span class="input-icon">₹</span>
-                  </div>
-                </td>
-                <td>
-                <div class="d-flex align-items-center gap-3">
-  <p-radioButton
-    name="paidBy_{{i}}"
-    [value]="'self'"
-    [formControlName]="'paidBy'"
-    (onClick)="updatePaidBy(i, 'self')">
-  </p-radioButton>
-  <label class="me-3">Self</label>
+                    <div class="row">
+                        <div class="expenses-content" *ngIf="expensesExpanded">
+                            <table class="expenses-table w-100" formArrayName="expenses">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Payment</th>
+                                        <th>Paid by:</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let expense of expenses.controls; let i = index" [formGroupName]="i">
+                                        <td>
+                                            <p-dropdown [options]="expenseTypeOptions" formControlName="type"
+                                                placeholder="Select Type" (onChange)="calculateTotalAmount()"
+                                                optionLabel="name" optionValue="value" styleClass="w-100"
+                                                appendTo="body">
+                                            </p-dropdown>
+                                        </td>
+                                        <td>
+                                            <div class="input-with-icon">
+                                                <input type="text" pInputText formControlName="payment"
+                                                    (change)="calculateTotalAmount()" class="form-control">
+                                                <span class="input-icon">₹</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-3">
+                                                <p-radioButton [name]="'paidBy'" [value]="'self'" [formControlName]="'paidBy'" (onClick)="updatePaidBy(i, 'self')">
+                                                </p-radioButton>
+                                                <label class="me-3">Self</label>
 
-  <p-radioButton
-    name="paidBy_{{i}}"
-    [value]="'supplier'"
-    [formControlName]="'paidBy'"
-    (onClick)="updatePaidBy(i, 'supplier')">
-  </p-radioButton>
-  <label>Supplier</label>
-</div>
+                                                <p-radioButton [name]="'paidBy'" [value]="'supplier'" [formControlName]="'paidBy'"
+                                                    (onClick)="updatePaidBy(i, 'supplier')">
+                                                </p-radioButton>
+                                                <label>Supplier</label>
+                                            </div>
 
-                </td>
-                <td class="text-center">
-                  <button 
-                    pButton 
-                    type="button" 
-                    icon="fa fa-trash" 
-                    class="p-button-text p-button-danger" 
-                    (click)="removeExpense(i)">
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </p-accordionTab>
-  </p-accordion>
-</form>
+                                        </td>
+                                        <td class="text-center">
+                                            <button pButton type="button" icon="fa fa-trash"
+                                                class="p-button-text p-button-danger" (click)="removeExpense(i)">
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </p-accordionTab>
+            </p-accordion>
+        </form>
 
 
         <div class="row mt-3" *ngIf="slabDetails?.length > 0 && tab == 'purchase'">
@@ -298,7 +279,8 @@
                                             <span class="font-bold white-space-nowrap">
                                                 Slab Number: {{ data?.slabNo }}
                                             </span>
-                                            <p-button *ngIf="tab == 'product'" [text]="true" styleClass="w-2rem h-2rem p-0" icon="fa fa-trash"
+                                            <p-button *ngIf="tab == 'product'" [text]="true"
+                                                styleClass="w-2rem h-2rem p-0" icon="fa fa-trash"
                                                 (click)="deleteAccordian(i)"></p-button>
                                         </span>
                                     </ng-template>
@@ -686,7 +668,7 @@
                             </div>
                         </div>
 
-<p-accordion [activeIndex]="rows.length > 0 ? 0 : null">
+                        <p-accordion [activeIndex]="rows.length > 0 ? 0 : null">
                             <p-accordionTab>
                                 <ng-template pTemplate="header">
                                     <div class="header-flex">
@@ -695,79 +677,79 @@
                                             (click)="addRow();$event.stopPropagation()"></p-button>
                                     </div>
                                 </ng-template>
-    <div class="scrollable-table-wrapper">
+                                <div class="scrollable-table-wrapper">
 
-                                <p-table [value]="rows" editable="true">
-                                    <ng-template pTemplate="header">
-                                        <tr>
-                                            <th>Piece Number</th>
-                                            <th>Length (Inch)</th>
-                                            <th>Width (Inch)</th>
-                                            <th>Thickness (MM)</th>
-                                            <th>Quantity (Sq. Feet)</th>
-                                            <th style="width: 20%;">Finishes</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </ng-template>
+                                    <p-table [value]="rows" editable="true">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>Piece Number</th>
+                                                <th>Length (Inch)</th>
+                                                <th>Width (Inch)</th>
+                                                <th>Thickness (MM)</th>
+                                                <th>Quantity (Sq. Feet)</th>
+                                                <th style="width: 20%;">Finishes</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </ng-template>
 
-                                    <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
-                                        <tr>
-                                            <td>
-                                                <input class="form-control" type="number" [disabled]="true"
-                                                    [(ngModel)]="rowData.pieceNumber" name="pieceNumber{{ri}}" />
-                                            </td>
-                                            <td>
-                                                <input class="form-control" type="number"
-                                                    [disabled]="!rowData.isEditing" [(ngModel)]="rowData.length"
-                                                    name="length{{ri}}" (input)="updateQuantity(rowData)" />
-                                            </td>
-                                            <td>
-                                                <input class="form-control" type="number"
-                                                    [disabled]="!rowData.isEditing" [(ngModel)]="rowData.width"
-                                                    name="width{{ri}}" (input)="updateQuantity(rowData)" />
-                                            </td>
-                                            <td>
-                                                <input class="form-control" type="number"
-                                                    [disabled]="!rowData.isEditing" min="1" max="500"
-                                                    [(ngModel)]="rowData.thickness" (change)="getSlabDetails(true)"
-                                                    name="thickness{{ri}}" />
-                                            </td>
-                                            <td>
-                                                <input class="form-control" type="number"
-                                                    [disabled]="!rowData.isEditing" [(ngModel)]="rowData.quantity"
-                                                    name="quantity{{ri}}" />
-                                            </td>
-                                            <td>
-                                                <p-dropdown [options]="finisheshList" optionLabel="name"
-                                                    [disabled]="!rowData.isEditing" [(ngModel)]="rowData.finish"
-                                                    name="finish{{ri}}" placeholder="Select Finish" appendTo="body">
-                                                </p-dropdown>
+                                        <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
+                                            <tr>
+                                                <td>
+                                                    <input class="form-control" type="number" [disabled]="true"
+                                                        [(ngModel)]="rowData.pieceNumber" name="pieceNumber{{ri}}" />
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="number"
+                                                        [disabled]="!rowData.isEditing" [(ngModel)]="rowData.length"
+                                                        name="length{{ri}}" (input)="updateQuantity(rowData); calculateTotalQuantity()" />
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="number"
+                                                        [disabled]="!rowData.isEditing" [(ngModel)]="rowData.width"
+                                                        name="width{{ri}}" (input)="updateQuantity(rowData); calculateTotalQuantity()" />
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="number"
+                                                        [disabled]="!rowData.isEditing" min="1" max="500"
+                                                        [(ngModel)]="rowData.thickness" (change)="getSlabDetails(true)"
+                                                        name="thickness{{ri}}" />
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="number"
+                                                        [disabled]="!rowData.isEditing" [(ngModel)]="rowData.quantity"
+                                                        name="quantity{{ri}}"  (input)="calculateTotalQuantity()" />
+                                                </td>
+                                                <td>
+                                                    <p-dropdown [options]="finisheshList" optionLabel="name"
+                                                        [disabled]="!rowData.isEditing" [(ngModel)]="rowData.finish"
+                                                        name="finish{{ri}}" placeholder="Select Finish" appendTo="body">
+                                                    </p-dropdown>
 
-                                            </td>
-                                            <td>
-                                                <ng-container *ngIf="!rowData.isEditing">
-                                                    <p-button icon="fa fa-pencil" styleClass="p-button-text"
-                                                        (click)="enableEdit(rowData)"></p-button>
-                                                    <p-button icon="fa fa-trash" styleClass="p-button-text"
-                                                        (click)="deleteRow(ri)"></p-button>
-                                                </ng-container>
-                                                <ng-container *ngIf="rowData.isEditing">
-                                                    <p-button icon="fa fa-save" styleClass="p-button-text"
-                                                        (click)="saveRow(rowData)"></p-button>
-                                                    <p-button icon="fa fa-times" styleClass="p-button-text"
-                                                        (click)="cancelEdit(rowData)"></p-button>
-                                                </ng-container>
-                                            </td>
+                                                </td>
+                                                <td>
+                                                    <ng-container *ngIf="!rowData.isEditing">
+                                                        <p-button icon="fa fa-pencil" styleClass="p-button-text"
+                                                            (click)="enableEdit(rowData)"></p-button>
+                                                        <p-button icon="fa fa-trash" styleClass="p-button-text"
+                                                            (click)="deleteRow(ri)"></p-button>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="rowData.isEditing">
+                                                        <p-button icon="fa fa-save" styleClass="p-button-text"
+                                                            (click)="saveRow(rowData)"></p-button>
+                                                        <p-button icon="fa fa-times" styleClass="p-button-text"
+                                                            (click)="cancelEdit(rowData)"></p-button>
+                                                    </ng-container>
+                                                </td>
 
-                                            <!-- <td>
+                                                <!-- <td>
                                                 <p-button [text]="true" styleClass="p-button-text" icon="fa fa-pencil"
                                                     (click)="addRow()"></p-button>
                                                 <p-button [text]="true" styleClass="p-button-text  p-button-danger"
                                                     icon="fa fa-trash" (click)="deleteRow(ri)"></p-button>
                                             </td> -->
-                                        </tr>
-                                    </ng-template>
-                                </p-table>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
                                 </div>
                             </p-accordionTab>
                         </p-accordion>
@@ -783,9 +765,9 @@
                             <div class="form-group local-forms">
                                 <label for="quantity">Total Quantity (Sq. Feet) <span class="login-danger">*</span>
                                 </label>
-                                <input class="form-control" type="number" name="quantity" (change)="getSlabDetails(false)"
-                                    min="1" max="1000000" placeholder="Enter Quantity" [(ngModel)]="totalQuantity"
-                                    required #QUANTITY="ngModel" />
+                                <input class="form-control" type="number" name="quantity"
+                                    (change)="getSlabDetails(false)" min="1" max="1000000" placeholder="Enter Quantity"
+                                    [(ngModel)]="totalQuantity" required #QUANTITY="ngModel" />
                                 <!-- <div *ngIf="QUANTITY.invalid && (QUANTITY.dirty || QUANTITY.touched)">
                                     <div *ngIf="QUANTITY.errors?.['required']">
                                         <span class="login-danger">Quantity is required.</span>
@@ -826,7 +808,7 @@
                         <div class="col-12">
                             <div class="settings-btns text-end m-b-10">
                                 <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                                    (click)="calculateTotalAmount(); addSlabDetails(myForm)"
+                                    (click)="logSlabDetails(myForm);"
                                     [disabled]="myForm.invalid || !subCategory?.name || !category?.name">
                                     Save
                                 </button>

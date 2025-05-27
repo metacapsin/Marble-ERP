@@ -102,11 +102,16 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   expensesForm: FormGroup;
   // expensesExpanded: boolean = true;
   // expenses: any[] = [];
-  // expenseTypeOptions = [
-  //   { name: 'Transportation', value: 'transportation' },
-  //   { name: 'Royalty', value: 'royalty' },
-  //   { name: 'Other', value: 'other' }
-  // ];
+  expenseTypeOptions = [
+    { name: 'Transportation Charges', value: 'transportationCharge' },
+    { name: 'Royalty Charges', value: 'royaltyCharges' },
+    { name: 'Other Charges', value: 'otherCharges' }
+  ];
+  piecesDetails = [];
+  addSlabData: any;
+  slabDetailsLength: number = 0;
+  taxableAmount: number = 0;
+  itemTax: any[] = [];
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -122,6 +127,9 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     private taxService: TaxesService,
     private taxVendorsService: TaxVendorsService
   ) {
+    this.expensesForm = this.fb.group({
+      expenses: this.fb.array([])
+    });
     this.addNewPurchaseForm = this.fb.group({
       paidToSupplierPurchaseCost: [""],
 
@@ -174,7 +182,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       transportationCharges: [""],
       otherCharges: [""],
       vehicleNo: ["", [Validators.pattern(this.vehicleRegex)]],
-      warehouse: ["", [Validators.required]],      totalSQFT: [""],
+      warehouse: ["", [Validators.required]], totalSQFT: [""],
       isTaxVendor: [false],
     });
   }
@@ -184,12 +192,23 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       localStorage.removeItem("slabAddForm");
     }
   };
-  ngOnInit() {
-    this.expensesForm = this.fb.group({
-    expenses: this.fb.array([])
-  });
+  ngOnInit(): void {
+    // Initialize expenses with default transportation charge
+    const expensesArray = this.expensesForm.get('expenses') as FormArray;
+    expensesArray.push(this.createExpenseGroup({type: 'transportationCharge', payment: '100', paidBy: 'Self'}));
+    // You can add more default expenses here if needed
+    // expensesArray.push(this.createExpenseGroup({type: 'otherCharges', payment: '200', paidBy: 'Self'}));
+    this.NewPurchaseService.slabDetailsLength.subscribe(length => {
+      this.slabDetailsLength = length;
+    });
+    this.NewPurchaseService.taxableAmount.subscribe(amount => {
+      this.taxableAmount = Number(amount) || 0; ;
+      console.log(this.taxableAmount, "taxableAmount");
+    });
+    this.NewPurchaseService.itemTax.subscribe(amount => {
+      this.itemTax = amount;
+    });
 
-  
     window.addEventListener("beforeunload", this.handleBeforeUnload);
     this.NewPurchaseService.clearFormData();
     this.supplier = this.localStorageService.getItem("supplier");
@@ -200,7 +219,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       });
     }
     const today = new Date();
-    const formattedDate =  moment(today).format("DD/MM/YYYY"); // Format to MM/DD/YYYY
+    const formattedDate = moment(today).format("DD/MM/YYYY"); // Format to MM/DD/YYYY
 
     this.addNewPurchaseForm.patchValue({
       purchaseDate: formattedDate,
@@ -278,6 +297,13 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         });
       });
     });
+
+    // Restore attachments from local storage if available
+    // const savedAttachments = this.localStorageService.getItem('purchase_attachments');
+    // if (savedAttachments) {
+    //   this.attachments = JSON.parse(savedAttachments);
+    //   console.log('Restored attachments on init:', this.attachments);
+    // }
   }
 
   public setValidations(formControlName: string) {
@@ -305,6 +331,10 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
 
   backStep(prevCallback: any, type: string) {
     console.log(this.lotTypeValue, type);
+    // Save attachments to local storage to preserve them when navigating back
+    // if (this.attachments && this.attachments.length > 0) {
+    //   this.localStorageService.setItem('purchase_attachments', JSON.stringify(this.attachments));
+    // }
     prevCallback.emit();
     this.addNewPurchaseForm.get("taxVendor").clearValidators();
     this.addNewPurchaseForm.get("taxVendorAmount").clearValidators();
@@ -313,20 +343,29 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     this.addNewPurchaseForm.get("taxVendorAmount").updateValueAndValidity();
     this.addNewPurchaseForm.get("vendorTaxApplied").updateValueAndValidity();
   }
+
   nextStep(nextCallback: any, page: string) {
     console.log(this.ItemDetails);
+    this.piecesDetails = this.NewPurchaseService.getFormData("piecesDetails");
+    console.log(this.piecesDetails, "piecesDetails");
+    // Retrieve saved attachments from local storage when navigating to the next step
+    // const savedAttachments = this.localStorageService.getItem('purchase_attachments');
+    // if (savedAttachments) {
+    //   this.attachments = JSON.parse(savedAttachments);
+    //   console.log('Restored attachments:', this.attachments);
+    // }
     setTimeout(() => {
-  const expensesData = this.NewPurchaseService.getFormData("expensesData");
-  console.log("expensesData", expensesData);
-  if (expensesData) {
-    while (this.expenses.length !== 0) {
-  this.expenses.removeAt(0);
-}
+      const expensesData = this.NewPurchaseService.getFormData("expensesData");
+      console.log("expensesData", expensesData);
+      if (expensesData) {
+        while (this.expenses.length !== 0) {
+          this.expenses.removeAt(0);
+        }
 
-      expensesData.forEach(data => {
-    this.expenses.push(this.createExpenseGroup(data));
-  });
-  }
+        expensesData.forEach(data => {
+          this.expenses.push(this.createExpenseGroup(data));
+        });
+      }
     }, 1000);
     if (page == "first") {
       if (this.lotTypeValue == "Lot") {
@@ -556,16 +595,16 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     } else {
       this.lotTypeValue === "Lot"
         ? this.addNewPurchaseForm
-            .get("paidToSupplierPurchaseCost")
-            ?.patchValue(this.ItemDetails.paidToSupplierLotCost)
+          .get("paidToSupplierPurchaseCost")
+          ?.patchValue(this.ItemDetails.paidToSupplierLotCost)
         : this.addNewPurchaseForm
-            .get("paidToSupplierPurchaseCost")
-            ?.patchValue(
-              (
-                Number(Number(this.addNewPurchaseForm.get("nonTaxable").value || 0).toFixed(2)) +
-                Number(Number(this.addNewPurchaseForm.get("taxable").value || 0).toFixed(2))
-              )
-            );
+          .get("paidToSupplierPurchaseCost")
+          ?.patchValue(
+            (
+              Number(Number(this.addNewPurchaseForm.get("nonTaxable").value || 0).toFixed(2)) +
+              Number(Number(this.addNewPurchaseForm.get("taxable").value || 0).toFixed(2))
+            )
+          );
     }
   }
 
@@ -573,12 +612,13 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   selectSubCate(event: any): void {
     console.log('Selected Sub Category:', event);
   }
-  
-  getSelectedWarehouseDetails(): any {
-  const selectedId = this.addNewPurchaseForm.get('warehouse')?.value;
-  return this.wareHousedata.find(w => w._id === selectedId);
-}
-  
+
+  getSelectedWarehouseDetails(): { _id: string; name: string } | null {
+    const selectedId = this.addNewPurchaseForm.get('warehouse')?.value;
+    const warehouse = this.wareHousedata.find(w => w._id === selectedId);
+    return warehouse ? { _id: warehouse._id, name: warehouse.name } : null;
+  }
+
 
   addNewPurchaseFormSubmit() {
     const formData = this.addNewPurchaseForm.value;
@@ -623,13 +663,22 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
           ? taxVenoderObj
           : null,
         taxApplied: formData.taxApplied,
-        warehouseDetails:this.ItemDetails?.warehouseDetails,
-        transportationCharges:this.ItemDetails?.transportationCharge,
-        otherCharges:this.ItemDetails?.royaltyCharge,
-        totalTransportationCharges:this.ItemDetails?.totalTransportationCharges,
+        warehouseDetails: this.ItemDetails?.warehouseDetails,
+        transportationCharges: this.ItemDetails?.transportationCharge,
+        otherCharges: this.ItemDetails?.royaltyCharge,
+        totalTransportationCharges: this.ItemDetails?.totalTransportationCharges,
       };
     } else {
       let convertedDate = moment(formData.purchaseDate, "DD/MM/YYYY").format("MM/DD/YYYY");
+      // Set warehouse details for each slab in the array
+      if (Array.isArray(this.SlabItemDetails.slabDetails)) {
+        this.SlabItemDetails.slabDetails = this.SlabItemDetails.slabDetails.map(slab => {
+          return {
+            ...slab,
+            warehouseDetails: this.getSelectedWarehouseDetails()
+          };
+        });
+      }
       payload = {
         purchaseInvoiceNumber: formData.invoiceNumber,
         supplier: formData.supplier,
@@ -648,9 +697,10 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         taxVendor: this.addNewPurchaseForm.get("isTaxVendor").value
           ? taxVenoderObj
           : null,
-        taxApplied:  Number(formData?.taxApplied)?.toFixed(2), 
-        otherCharges:  Number(formData?.otherCharges)?.toFixed(2), 
-        transportationCharges:  Number(formData?.transportationCharges)?.toFixed(2),
+        taxApplied: Number(formData?.taxApplied)?.toFixed(2),
+        otherCharges: isNaN(Number(formData?.otherCharges)) ? "0.00" : Number(formData?.otherCharges).toFixed(2),
+        transportationCharges: isNaN(Number(formData?.transportationCharges)) ? "0.00" : Number(formData?.transportationCharges).toFixed(2),
+        royaltycharges: isNaN(Number(formData?.royaltyCharge)) ? "0.00" : Number(formData?.royaltyCharge).toFixed(2),
         warehouseDetails: this.getSelectedWarehouseDetails(),
         vehicleNo: formData?.vehicleNo?.length > 0 ? formData?.vehicleNo : null,
         totalSQFT: formData?.totalSQFT,
@@ -662,26 +712,27 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         slabSize: this.SlabItemDetails.slabSize,
         taxAmountPerSQFT: this.SlabItemDetails.taxAmountPerSQFT,
         processingFeePerSQFT: this.SlabItemDetails.processingFeePerSQFT,
+        piecesDetails: this.piecesDetails,
       };
       // payload = this.slabSelected(formData) as any;
       console.log(payload);
     }
     // if (this.addNewPurchaseForm.valid) {
-      this.NewPurchaseService.createPurchase(payload).subscribe((resp: any) => {
-        if (resp) {
-          if (resp.status === "success") {
-            this.NewPurchaseService.clearFormData();
-            const message = "Purchase has been added";
-            this.messageService.add({ severity: "success", detail: message });
-            setTimeout(() => {
-              this.router.navigateByUrl(this.returnUrl);
-            }, 400);
-          } else {
-            const message = resp.message;
-            this.messageService.add({ severity: "error", detail: message });
-          }
+    this.NewPurchaseService.createPurchase(payload).subscribe((resp: any) => {
+      if (resp) {
+        if (resp.status === "success") {
+          this.NewPurchaseService.clearFormData();
+          const message = "Purchase has been added";
+          this.messageService.add({ severity: "success", detail: message });
+          setTimeout(() => {
+            this.router.navigateByUrl(this.returnUrl);
+          }, 400);
+        } else {
+          const message = resp.message;
+          this.messageService.add({ severity: "error", detail: message });
         }
-      });
+      }
+    });
     // } else {
     //   console.log("form is not valid");
     // }
@@ -755,9 +806,8 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         quantity: Number(item.quantity),
         ratePerSqFeet: item.ratePerSqFeet,
         totalAmount: Number(item.totalAmount) || "",
-        slabSize: `${item.width ? item.width : " "} x ${
-          item.length ? item.length : " "
-        } x ${item.thickness ? item.thickness : " "}`,
+        slabSize: `${item.width ? item.width : " "} x ${item.length ? item.length : " "
+          } x ${item.thickness ? item.thickness : " "}`,
         noOfPieces: Number(item.noOfPieces) || "",
       });
       squarefeet += item.quantity;
@@ -780,10 +830,10 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   }
 
   getSelectedWarehouseName(): string {
-  const selectedId = this.addNewPurchaseForm.get('warehouse')?.value;
-  const selectedWarehouse = this.wareHousedata.find(w => w._id === selectedId);
-  return selectedWarehouse ? selectedWarehouse.name : '--';
-}
+    const selectedId = this.addNewPurchaseForm.get('warehouse')?.value;
+    const selectedWarehouse = this.wareHousedata.find(w => w._id === selectedId);
+    return selectedWarehouse ? selectedWarehouse.name : '--';
+  }
 
 
   // toggleExpenses(): void {
@@ -812,7 +862,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   //   }
   // }
 
-    salesFilesChangedHandler(files: File[]) {
+  salesFilesChangedHandler(files: File[]) {
     console.log('Files changed:', files);
   }
 
@@ -821,6 +871,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     if (response && response.status === 'success' && response.data) {
       // Store the attachment data
       this.attachments.push(...response.data);
+      console.log(this.attachments, 'attachments');
       // this.messageService.add({
       //   severity: 'success',
       //   detail: 'File uploaded successfully'
@@ -833,16 +884,51 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     }
   }
 
-  get expenses(): FormArray {
-  return this.expensesForm.get('expenses') as FormArray;
-}
+  handleFileDeleted(event: any) {
+    console.log('File deleted:', event);
+    if (event && event.id) {
+      // Remove the deleted file from attachments array
+      this.attachments = this.attachments.filter(attachment => 
+        attachment._id !== event.id && attachment.id !== event.id
+      );
+      console.log('Updated attachments after deletion:', this.attachments);
+    }
+  }
 
-createExpenseGroup(data?: any): FormGroup {
-  return this.fb.group({
-    type: [data?.type || ''],
-    payment: [data?.payment || ''],
-    paidBy: [data?.paidBy || '']
-  });
-}
+  get expenses(): FormArray {
+    console.log(this.expensesForm.get('expenses'), 'FormArray');
+    return this.expensesForm.get('expenses') as FormArray;
+  }
+
+  getExpenseTypeName(value: string): string {
+    const option = this.expenseTypeOptions.find(opt => opt.value === value);
+    return option ? option.name : value; // fallback to value if not found
+  }
+
+  createExpenseGroup(data?: any): FormGroup {
+    return this.fb.group({
+      type: [data?.type || ''],
+      payment: [data?.payment || ''],
+      paidBy: [data?.paidBy || '']
+    });
+  }
+
+  capitalizeFirstLetter(value: string): string {
+    return value ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase() : '';
+  }
+
+  onVehicleInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const uppercaseValue = input.value.toUpperCase();
+    this.addNewPurchaseForm.get('vehicleNo')?.setValue(uppercaseValue, { emitEvent: false });
+  }
+
+  onnextBtnDisabled(data: any) {
+    this.addSlabData = data.controls;
+  }
+
+  hasAnyPayment(): boolean {
+    return this.expenses?.controls?.some(ctrl => !!ctrl.get('payment')?.value);
+  }
 
 }

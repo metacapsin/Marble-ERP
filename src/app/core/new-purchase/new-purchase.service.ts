@@ -9,6 +9,10 @@ import { an } from '@fullcalendar/core/internal-common';
 })
 
 export class NewPurchaseService {
+    public slabDetailsLength = new BehaviorSubject<number>(0);
+    public taxableAmount = new BehaviorSubject<string>("0");
+    public itemTax = new BehaviorSubject<any[]>([]);
+
   constructor(private http: HttpClient) { }
   // Purchase APIS
   createPurchase(data: any) {
@@ -69,6 +73,20 @@ export class NewPurchaseService {
   clearFormData() {
     this.formData = {};
   }
+
+  slabDetailsLengthCount(length: number) {
+    this.slabDetailsLength.next(length); // Update value
+  }
+
+  taxableAmountFun(amount: string) {
+    this.taxableAmount.next(amount); // Update value
+  }
+
+  
+  taxFun(amount: any[]) {
+    this.itemTax.next(amount); // Update value
+  }
+
 
   // private formDataSubject = new Subject<any>();
   // private formDataSubject = new BehaviorSubject<any>(null);
