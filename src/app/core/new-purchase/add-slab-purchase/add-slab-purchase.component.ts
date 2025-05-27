@@ -1069,7 +1069,9 @@ export class AddSlabPurchaseComponent {
 
     this.rows.push(newRow);
     this.noOfPieces = this.rows.length;
-    this.calculateTotalQuantity();
+    setTimeout(() => {
+      this.calculateTotalQuantity();
+    }, 500);
     this.getSlabDetails(false);
   }
 
@@ -1162,8 +1164,10 @@ export class AddSlabPurchaseComponent {
     // First make a deep copy of the rows data to preserve it
     const rowsCopy = JSON.parse(JSON.stringify(this.rows));
     // Calculate total amount and add slab details
-    this.calculateTotalAmount();
+    setTimeout(() => {
+      this.calculateTotalAmount();
     this.addSlabDetails(myForm,rowsCopy);
+    }, 500);
     // Set form data after processing is complete, using the preserved copy
     // this.NewPurchaseService.setFormData("piecesDetails", rowsCopy);
   }
