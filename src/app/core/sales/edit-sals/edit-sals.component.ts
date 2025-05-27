@@ -93,6 +93,7 @@ export class EditSalsComponent implements OnInit {
   previewFileName: string = '';
   previewFileType: string = '';
   salesPersonList: SalesPerson[] = [];
+  isInitialLoad: boolean = false;
 
   constructor(
     private router: Router,
@@ -202,7 +203,6 @@ export class EditSalsComponent implements OnInit {
   }
 
   handleTaxValidation() {
-    console.log('handleTaxValidation');
     
     const salesItemDetailsArray = this.editSalesForm.get("salesItemDetails") as FormArray;
   
@@ -212,7 +212,6 @@ export class EditSalsComponent implements OnInit {
   
       taxableAmountControl?.valueChanges.subscribe((value) => {
         if (value && value > 0) {
-          console.log('hey');
           
           taxControl?.setValidators([Validators.required]); // Make tax required
           taxControl?.markAsTouched(); // Mark as touched if taxable amount is present
@@ -254,7 +253,6 @@ export class EditSalsComponent implements OnInit {
     }
     this.manuallyEditedPieces.splice(salesItemDetailsIndex, 1); // ✅ Remove manual edit flag
 
-    console.log(`Product at index ${salesItemDetailsIndex} deleted. Pieces will now reset.`);
     this.calculateTotalAmount();
   }
 
@@ -291,11 +289,13 @@ export class EditSalsComponent implements OnInit {
     this.salesItemDetails.push(item);
     this.manuallyEditedPieces.push(false); // ✅ Reset manual tracking for new item
 
-    console.log("New product added. Pieces will calculate automatically.");
     this.calculateTotalAmount();
     
   }
-  onWareHouseSelect(value: any, i: number) {
+  onWareHouseSelect(value: any, i: number, callFromManual?: boolean) {
+    if(callFromManual){
+      this.isInitialLoad = false;
+    }
     this.SlabsService.getSlabListByWarehouseId(value._id).subscribe(
       (resp: any) => {
         this.originalSlabData = resp.data;
@@ -316,20 +316,22 @@ export class EditSalsComponent implements OnInit {
           sqftPerPiece: element.sqftPerPiece,
           totalSQFT: element.totalSQFT,
         }));
-        console.log(" this.salesItemDetails", this.salesItemDetails);
         this.salesItemDetails.controls.forEach((element, index) => {
           if (i === index) {
             this.slabDataList[index] = this.slabDatas;
             const control = this.salesItemDetails.at(i);
             // control.get("salesItemProduct").reset();
-            control.get("salesItemQuantity").reset();
-            control.get("salesItemUnitPrice").reset();
-            control.get("salesItemTax").reset();
+            console.log("this.isInitialLoad", this.isInitialLoad);
+            if(!this.isInitialLoad){
+              this.resetProductForm(i, "warehouse");
+            }
             // this.calculateTotalAmount();
           } else if (!this.slabDataList[index]) {
             this.slabDataList[index] = [];
           }
         });
+       
+
       }
     );
   }
@@ -376,7 +378,6 @@ export class EditSalsComponent implements OnInit {
   // }
   editAddressWithDrop() {
     this.setAddressData = this.editSalesForm.get("billingAddress")?.value;
-    console.log("setaddress", this.setAddressData);
 
     // Check if the billing address indicates that the vendor tax is applied
     if (this.setAddressData?.isTaxVendor) {
@@ -427,7 +428,6 @@ export class EditSalsComponent implements OnInit {
 
   onSubmit() {
     if (this.ewayBillForm.valid) {
-      console.log("E-way Bill Data:", this.ewayBillForm.value);
       let formData = this.ewayBillForm.value;
       let formaeDate = this.dashboard.getFormattedDate(formData.date);
 
@@ -449,14 +449,12 @@ export class EditSalsComponent implements OnInit {
       this.displayEwayBillPopup = false;
     }
 
-    console.log("E-way Bill addSalesForm:", this.editSalesForm.value);
   }
 
   UpdateShippingAddress() {
     let customer = this.originalCustomerData.find(
       (item) => item?._id === this.BuyerData?._id
     );
-    console.log("customer", customer);
 
     let payload = {
       shippingAddress: this.UpdtshippingAddress,
@@ -474,12 +472,10 @@ export class EditSalsComponent implements OnInit {
           _id: value._id,
         };
 
-        console.log("data<<<<<", data);
 
         // this.editSalesForm.patchValue({
         //   customer:data
         // })
-        console.log(" this.editSalesForm<<<<<", this.editSalesForm.value);
 
         this.BuyerData = data;
         this.customerAddress = data.billingAddress;
@@ -490,6 +486,7 @@ export class EditSalsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isInitialLoad = true;
     const today = new Date();
     const formattedDate = today.toLocaleDateString("en-US"); // Format to MM/DD/YYYY
 
@@ -584,7 +581,6 @@ export class EditSalsComponent implements OnInit {
 
     this.SalesService.GetSalesDataById(this.salesId).subscribe((resp: any) => {
       this.patchForm(resp.data);
-      console.log("resp.data", resp.data);
     });
 
     this.getSalesPersonList();
@@ -604,7 +600,6 @@ export class EditSalsComponent implements OnInit {
   isPatchingData: boolean = false;
 
   patchForm(data) {
-    console.log("data>>", data);
     this.setAddressData = data.billingAddress;
     // Store attachments from API response
     this.attachments = data.attachments || [];
@@ -635,7 +630,6 @@ export class EditSalsComponent implements OnInit {
     this.setCustomer(data.customer);
     let Ebill = data?.eWayBill;
     this.EwayBill = data?.eWayBill;
-    console.log("ebill", Ebill);
     this.editAddressWithDrop();
     this.ewayBillForm.patchValue({
       date: Ebill?.date ? new Date(Ebill?.date) : new Date(),
@@ -646,14 +640,11 @@ export class EditSalsComponent implements OnInit {
       deliveryTerms: Ebill?.deliveryTerms,
     });
     this.onSubmit();
-    console.log(" this.ewayBillForm", this.ewayBillForm.value);
     this.salesItemDetails.clear(); // Clear existing items
 
     // Patch sales item details and disable product field
     data.salesItemDetails.forEach((item: any, index: number) => {
       this.onWareHouseSelect(item.salesWarehouseDetails, index);
-
-      console.log("item", item);
 
       this.totalTaxableAmount = Number(item.salesItemTaxableAmount);
 
@@ -731,7 +722,6 @@ export class EditSalsComponent implements OnInit {
   }
 
   setCustomer(value: any) {
-    console.log("customer", value);
     const data = this.editSalesForm.get("customer").value;
     this.BuyerData = data;
     this.customerAddress = data.billingAddress;
@@ -752,30 +742,55 @@ export class EditSalsComponent implements OnInit {
     //   }));
     // });
   }
+
+  resetProductForm(index: number, type: string) {
+    const control = this.salesItemDetails.at(index);
+
+    if (type === "slab") {
+
+    } else if (type === "warehouse") {
+      control.get("salesItemProduct").reset();
+
+    }
+
+    control.get("salesItemQuantity").reset();
+    control.get("salesItemUnitPrice").reset();
+    control.get("salesItemTax").reset();
+    control.get("salesItemTotal").reset();
+    control.get("salesItemTaxAmount").reset();
+    control.get("salesItemSubTotal").reset();
+    control.get("maxQuantity").reset();
+    control.get("salesItemNonTaxableAmount").reset();
+    control.get("salesItemTaxableAmount").reset();
+    control.get("salesItemAppliedTaxAmount").reset();
+    control.get("salesItemPieces").reset();
+    control.get("sqftPerPiece").reset();
+    this.calculateTotalAmount();
+
+  }
+
   onSlabSelect(value, i) {
-    console.log("val", value);
-    console.log("this.slabDataList[i]", this.slabDataList[i]);
     const selectedItem = this.slabDataList[i].find(
       (item) => item._id._id === value._id
     );
 
-    console.log("val", selectedItem);
     const control = this.salesItemDetails.at(i);
+    // control.get("salesItemProduct").reset();
+    console.log("this.isInitialLoad", this.isInitialLoad);
+      //control.get("salesItemProduct").reset();
+     this.resetProductForm(i, "slab");
     // control.get("salesItemProduct").reset();
     if (selectedItem) {
       if (selectedItem.totalSQFT === 0) {
-        console.log("00");
         control.get("salesItemProduct").reset();
         return;
       }
     }
 
-    console.log("this.originalSlabData", this.originalSlabData);
     const rec = this.originalSlabData?.find(
       (item) => item._id === value._id
     )?.subCategoryDetail;
 
-    console.log("rec:", rec);
 
     if (rec && rec?.hsnCode) {
       const salesItemDetails = this.editSalesForm.get(
@@ -798,18 +813,15 @@ export class EditSalsComponent implements OnInit {
       console.error("hsnCode not found in rec:", rec);
     }
 
-    // console.log("salesItemDetails", this.addSalesForm);
 
     const salesItemDetailsArray = this.editSalesForm.get(
       "salesItemDetails"
     ) as FormArray;
 
-    console.log("salesItemDetailsArray", salesItemDetailsArray);
 
     const selectedSlab = this.slabDataList[i].find(
       (slab) => slab._id?._id === value._id
     );
-    console.log("selectedSlab", selectedSlab);
 
     if (selectedSlab) {
       let remainingQuantity = selectedSlab.totalSQFT;
@@ -867,9 +879,7 @@ export class EditSalsComponent implements OnInit {
     let taxable: number = 0;
     let nonTaxable: number = 0;
     const salesItems = this.editSalesForm.get("salesItemDetails") as FormArray;
-    console.log("Starting calculation. isPatchingData:", this.isPatchingData);
 
-    console.log("salesOrderTax", salesOrderTax);
 
     this.totalTaxableAmount = 0;
     salesItems.controls.forEach((item , index) => {
@@ -930,7 +940,6 @@ const previousQuantity = item.get("salesItemQuantity")?.value || 0;
 
 // ✅ Ensure recalculation when quantity is entered for new products right method
 if (!this.manuallyEditedPieces[index] && !this.isPatchingData && quantity > 0 &&  (item.get("salesItemPieces").value === null || item.get("salesItemPieces").value === undefined || item.get("salesItemPieces").value === "" && (previousPieces === null || previousPieces === undefined || previousPieces === "" || previousPieces !== pieces ))) {
-  console.log(`Auto-calculating pieces for index ${index}: ${pieces}`);
   item.get("salesItemPieces").setValue(Number(isNaN(pieces) ? 0 : pieces.toFixed(2)), { emitEvent: false });
 } else {
   console.log(`Skipping recalculation for index ${index}, manually edited or already set.`);
@@ -1045,34 +1054,24 @@ shippingTaxAmount -
 taxable;
 
 // Logging the initial calculation values
-console.log('Discount Calculation - Initial Values:');
-console.log('Original Non-Taxable Amount:', nonTaxable);
-console.log('Original Taxable Amount:', taxable);
-console.log('Discount Amount:', discount);
+
 
 // New approach for discount calculation
 let remainingDiscount = discount;
 
-console.log('Starting Discount Subtraction Process');
 
 // First, subtract from non-taxable amount
 if (nonTaxable > 0) {
-console.log(`Non-Taxable Amount before discount: ${nonTaxable}`);
-console.log(`Remaining Discount: ${remainingDiscount}`);
+
 
 if (remainingDiscount <= nonTaxable) {
   // If discount is less than or equal to non-taxable amount
-  console.log(`Discount (${remainingDiscount}) is less than or equal to Non-Taxable Amount (${nonTaxable})`);
   nonTaxable -= remainingDiscount;
   remainingDiscount = 0;
-  console.log(`Non-Taxable Amount after discount: ${nonTaxable}`);
 } else {
   // If discount is more than non-taxable amount
-  console.log(`Discount (${remainingDiscount}) is greater than Non-Taxable Amount (${nonTaxable})`);
   remainingDiscount -= nonTaxable;
   nonTaxable = 0; // Explicitly set to 0
-  console.log('Non-Taxable Amount set to 0');
-  console.log(`Remaining Discount after consuming Non-Taxable: ${remainingDiscount}`);
 }
 } else {
 console.log('No Non-Taxable Amount to subtract discount from');
@@ -1080,21 +1079,14 @@ console.log('No Non-Taxable Amount to subtract discount from');
 
 // If there's remaining discount, subtract from taxable amount
 if (remainingDiscount > 0) {
-console.log(`Applying remaining discount (${remainingDiscount}) to Taxable Amount`);
-console.log(`Taxable Amount before discount: ${taxable}`);
 
 taxable -= remainingDiscount;
 
-console.log(`Taxable Amount after discount: ${taxable}`);
 }
 
 // Calculate total amount
 itemTotalAmount = Number(nonTaxable) + Number(taxable);
 
-console.log('Final Calculation Results:');
-console.log('Non-Taxable Amount:', nonTaxable);
-console.log('Taxable Amount:', taxable);
-console.log('Total Item Amount:', itemTotalAmount);
 
 // More robust logging for form value setting
 try {
@@ -1104,26 +1096,21 @@ const nonTaxableControl = this.editSalesForm.get("nonTaxable");
 
 if (salesTotalAmountControl) {
   salesTotalAmountControl.setValue(Number(itemTotalAmount));
-  console.log('Sales Total Amount set to:', itemTotalAmount);
 } else {
   console.error('Sales Total Amount control not found');
 }
 
 if (taxableControl) {
   taxableControl.setValue(Number(taxable));
-  console.log('Taxable Amount set to:', taxable);
 } else {
   console.error('Taxable control not found');
 }
 
 if (nonTaxableControl) {
   nonTaxableControl.setValue(Number(nonTaxable));
-  console.log('Non-Taxable Amount set to:', nonTaxable);
 } else {
-  console.error('Non-Taxable control not found');
 }
 
-console.log('Discount calculation completed and form values updated');
 } catch (error) {
 console.error('Error setting form values:', error);
 }
@@ -1131,13 +1118,10 @@ console.error('Error setting form values:', error);
       this.taxVendorAmount();
     }
 
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-    console.log("Updated Form Data:", this.editSalesForm.value);
 
   }
   onPiecesEdit(index: number) {
     this.manuallyEditedPieces[index] = true;
-    console.log(`User manually edited pieces at index ${index}`);
 }
 
 
@@ -1165,7 +1149,6 @@ console.error('Error setting form values:', error);
 
   onCheckboxChange(event: any) {
     const isChecked = event.checked;
-    console.log("is checked>>>>>>", isChecked);
     if (isChecked) {
       this.editSalesForm.patchValue({
         isShippingTax: true,
@@ -1181,7 +1164,6 @@ console.error('Error setting form values:', error);
 
   isOtherTaxChange(event: any) {
     const isChecked = event.checked;
-    console.log("is checked>>>>>>", isChecked);
     if (isChecked) {
       this.editSalesForm.patchValue({
         isOtherChargesTax: true,
@@ -1199,7 +1181,6 @@ console.error('Error setting form values:', error);
     this.editSalesForm.patchValue({
       customer: this.BuyerData,
     });
-    console.log("click", this.editSalesForm.value);
     const formData = this.editSalesForm.value;
 
     const payload = {
@@ -1255,7 +1236,6 @@ console.error('Error setting form values:', error);
         }
       });
     } else {
-      console.log("Invalid form");
     }
   }
 
@@ -1265,7 +1245,6 @@ console.error('Error setting form values:', error);
   }
 
   salesUploadCompleteHandler(response: any) {
-    console.log('Upload complete:', response);
     if (response && response.status === 'success' && response.data) {
       // Store the attachment data
       this.attachments.push(...response.data);
