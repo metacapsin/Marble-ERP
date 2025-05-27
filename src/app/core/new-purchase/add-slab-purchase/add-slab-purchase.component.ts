@@ -448,8 +448,12 @@ export class AddSlabPurchaseComponent {
     console.log(this.quantity,"newSlab", newSlab,'noOfPieces',this.noOfPieces);
 
     this.slabDetails.push(newSlab);
-    this.NewPurchaseService.slabDetailsLengthCount(this.slabDetails?.length);
-    this.slabTotalCost += Number(this.totalAmount);
+  this.NewPurchaseService.slabDetailsLengthCount(this.slabDetails?.length);
+  
+  // Recalculate the total cost from all slabs to ensure accuracy
+  this.slabTotalCost = this.slabDetails.reduce((total, slab) => {
+    return total + (Number(slab.totalCosting) || 0);
+  }, 0);
 
     this.marbleName = "";
     this.slabNumber = "";
@@ -668,13 +672,16 @@ export class AddSlabPurchaseComponent {
       });
     }
     
-    // Ensure we have a valid slabTotalCost
-    if (this.slabDetails && this.slabDetails.length > 0 && (!this.slabTotalCost || isNaN(this.slabTotalCost))) {
-      // Recalculate slabTotalCost if it's invalid
+    // Always recalculate slabTotalCost from all slabs in slabDetails to ensure accuracy
+    if (this.slabDetails && this.slabDetails.length > 0) {
+      // Recalculate slabTotalCost from all slabs
       this.slabTotalCost = this.slabDetails.reduce((total, slab) => {
         return total + (Number(slab.totalCosting) || 0);
       }, 0);
+    } else {
+      this.slabTotalCost = 0; // Reset if no slabs
     }
+    
     this.NewPurchaseService.taxableAmountFun(this.slabAddForm.get('taxableAmount')?.value);
     console.log(this.slabAddForm.get('ItemTax')?.value, "ItemTax");
     this.NewPurchaseService.taxFun(this.slabAddForm.get('ItemTax')?.value);
@@ -1164,10 +1171,8 @@ export class AddSlabPurchaseComponent {
     // First make a deep copy of the rows data to preserve it
     const rowsCopy = JSON.parse(JSON.stringify(this.rows));
     // Calculate total amount and add slab details
-    setTimeout(() => {
-      this.calculateTotalAmount();
+    this.calculateTotalAmount();
     this.addSlabDetails(myForm,rowsCopy);
-    }, 500);
     // Set form data after processing is complete, using the preserved copy
     // this.NewPurchaseService.setFormData("piecesDetails", rowsCopy);
   }
