@@ -715,8 +715,8 @@
                                                         name="thickness{{ri}}" />
                                                 </td>
                                                 <td>
-                                                    <input class="form-control" type="number"
-                                                        [disabled]="!rowData.isEditing" [(ngModel)]="rowData.quantity"
+                                                    <input class="form-control" type="number" [disabled]="true"
+                                                        [(ngModel)]="rowData.quantity"
                                                         name="quantity{{ri}}"  (input)="calculateTotalQuantity()" />
                                                 </td>
                                                 <td>

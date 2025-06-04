@@ -1066,11 +1066,11 @@ export class AddSlabPurchaseComponent {
 
     const newRow = {
       pieceNumber: lastPieceNumber + 1,
-      length: 0,
-      width: 0,
-      thickness: 0,
-      quantity: 0,
-      finish: null,
+      length: this.length || 0,
+      width: this.width || 0,
+      thickness: this.width || 0,
+      quantity: this.getFormattedQuantity() || 0,
+      finish: this.finishes || {},
       isEditing: true
     };
 
@@ -1079,7 +1079,7 @@ export class AddSlabPurchaseComponent {
     setTimeout(() => {
       this.calculateTotalQuantity();
     }, 500);
-    this.getSlabDetails(false);
+    // this.getSlabDetails(false);
   }
 
   deleteRow(index: number) {
@@ -1091,7 +1091,7 @@ export class AddSlabPurchaseComponent {
     });
     this.noOfPieces = this.rows.length;
     this.calculateTotalQuantity();
-    this.getSlabDetails(false);
+    // this.getSlabDetails(false);
   }
 
 
@@ -1117,9 +1117,17 @@ export class AddSlabPurchaseComponent {
   }
 
   saveRow(row: any) {
+    console.log(row, 'saveRow');
+    console.log(this.rows, 'this.rows');
+    this.rows.forEach((r: any, i) => {
+      if (r.pieceNumber === row.pieceNumber) {
+        this.rows[i] = row; // update the row in the array
+      }
+    })
+    console.log('Updated Rows:', this.rows);
     row.isEditing = false;
     this.editedRowBackup = null;
-    this.getSlabDetails(false);
+    // this.getSlabDetails(false);
   }
 
   cancelEdit(row: any) {
