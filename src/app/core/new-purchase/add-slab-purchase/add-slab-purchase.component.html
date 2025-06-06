@@ -582,18 +582,37 @@
 
                         <h3 class="slab-specification">Slab Specification :</h3>
 
-                        <div class="col-12 col-md-6 col-xl-6">
-                            <div class="form-group local-forms">
-                                <label for="noOfPieces">Number of Pieces <span class="login-danger">*</span> </label>
-                                <input class="form-control" type="number" placeholder="Enter Number of Pieces"
-                                    name="noOfPieces" (change)="getSlabDetails(true)" min="1" max="10000" required
-                                    [(ngModel)]="noOfPieces" #NOOFPIECES="ngModel" />
-                                <div *ngIf="NOOFPIECES.invalid && (NOOFPIECES.dirty || NOOFPIECES.touched)">
-                                    <div *ngIf="NOOFPIECES.errors?.['required']">
-                                        <span class="login-danger">Field is required.</span>
+                        <div class="col-12 col-md-6 col-xl-6 mt-2">
+                            <div class="row">
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="form-group local-forms">
+                                        <label for="noOfPieces">Select Unit<span class="login-danger">*</span> </label>
+                                        <p-dropdown [options]="unitsList" appendTo="body" optionLabel="name" optionValue="value" placeholder="Select Unit"
+                                            [(ngModel)]="unitsType" [style]="{ width: '100%' }" #UNITSTYPE="ngModel" [filter]="true" filterBy="name"
+                                            (onChange)="getNewUnit($event.value)">
+                                        </p-dropdown>               
+                                        <div *ngIf="UNITSTYPE.invalid && (UNITSTYPE.dirty || UNITSTYPE.touched)">
+                                            <div *ngIf="UNITSTYPE.errors?.['required']">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div *ngIf="NOOFPIECES.errors?.['min'] || NOOFPIECES.errors?.['max']">
-                                        <span class="login-danger">Number Of Pieces must be between 1 and 10000.</span>
+                                </div>
+                        
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="form-group local-forms">
+                                        <label for="noOfPieces">Number of Pieces <span class="login-danger">*</span> </label>
+                                        <input class="form-control" type="number" placeholder="Enter Number of Pieces" name="noOfPieces"
+                                            (change)="getSlabDetails(true)" min="1" max="10000" required [(ngModel)]="noOfPieces"
+                                            #NOOFPIECES="ngModel" />
+                                        <div *ngIf="NOOFPIECES.invalid && (NOOFPIECES.dirty || NOOFPIECES.touched)">
+                                            <div *ngIf="NOOFPIECES.errors?.['required']">
+                                                <span class="login-danger">Field is required.</span>
+                                            </div>
+                                            <div *ngIf="NOOFPIECES.errors?.['min'] || NOOFPIECES.errors?.['max']">
+                                                <span class="login-danger">Number Of Pieces must be between 1 and 10000.</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -605,7 +624,7 @@
                                 <label for="length">Length </label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">Inch</span>
+                                        <span class="input-group-text">{{unitsType == 'square_inch' ? 'Inch' : 'Meter'}}</span>
                                     </div>
                                     <input class="form-control" type="number" id="length" name="length"
                                         (change)="getSlabDetails(true)" min="1" max="500" placeholder="Enter Length"
@@ -628,7 +647,7 @@
                                 <label for="width">Width </label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">Inch</span>
+                                        <span class="input-group-text">{{unitsType == 'square_inch' ? 'Inch' : 'Meter'}}</span>
                                     </div>
                                     <input class="form-control" type="number" id="width" name="width"
                                         (change)="getSlabDetails(true)" min="1" max="500" placeholder="Enter Width"
@@ -654,7 +673,7 @@
                                         <span class="input-group-text">MM</span>
                                     </div>
                                     <input class="form-control" type="number" id="thickness" name="thickness"
-                                        (change)="getSlabDetails(true)" min="1" max="500" placeholder="Enter Thickness"
+                                        min="1" max="500" placeholder="Enter Thickness"
                                         [(ngModel)]="thickness" #THISCKNESS="ngModel" />
                                 </div>
                                 <div *ngIf="THISCKNESS.invalid && (THISCKNESS.dirty || THISCKNESS.touched)">
@@ -683,10 +702,10 @@
                                         <ng-template pTemplate="header">
                                             <tr>
                                                 <th>Piece Number</th>
-                                                <th>Length (Inch)</th>
-                                                <th>Width (Inch)</th>
-                                                <th>Thickness (MM)</th>
+                                                <th>Length ({{unitsType == 'square_inch' ? 'Inch' : 'Meter'}})</th>
+                                                <th>Width ({{unitsType == 'square_inch' ? 'Inch' : 'Meter'}})</th>
                                                 <th>Quantity (Sq. Feet)</th>
+                                                <th>Quantity (Sq. Meter)</th>
                                                 <th style="width: 20%;">Finishes</th>
                                                 <th>Actions</th>
                                             </tr>
@@ -706,18 +725,18 @@
                                                 <td>
                                                     <input class="form-control" type="number"
                                                         [disabled]="!rowData.isEditing" [(ngModel)]="rowData.width"
-                                                        name="width{{ri}}" (input)="updateQuantity(rowData); calculateTotalQuantity()" />
-                                                </td>
-                                                <td>
-                                                    <input class="form-control" type="number"
-                                                        [disabled]="!rowData.isEditing" min="1" max="500"
-                                                        [(ngModel)]="rowData.thickness" (change)="getSlabDetails(true)"
-                                                        name="thickness{{ri}}" />
+                                                        name="width{{ri}}" (input)="updateQuantity(rowData);
+                                                     calculateTotalQuantity()" />
                                                 </td>
                                                 <td>
                                                     <input class="form-control" type="number" [disabled]="true"
-                                                        [(ngModel)]="rowData.quantity"
-                                                        name="quantity{{ri}}"  (input)="calculateTotalQuantity()" />
+                                                    [(ngModel)]="rowData.quantity"
+                                                    name="quantity{{ri}}"  (input)="calculateTotalQuantity()" />
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="number" [disabled]="true" 
+                                                        [(ngModel)]="rowData.totalQuantityMeter" (input)="calculateTotalQuantity()"
+                                                        name="totalQuantityMeter{{ri}}" />
                                                 </td>
                                                 <td>
                                                     <p-dropdown [options]="finisheshList" optionLabel="name"
@@ -768,6 +787,23 @@
                                 <input class="form-control" type="number" name="quantity"
                                     (change)="getSlabDetails(false)" min="1" max="1000000" placeholder="Enter Quantity"
                                     [(ngModel)]="totalQuantity" required #QUANTITY="ngModel" />
+                                <!-- <div *ngIf="QUANTITY.invalid && (QUANTITY.dirty || QUANTITY.touched)">
+                                    <div *ngIf="QUANTITY.errors?.['required']">
+                                        <span class="login-danger">Quantity is required.</span>
+                                    </div>
+                                    <div *ngIf="QUANTITY.errors?.['min'] || QUANTITY.errors?.['max']">
+                                        <span class="login-danger">Quantity must be between 1 and 1000000.</span>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label for="quantityMeter">Total Quantity (Sq. Meter) <span class="login-danger">*</span>
+                                </label>
+                                <input class="form-control" type="number" name="quantityMeter"
+                                    (change)="getSlabDetails(false)" min="1" max="1000000" placeholder="Enter quantity in Meter"
+                                    [(ngModel)]="totalQuantityMeter" required #QUANTITYMETER="ngModel" />
                                 <!-- <div *ngIf="QUANTITY.invalid && (QUANTITY.dirty || QUANTITY.touched)">
                                     <div *ngIf="QUANTITY.errors?.['required']">
                                         <span class="login-danger">Quantity is required.</span>
