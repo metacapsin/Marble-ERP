@@ -444,7 +444,7 @@ export class AddSlabPurchaseComponent {
           if (resp.status === "success") {
             this.slabNumber = resp.data.productCode;
             this.NewPurchaseService.clearFormData();
-            const message = "Generate Product Code has been generated";
+            const message = "Product code and BAR code has been Generated";
             this.messageService.add({ severity: "success", detail: message });
           } else {
             const message = resp.message;

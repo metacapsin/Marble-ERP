@@ -97,12 +97,17 @@
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center gap-3">
-                                                <p-radioButton [name]="'paidBy'" [value]="'self'" [formControlName]="'paidBy'" (onClick)="updatePaidBy(i, 'self')">
+                                                <p-radioButton [name]="'paidBy_' + i" 
+                                                              [value]="'self'" 
+                                                              [formControlName]="'paidBy'"
+                                                              (onClick)="updatePaidBy(i, 'self')">
                                                 </p-radioButton>
                                                 <label class="me-3">Self</label>
 
-                                                <p-radioButton [name]="'paidBy'" [value]="'supplier'" [formControlName]="'paidBy'"
-                                                    (onClick)="updatePaidBy(i, 'supplier')">
+                                                <p-radioButton [name]="'paidBy_' + i" 
+                                                              [value]="'supplier'" 
+                                                              [formControlName]="'paidBy'"
+                                                              (onClick)="updatePaidBy(i, 'supplier')">
                                                 </p-radioButton>
                                                 <label>Supplier</label>
                                             </div>
@@ -693,9 +698,8 @@
                                             (click)="addRow();$event.stopPropagation()"></p-button>
                                     </div>
                                 </ng-template>
-                                <div class="scrollable-table-wrapper">
-
-                                    <p-table [value]="rows" editable="true">
+                                <div style="max-height: 250px;overflow-x: auto;overflow-y: hidden;">
+                                    <p-table [value]="rows" editable="true" scrollHeight="250px">
                                         <ng-template pTemplate="header">
                                             <tr>
                                                 <th>Piece Number</th>
@@ -707,62 +711,56 @@
                                                 <th>Actions</th>
                                             </tr>
                                         </ng-template>
-
+                                
                                         <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
                                             <tr>
                                                 <td>
-                                                    <input class="form-control" type="number" [disabled]="true"
-                                                        [(ngModel)]="rowData.pieceNumber" name="pieceNumber{{ri}}" />
+                                                    <input class="form-control" type="number" [disabled]="true" [(ngModel)]="rowData.pieceNumber"
+                                                        name="pieceNumber{{ri}}" />
                                                 </td>
                                                 <td>
-                                                    <input class="form-control" type="number"
-                                                        [disabled]="!rowData.isEditing" [(ngModel)]="rowData.length"
-                                                        name="length{{ri}}" (input)="updateQuantity(rowData); calculateTotalQuantity()" />
+                                                    <input class="form-control" type="number" [disabled]="!rowData.isEditing"
+                                                        [(ngModel)]="rowData.length" name="length{{ri}}"
+                                                        (input)="updateQuantity(rowData); calculateTotalQuantity()" />
                                                 </td>
                                                 <td>
-                                                    <input class="form-control" type="number"
-                                                        [disabled]="!rowData.isEditing" [(ngModel)]="rowData.width"
-                                                        name="width{{ri}}" (input)="updateQuantity(rowData);
-                                                     calculateTotalQuantity()" />
+                                                    <input class="form-control" type="number" [disabled]="!rowData.isEditing"
+                                                        [(ngModel)]="rowData.width" name="width{{ri}}" (input)="updateQuantity(rowData);
+                                                                                        calculateTotalQuantity()" />
                                                 </td>
                                                 <td>
-                                                    <input class="form-control" type="number" [disabled]="true"
-                                                    [(ngModel)]="rowData.quantity"
-                                                    name="quantity{{ri}}"  (input)="calculateTotalQuantity()" />
+                                                    <input class="form-control" type="number" [disabled]="true" [(ngModel)]="rowData.quantity"
+                                                        name="quantity{{ri}}" (input)="calculateTotalQuantity()" />
                                                 </td>
                                                 <td>
-                                                    <input class="form-control" type="number" [disabled]="true" 
-                                                        [(ngModel)]="rowData.totalQuantityMeter" (input)="calculateTotalQuantity()"
-                                                        name="totalQuantityMeter{{ri}}" />
+                                                    <input class="form-control" type="number" [disabled]="true" [(ngModel)]="rowData.totalQuantityMeter"
+                                                        (input)="calculateTotalQuantity()" name="totalQuantityMeter{{ri}}" />
                                                 </td>
                                                 <td>
-                                                    <p-dropdown [options]="finisheshList" optionLabel="name"
-                                                        [disabled]="!rowData.isEditing" [(ngModel)]="rowData.finish"
-                                                        name="finish{{ri}}" placeholder="Select Finish" appendTo="body">
+                                                    <p-dropdown [options]="finisheshList" optionLabel="name" [disabled]="!rowData.isEditing"
+                                                        [(ngModel)]="rowData.finish" name="finish{{ri}}" placeholder="Select Finish" appendTo="body">
                                                     </p-dropdown>
-
+                                
                                                 </td>
                                                 <td>
                                                     <ng-container *ngIf="!rowData.isEditing">
                                                         <p-button icon="fa fa-pencil" styleClass="p-button-text"
                                                             (click)="enableEdit(rowData)"></p-button>
-                                                        <p-button icon="fa fa-trash" styleClass="p-button-text"
-                                                            (click)="deleteRow(ri)"></p-button>
+                                                        <p-button icon="fa fa-trash" styleClass="p-button-text" (click)="deleteRow(ri)"></p-button>
                                                     </ng-container>
                                                     <ng-container *ngIf="rowData.isEditing">
-                                                        <p-button icon="fa fa-save" styleClass="p-button-text"
-                                                            (click)="saveRow(rowData)"></p-button>
+                                                        <p-button icon="fa fa-save" styleClass="p-button-text" (click)="saveRow(rowData)"></p-button>
                                                         <p-button icon="fa fa-times" styleClass="p-button-text"
                                                             (click)="cancelEdit(rowData)"></p-button>
                                                     </ng-container>
                                                 </td>
-
+                                
                                                 <!-- <td>
-                                                <p-button [text]="true" styleClass="p-button-text" icon="fa fa-pencil"
-                                                    (click)="addRow()"></p-button>
-                                                <p-button [text]="true" styleClass="p-button-text  p-button-danger"
-                                                    icon="fa fa-trash" (click)="deleteRow(ri)"></p-button>
-                                            </td> -->
+                                                                                    <p-button [text]="true" styleClass="p-button-text" icon="fa fa-pencil"
+                                                                                        (click)="addRow()"></p-button>
+                                                                                    <p-button [text]="true" styleClass="p-button-text  p-button-danger"
+                                                                                        icon="fa fa-trash" (click)="deleteRow(ri)"></p-button>
+                                                                                </td> -->
                                             </tr>
                                         </ng-template>
                                     </p-table>

@@ -162,7 +162,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       warehouseDetails: [""],
       totalCosting: [""],
       purchaseTotalAmount: [""],
-      invoiceNumber: ["", [Validators.pattern(this.invoiceRegex)]],
+      invoiceNumber: ["", [Validators.required, Validators.pattern(this.invoiceRegex)]],
       purchaseDate: ["", Validators.required],
       supplier: ["", [Validators.required]],
       purchaseType: ["", [Validators.required]],
