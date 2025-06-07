@@ -1,0 +1,199 @@
+<p-toast></p-toast>
+<div class="page-wrapper">
+  <div class="content">
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="routes.adminDashboard">Dashboard </a>
+            </li>
+            <li class="breadcrumb-item">
+              <i class="feather icon-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">General Parties List</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table show-entire">
+          <div class="page-table-header mb-2">
+            <div class="row align-items-center">
+              <div class="col">
+                <div class="doctor-table-blk">
+                  <h3>General Parties List</h3>
+                  <div class="doctor-search-blk col-md-6">
+                    <div class="top-nav-search table-search-blk me-3">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Search here"
+                        [(ngModel)]="searchDataValue"
+                      />
+                      <a class="btn"
+                        ><img src="assets/img/icons/search-normal.svg" alt=""
+                      /></a>
+                    </div>
+                    <div class="add-group textbtn gap-3">
+                      <a
+                        [routerLink]="['/general-parties/add-general-parties']"
+                        class="btn btn-primary"
+                        ><img src="assets/img/icons/plus.svg" alt="" /> Add
+                        General Party</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-auto text-end float-end ms-auto download-grp"
+                appShowHide
+                [roles]="['admin', 'super-admin', 'help-desk']"
+              >
+                <a href="javascript:;" class="me-2"
+                  ><img
+                    src="assets/img/icons/pdf-icon-03.svg"
+                    alt=""
+                    pTooltip="Download data in CSV file "
+                    tooltipPosition="left"
+                    tooltipStyleClass="tooltip"
+                    (click)="dt.exportCSV()"
+                /></a>
+              </div>
+            </div>
+          </div>
+          <div class="card-body p-2">
+            <p-table
+              [value]="
+                getGeneralPartiesShow
+                  | filter
+                    : searchDataValue
+                    : ['name', 'email', 'status', 'createdOn', 'totalBalance']
+              "
+              styleClass="p-datatable-striped"
+              [tableStyle]="{ 'min-width': '60rem' }"
+              [paginator]="getGeneralPartiesShow?.length >= 5"
+              [rows]="10"
+              [rowsPerPageOptions]="[5, 10, 20]"
+              (change)="onPageChange($event)"
+              selectionMode="multiple"
+              #dt
+              [columns]="cols"
+              [exportHeader]="'customExportHeader'"
+              exportFilename="GeneralParty"
+            >
+              <ng-template pTemplate="header">
+                <tr>
+                  <th pSortableColumn="name">
+                    Name <p-sortIcon field="name"></p-sortIcon>
+                    <p-columnFilter
+                      matchMode="contains"
+                      hideOnClear="true"
+                      type="text"
+                      field="name"
+                      display="menu"
+                    ></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="email">
+                    Email <p-sortIcon field="email"></p-sortIcon>
+                    <p-columnFilter
+                      matchMode="contains"
+                      hideOnClear="true"
+                      type="text"
+                      field="email"
+                      display="menu"
+                    ></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="totalBalance">
+                    Balance <p-sortIcon field="totalBalance"></p-sortIcon>
+                    <p-columnFilter
+                      matchMode="contains"
+                      hideOnClear="true"
+                      type="text"
+                      field="totalBalance"
+                      display="menu"
+                    ></p-columnFilter>
+                  </th>
+                  <th pSortableColumn="status">
+                    Status <p-sortIcon field="status"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="createdOn">
+                    Created On
+                    <p-sortIcon field="createdOn"></p-sortIcon>
+                    <p-columnFilter
+                      matchMode="contains"
+                      hideOnClear="true"
+                      type="text"
+                      field="createdOn"
+                      display="menu"
+                    ></p-columnFilter>
+                  </th>
+                  <th width="13%">Action</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-product>
+                <tr>
+                  <td class="bold">{{ product.name }}</td>
+                  <td class="bold">{{ product.email }}</td>
+                  <td class="bold" tooltip="You will Pay">
+                    <i class="fa-solid fa-arrow-up text-danger"></i>
+                    {{ product.totalBalance?.toFixed(2) || "0" }}
+                  </td>
+                  <td *ngIf="!product.isUserLocked">
+                    <p-tag severity="success" value="Active"></p-tag>
+                  </td>
+                  <td *ngIf="product.isUserLocked">
+                    <p-tag severity="danger" value="Locked"></p-tag>
+                  </td>
+                  <td>{{ product.createdOn | date : "dd-MMM-yyyy" }}</td>
+                  <td appShowHide [roles]="['admin', 'super-admin']">
+                    <div class="action-buttons">
+                      <p-button
+                        [text]="true"
+                        icon="fa fa-eye"
+                        (click)="generalPartiesView(product._id)"
+                        pTooltip="View"
+                        tooltipPosition="bottom"
+                        tooltipStyleClass="tooltip"
+                      ></p-button>
+                      <p-button
+                        [text]="true"
+                        icon="fa fa-edit"
+                        (click)="editGeneralParties(product._id)"
+                        pTooltip="Edit"
+                        tooltipPosition="bottom"
+                        tooltipStyleClass="tooltip"
+                      ></p-button>
+                      <p-button
+                        [text]="true"
+                        icon="fa fa-trash"
+                        (click)="deleteGeneralParties(product._id)"
+                        pTooltip="Delete"
+                        tooltipPosition="bottom"
+                        tooltipStyleClass="tooltip"
+                      ></p-button>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="5" class="text-center">No general party found.</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-confirm-dialog
+  [showDialog]="showDialoge"
+  (callbackModal)="callBackModal()"
+  (close)="close()"
+  [data]="modalData"
+></app-confirm-dialog> 

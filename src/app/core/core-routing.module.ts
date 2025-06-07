@@ -233,7 +233,11 @@ const routes: Routes = [
             (m) => m.EmployeepPaymentModule
           ),
       },
-
+      {
+        path: 'general-parties',
+        loadChildren: () =>
+          import('./GeneralParties/general-parties.module').then((m) => m.GeneralPartiesModule),
+      },
     ],
   },
 ];

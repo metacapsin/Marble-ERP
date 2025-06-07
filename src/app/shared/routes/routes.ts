@@ -744,4 +744,20 @@ export class routes {
   public static get bankAccounts(): string {
     return this.baseUrl + '/settings/bank-accounts';
   }
+
+  public static get generalParties(): string {
+    return this.baseUrl + '/general-parties';
+  }
+
+  public static get addGeneralParties(): string {
+    return this.baseUrl + '/general-parties/add-general-parties';
+  }
+
+  public static get editGeneralParties(): string {
+    return this.baseUrl + '/general-parties/edit-general-parties';
+  }
+
+  public static get viewGeneralParties(): string {
+    return this.baseUrl + '/general-parties/view-general-parties';
+  }
 }
