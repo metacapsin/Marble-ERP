@@ -98,7 +98,8 @@
                       </div>
                     </div>
                     <div *ngIf="lotTypeValue === 'Slab'">
-                      <app-add-slab-purchase  [addSlabdisableBtn]="!addNewPurchaseForm.get('warehouse')?.value" class="col-12" [tab]="'product'"></app-add-slab-purchase>
+                      <app-add-slab-purchase [addSlabdisableBtn]="!addNewPurchaseForm.get('warehouse')?.value"
+                        class="col-12" [tab]="'product'"></app-add-slab-purchase>
                     </div>
 
                     <div *ngIf="lotTypeValue === 'Lot'">
@@ -106,7 +107,9 @@
                     </div>
                     <div class="row">
                       <div class="col text-end">
-                        <button class="btn btn-primary" [disabled]="!addNewPurchaseForm.get('purchaseType')?.value || !addNewPurchaseForm.get('warehouse')?.value || slabDetailsLength == 0" (click)="nextStep(nextCallback, 'first')">
+                        <button class="btn btn-primary"
+                          [disabled]="!addNewPurchaseForm.get('purchaseType')?.value || !addNewPurchaseForm.get('warehouse')?.value || slabDetailsLength == 0"
+                          (click)="nextStep(nextCallback, 'first')">
                           Next <i class="fa-solid fa-arrow-right"></i>
                         </button>
                       </div>
@@ -122,16 +125,21 @@
                     <div class="row">
                       <div class="col-xl-4 col-md-4 col-sm-12 col-12">
                         <div class="form-group local-forms">
-                          <label for="invoiceNumber">Invoice Number<span class="login-danger"></span></label>
+                          <label for="invoiceNumber">Invoice Number<span class="login-danger">*</span></label>
                           <input type="text" class="form-control" placeholder="Enter Invoice Number"
                             formControlName="invoiceNumber" />
-                          <span *ngIf="addNewPurchaseForm.get('invoiceNumber')?.value.length === 0"
+                          <div *ngIf="
+                        addNewPurchaseForm.get('invoiceNumber')?.hasError('required') && 
+                        addNewPurchaseForm.get('invoiceNumber')?.touched
+                      ">
+                            <span class="login-danger">Field is required.</span>
+                          </div> <span *ngIf="addNewPurchaseForm.get('invoiceNumber')?.value.length === 0"
                             style="color: #97704f; font-size: 12px">Leave it blank to generate
                             automatically</span>
                           <div *ngIf="
-                            addNewPurchaseForm.get('invoiceNumber')?.hasError('pattern') &&
-                            addNewPurchaseForm.get('invoiceNumber')?.touched
-                          ">
+                                                  addNewPurchaseForm.get('invoiceNumber')?.hasError('pattern') &&
+                                                  addNewPurchaseForm.get('invoiceNumber')?.touched
+                                                ">
                             <span class="login-danger">Please Enter Valid Invoice Number. </span>
                           </div>
 
@@ -139,7 +147,7 @@
                       </div>
                       <div class="col-xl-4 col-md-4 col-sm-12 col-12">
                         <div class="form-group local-forms">
-                          <label for="purchaseDate">Purchase Date <span class="login-danger">*</span></label>
+                          <label for="purchaseDate">Invoice Date <span class="login-danger">*</span></label>
                           <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="dd/mm/yy"
                             formControlName="purchaseDate" placeholder="DD/MM/YYYY"
                             [styleClass]="'col-12'"></p-calendar>
@@ -388,7 +396,8 @@
                     </div>
                     <div *ngIf="lotTypeValue === 'Slab'">
                       <div *ngIf="lotTypeValue === 'Slab'">
-                        <app-add-slab-purchase (nextBtnDisabled)="onnextBtnDisabled($event)" class="col-12" [tab]="'purchase'"></app-add-slab-purchase>
+                        <app-add-slab-purchase (nextBtnDisabled)="onnextBtnDisabled($event)" class="col-12"
+                          [tab]="'purchase'"></app-add-slab-purchase>
                       </div>
                     </div>
                     <!-- SLAB Information -->
@@ -402,13 +411,15 @@
                       <ng-container *ngIf="lotTypeValue === 'Lot'">
                         <button
                           [disabled]="!child?.blocksDetails?.length || !addNewPurchaseForm?.valid || !child?.lotAddForm?.valid"
-                          class="btn btn-primary" (click)="nextStep(nextCallback, 'first')" [disabled]="!addNewPurchaseForm.get('purchaseDate')?.value || !addNewPurchaseForm.get('supplier')?.value || addSlabData.get('taxableAmount')?.touched && addSlabData.get('taxApplied')?.value > 0">
+                          class="btn btn-primary" (click)="nextStep(nextCallback, 'first')"
+                          [disabled]="!addNewPurchaseForm.get('purchaseDate')?.value || !addNewPurchaseForm.get('supplier')?.value || addSlabData.get('taxableAmount')?.touched && addSlabData.get('taxApplied')?.value > 0">
                           Next <i class="fa-solid fa-arrow-right"></i>
                         </button>
                       </ng-container>
 
                       <ng-container *ngIf="lotTypeValue === 'Slab'">
-                        <button class="btn btn-primary" (click)="nextStep(nextCallback, 'first')"  [disabled]="!addNewPurchaseForm.get('purchaseDate')?.value || !addNewPurchaseForm.get('supplier')?.value || (taxableAmount > 0 && itemTax.length === 0)">
+                        <button class="btn btn-primary" (click)="nextStep(nextCallback, 'first')"
+                          [disabled]="!addNewPurchaseForm.get('purchaseDate')?.value || !addNewPurchaseForm.get('supplier')?.value || (taxableAmount > 0 && itemTax.length === 0)">
                           Next <i class="fa-solid fa-arrow-right"></i>
                         </button>
                       </ng-container>
@@ -1088,8 +1099,7 @@
                         </p-accordion>
                       </div>
 
-                      <form *ngIf="expenses.controls[0].get('payment')?.value != ''"
-                      [formGroup]="expensesForm" >
+                      <form *ngIf="expenses.controls[0].get('payment')?.value != ''" [formGroup]="expensesForm">
                         <p-accordion [activeIndex]="0">
                           <p-accordionTab>
                             <ng-template pTemplate="header">
@@ -1137,7 +1147,7 @@
                                   <p class="panel-title">
                                     <a class="collapsed" data-bs-toggle="collapse" data-bs-parent="#headingTwo"
                                       href="#collapseNotes" aria-expanded="false" aria-controls="collapseNotes">
-                                      <i class="fas fa-plus-circle me-1"></i> Add Notes
+                                      <i class="fas fa-plus-circle me-1"></i> Add Narration
                                     </a>
                                   </p>
                                 </div>
@@ -1173,8 +1183,7 @@
                                 <div id="collapseattachFile" class="panel-collapse" role="tabpanel"
                                   aria-labelledby="attachFile" data-bs-parent="#attachFile">
                                   <div class="panel-body">
-                                    <app-file-upload type="purchase" 
-                                      [existingAttachments]="attachments"
+                                    <app-file-upload type="purchase" [existingAttachments]="attachments"
                                       (filesChanged)="salesFilesChangedHandler($event)"
                                       (uploadComplete)="salesUploadCompleteHandler($event)"
                                       (fileDeleted)="handleFileDeleted($event)">
@@ -1344,26 +1353,26 @@
 
                                 </span>
                               </p>
-                                <p *ngIf="addNewPurchaseForm.get('otherCharges').value">
+                              <p *ngIf="addNewPurchaseForm.get('otherCharges').value">
                                 Other Charges
                                 <span>
                                   ₹
                                   {{ addNewPurchaseForm.get("otherCharges").value || 0.00 | indianCurrency }}
-                                  </span>
+                                </span>
                               </p>
-                               <p *ngIf="addNewPurchaseForm.get('transportationCharges').value">
+                              <p *ngIf="addNewPurchaseForm.get('transportationCharges').value">
                                 Transportation Charges
                                 <span>
                                   ₹
                                   {{ addNewPurchaseForm.get("transportationCharges").value || 0.00 | indianCurrency }}
-                                  </span>
+                                </span>
                               </p>
-                               <p *ngIf="addNewPurchaseForm.get('royaltyCharge')?.value">
+                              <p *ngIf="addNewPurchaseForm.get('royaltyCharge')?.value">
                                 Royalty Charges
                                 <span>
                                   ₹
                                   {{ addNewPurchaseForm.get("royaltyCharge").value || 0.00 | indianCurrency }}
-                                  </span>
+                                </span>
                               </p>
                               <!-- Expenses Section -->
                               <ng-container *ngIf="expenses && hasAnyPayment()">

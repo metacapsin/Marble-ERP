@@ -193,6 +193,13 @@ h3 {
   overflow-y: auto;
 }
 
+.p-table-wrapper {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+
 ::ng-deep {
     .p-accordion-content{
         padding-top: 0px;
