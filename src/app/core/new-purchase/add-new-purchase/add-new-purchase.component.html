@@ -50,12 +50,77 @@
           <div class="card-body">
             <form [formGroup]="addNewPurchaseForm" (ngSubmit)="addNewPurchaseFormSubmit()">
               <p-stepper [linear]="true">
-                <p-stepperPanel header="Purchase Information">
+                <p-stepperPanel header="Product">
+                  <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback"
+                    let-index="index">
+                    <div class="row">
+                      <div class="col-xl-4 col-md-4 col-sm-12 col-12">
+                        <div class="form-group local-forms">
+                          <label for="lotsNo">Product Type<span class="login-danger">*</span></label>
+                          <p-dropdown [options]="lotsNoArray" [style]="{ width: '100%' }" styleClass="" appendTo="body"
+                            optionLabel="name" optionValue="_id" placeholder="Select Product Type" [filter]="true"
+                            filterBy="name" [showClear]="true" (onChange)="lotType($event.value)"
+                            formControlName="purchaseType">
+                          </p-dropdown>
+                          <div *ngIf="
+                        addNewPurchaseForm
+                          .get('purchaseType')
+                          ?.hasError('required') &&
+                        addNewPurchaseForm.get('purchaseType')?.touched
+                      ">
+                            <span class="login-danger">Field is required.
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <div class="form-group local-forms">
+                          <label for="vehicleNo">Vehicle Number</label>
+                          <input class="form-control" type="text" (input)="onVehicleInput($event)"
+                            placeholder="Enter Vehicle Number" formControlName="vehicleNo" />
+                          <div *ngIf="setValidations('vehicleNo')">
+                            <span class="login-danger">Invalid vehicle number format. Please correct it.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <div class="form-group local-forms">
+                          <label for="warehouse">Warehouse<span class="login-danger">*</span></label>
+                          <p-dropdown [options]="wareHousedata" appendTo="body" optionLabel="name" optionValue="_id"
+                            placeholder="Select Warehouse" formControlName="warehouse" [style]="{ width: '100%' }"
+                            [filter]="true" filterBy="name" [showClear]="true">
+                          </p-dropdown>
+                          <!-- {{ slabAddForm.get('warehouse')?.value}} -->
+                          <div *ngIf="setValidations('warehouse')">
+                            <span class="login-danger">Field is required.</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngIf="lotTypeValue === 'Slab'">
+                      <app-add-slab-purchase  [addSlabdisableBtn]="!addNewPurchaseForm.get('warehouse')?.value" class="col-12" [tab]="'product'"></app-add-slab-purchase>
+                    </div>
+
+                    <div *ngIf="lotTypeValue === 'Lot'">
+                      <app-add-lot class="col-12"></app-add-lot>
+                    </div>
+                    <div class="row">
+                      <div class="col text-end">
+                        <button class="btn btn-primary" [disabled]="!addNewPurchaseForm.get('purchaseType')?.value || !addNewPurchaseForm.get('warehouse')?.value || slabDetailsLength == 0" (click)="nextStep(nextCallback, 'first')">
+                          Next <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                      </div>
+                    </div>
+
+                  </ng-template>
+
+                </p-stepperPanel>
+                <p-stepperPanel header="Purchase">
                   <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback"
                     let-index="index">
                     <!-- Purchase basic Information -->
                     <div class="row">
-                      <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                      <div class="col-xl-4 col-md-4 col-sm-12 col-12">
                         <div class="form-group local-forms">
                           <label for="invoiceNumber">Invoice Number<span class="login-danger"></span></label>
                           <input type="text" class="form-control" placeholder="Enter Invoice Number"
@@ -72,7 +137,7 @@
 
                         </div>
                       </div>
-                      <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                      <div class="col-xl-4 col-md-4 col-sm-12 col-12">
                         <div class="form-group local-forms">
                           <label for="purchaseDate">Purchase Date <span class="login-danger">*</span></label>
                           <p-calendar [maxDate]="maxDate" dataType="string" appendTo="body" dateFormat="dd/mm/yy"
@@ -90,7 +155,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                      <div class="col-xl-4 col-md-4 col-sm-12 col-12">
                         <div class="form-group local-forms">
                           <label for="supplier">Supplier Name<span class="login-danger">*</span></label>
                           <p-dropdown [style]="{ width: '100%' }" placeholder="Select Supplier"
@@ -108,6 +173,126 @@
                           </div>
                         </div>
                       </div>
+
+                      <!-- <div class="col-xl-4 col-md-4 col-sm-12 col-12">
+                        <div class="form-group local-forms">
+                          <label for="customer">Taxable Amount</label>
+                            <input type="num  ber" formControlName="taxableAmount" (change)="calculateTotalAmount()"
+                              class="form-control" placeholder="Enter Taxable Amount" />
+                        </div>
+                      </div>
+
+                      <div class="col-xl-4 col-md-4 col-sm-12 col-12">
+                        <div class="form-group local-forms">
+                          <label for="customer">Tax/GST</label>
+                          <p-inputGroup>
+                            <p-multiSelect [style]="{ width: '100%' }" placeholder="Select Tax" [options]="orderTaxList"
+                              appendTo="body" formControlName="ItemTax" optionLabel="orderTaxName" optionValue="orderNamevalue"
+                              display="chip" (onChange)="calculateTotalAmount()" [maxSelectedLabels]="1"></p-multiSelect>
+                          </p-inputGroup>
+                          <div *ngIf="
+                addNewPurchaseForm.hasError('taxRequired') && 
+                addNewPurchaseForm.get('taxableAmount')?.touched
+              ">
+              <span class="login-danger">Please apply tax.</span>
+            </div>
+                          <div *ngIf=" (addNewPurchaseForm.get('taxableAmount')?.hasError('min') &&
+                          addNewPurchaseForm.get('taxableAmount')?.touched) ||
+                        (addNewPurchaseForm.get('taxableAmount')?.hasError('max') &&
+                          addNewPurchaseForm.get('taxableAmount')?.touched)">
+                            <span class="login-danger">Taxable Amount cannot be greater than Lot Weight * Price/ton
+                              ({{rawCosting}}).</span>
+                          </div>
+                          <span *ngIf="
+                              addNewPurchaseForm.get('taxable')?.value
+                            " style="color: #97704f; font-size: 12px">
+                            Tax Applied Amount:
+                            {{ addNewPurchaseForm.get('taxable')?.value | indianCurrency }}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-12 col-md-4">
+                        <div class="form-group local-forms">
+                          <label for="nonTaxableAmount">Non-Taxable Amount </label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">₹</span>
+                            </div>
+                            <input type="number" formControlName="nonTaxableAmount" (change)="calculateTotalAmount()"
+                              class="form-control" placeholder="Enter Non-Taxable Amount" />
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">₹</span>
+                              </div>
+                              <span class="form-control">{{
+                                addNewPurchaseForm.get("nonTaxable")?.value | indianCurrency
+                                }}</span>
+                            </div>
+                          </div>
+                          <div *ngIf="(addNewPurchaseForm.get('nonTaxableAmount')?.hasError('min') &&
+                          addNewPurchaseForm.get('nonTaxableAmount')?.touched) ||
+                        (addNewPurchaseForm.get('nonTaxableAmount')?.hasError('max') &&
+                          addNewPurchaseForm.get('nonTaxableAmount')?.touched)">
+                            <span class="login-danger">Non-Taxable Amount cannot be greater than Lot Weight * Price/ton
+                              ({{addNewPurchaseForm.get('rawCosting')?.value | indianCurrency}}).</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-xl-4 col-md-4 col-sm-12 col-12">
+                        <div class="form-group local-forms">
+                          <label for="paidToSupplierPurchaseCost">Purchase Cost ( Paid to Supplier )
+                            <span class="login-danger">*</span></label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">₹</span>
+                            </div>
+                            <span class="form-control">{{
+                              addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value | indianCurrency
+                              }}</span>
+                          </div>
+                          <span *ngIf="
+                              addNewPurchaseForm.get('taxable')?.value  > addNewPurchaseForm.get('taxableAmount')?.value &&
+                              addNewPurchaseForm.get('taxable')?.value  != 0
+                            " style="color: #97704f; font-size: 12px">
+                            Tax Applied Amount:
+                            {{ addNewPurchaseForm.get('taxable')?.value | indianCurrency }}
+                            + Non Taxable Amount :
+                            {{
+                            addNewPurchaseForm.get("nonTaxableAmount")?.value | indianCurrency
+                            }}
+                            <span *ngIf="addNewPurchaseForm.get('purchaseDiscount')?.value > 0">
+                              - Discount :
+                              {{
+                              addNewPurchaseForm.get("purchaseDiscount")?.value | indianCurrency
+                              }}
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+            
+                      <div class="col-12 col-md-4">
+                        <div class="form-group local-forms">
+                          <label for="purchaseDiscount">Discount </label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">₹</span>
+                            </div>
+                            <input class="form-control" type="number" placeholder="Enter Discount" (change)="calculateTotalAmount()"
+                              formControlName="purchaseDiscount" />
+                          </div>
+                          <div *ngIf="
+                              (addNewPurchaseForm.get('purchaseDiscount')?.hasError('min') &&
+                                addNewPurchaseForm.get('purchaseDiscount')?.touched) ||
+                              (addNewPurchaseForm.get('purchaseDiscount')?.hasError('max') &&
+                                addNewPurchaseForm.get('purchaseDiscount')?.touched)
+                            ">
+                            <span class="login-danger">Input Must be between 1 to {{maxPurchaseAmount}}.</span>
+                          </div>
+                        </div>
+                      </div>
+
                       <div class="col-xl-6 col-md-6 col-sm-12 col-12">
                         <div class="form-group local-forms">
                           <label for="lotsNo">Product Type<span class="login-danger">*</span></label>
@@ -126,29 +311,109 @@
                             </span>
                           </div>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
+
+                    <!-- <p-accordion  [activeIndex]="0">
+                      <p-accordionTab >
+                        <ng-template pTemplate="header">
+                          <div class="d-flex justify-content-between align-items-center w-100">
+                            <span class="font-bold">Expenses</span>
+                            <button pButton type="button" icon="fa fa-plus" class="p-button-text p-0" (click)="addExpense($event)"></button>
+                          </div>
+                        </ng-template>
+
+                        <div class="row">
+                          <div class="expenses-content" *ngIf="expensesExpanded">
+                            <table class="expenses-table w-100">
+                              <thead>
+                                  <tr>
+                                    <th>Type</th>
+                                    <th>Payment</th>
+                                    <th>Paid by:</th>
+                                    <th></th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let expense of expenses; let i = index">
+                                    <td>
+                                      <p-dropdown 
+                                      [options]="expenseTypeOptions" 
+                                      [(ngModel)]="expense.type"
+                                      [ngModelOptions]="{standalone: true}" 
+                                      placeholder="Select Type" 
+                                      optionLabel="name"
+                                      optionValue="value"
+                                      styleClass="w-100" 
+                                      appendTo="body">
+                                    </p-dropdown>
+                                    
+                                    </td>
+                                    <td>
+                                      <div class="input-with-icon">
+                                        <input type="text" pInputText [(ngModel)]="expense.payment" 
+                                          [ngModelOptions]="{standalone: true}" class="form-control">
+                                        <span class="input-icon">₹</span>
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div class="radio-group">
+                                        <div class="d-flex align-items-center gap-3">
+                                          <p-radioButton name="paidBy_{{i}}" value="self" 
+                                            [(ngModel)]="expense.paidBy" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                                          <label class="me-3">Self</label>
+                                          <p-radioButton name="paidBy_{{i}}" value="supplier" 
+                                            [(ngModel)]="expense.paidBy" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                                          <label>Supplier</label>
+                                        </div>
+                                      </div>
+                                    </td>
+                                    <td class="text-center">
+                                      <button pButton type="button" icon="fa fa-trash" 
+                                        class="p-button-text p-button-danger" 
+                                        (click)="removeExpense(i)"></button>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                      </p-accordionTab>
+                  </p-accordion> -->
+
 
                     <!-- lot Information -->
                     <div *ngIf="lotTypeValue === 'Lot'">
                       <app-add-lot class="col-12"></app-add-lot>
                     </div>
                     <div *ngIf="lotTypeValue === 'Slab'">
-                      <app-add-slab-purchase class="col-12"></app-add-slab-purchase>
+                      <div *ngIf="lotTypeValue === 'Slab'">
+                        <app-add-slab-purchase (nextBtnDisabled)="onnextBtnDisabled($event)" class="col-12" [tab]="'purchase'"></app-add-slab-purchase>
+                      </div>
                     </div>
                     <!-- SLAB Information -->
-                    <div class="d-flex pt-4 justify-content-between">
-                      <div></div>
-                      <button *ngIf="lotTypeValue === 'Lot'"
-                        [disabled]="!child?.blocksDetails?.length || !addNewPurchaseForm?.valid || !child?.lotAddForm?.valid" class="btn btn-primary"
-                        (click)="nextStep(nextCallback, 'first')">
-                        Next <i class="fa-solid fa-arrow-right"></i>
+                    <div class="d-flex justify-content-between align-items-center pt-4">
+                      <!-- Left aligned Back button -->
+                      <button type="button" class="btn btn-primary" (click)="backStep(prevCallback, 'Slab')">
+                        <i class="fa-solid fa-arrow-left"></i> Back
                       </button>
-                      <button *ngIf="lotTypeValue === 'Slab'" [disabled]="!slabChild?.slabDetails?.length || !addNewPurchaseForm?.valid || !slabChild?.slabAddForm?.valid"
-                        class="btn btn-primary" (click)="nextStep(nextCallback, 'first')">
-                        Next <i class="fa-solid fa-arrow-right"></i>
-                      </button>
+
+                      <!-- Right aligned Next button -->
+                      <ng-container *ngIf="lotTypeValue === 'Lot'">
+                        <button
+                          [disabled]="!child?.blocksDetails?.length || !addNewPurchaseForm?.valid || !child?.lotAddForm?.valid"
+                          class="btn btn-primary" (click)="nextStep(nextCallback, 'first')" [disabled]="!addNewPurchaseForm.get('purchaseDate')?.value || !addNewPurchaseForm.get('supplier')?.value || addSlabData.get('taxableAmount')?.touched && addSlabData.get('taxApplied')?.value > 0">
+                          Next <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                      </ng-container>
+
+                      <ng-container *ngIf="lotTypeValue === 'Slab'">
+                        <button class="btn btn-primary" (click)="nextStep(nextCallback, 'first')"  [disabled]="!addNewPurchaseForm.get('purchaseDate')?.value || !addNewPurchaseForm.get('supplier')?.value || (taxableAmount > 0 && itemTax.length === 0)">
+                          Next <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                      </ng-container>
                     </div>
+
                   </ng-template>
                 </p-stepperPanel>
                 <p-stepperPanel header="Summary">
@@ -187,7 +452,8 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("purchaseDate").value | dateTransform | date: 'd MMM yyyy' }}
+                                  {{ addNewPurchaseForm.get("purchaseDate").value | dateTransform | date: 'd MMM yyyy'
+                                  }}
 
                                 </p>
                               </div>
@@ -245,7 +511,7 @@
 
                     <div class="card" *ngIf="lotTypeValue === 'Lot'">
                       <div class="card-body">
-                        <h3>{{addNewPurchaseForm.get("purchaseType").value }} Information</h3>
+                        <h3>Block Information</h3>
                         <div class="row practice-card" *ngIf="ItemDetails">
                           <div class="col-xl-6 col-lg-6 col-sm-6">
                             <div class="form-group row mb-2">
@@ -604,7 +870,7 @@
                       <div class="card-body">
                         <h3>{{ addNewPurchaseForm.get("purchaseType").value }} Information</h3>
                         <div class="row practice-card">
-                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                          <!-- <div class="col-xl-6 col-lg-6 col-sm-6">
                             <div class="form-group row mb-2">
                               <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
                                 Other Charge
@@ -615,7 +881,7 @@
                                 </p>
                               </div>
                             </div>
-                          </div>
+                          </div> -->
                           <!-- <div class="col-xl-6 col-lg-6 col-sm-6">
                             <div class="form-group row mb-2">
                               <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
@@ -637,12 +903,12 @@
                               </h5>
                               <div class="col-lg-6 col-md-6 col-xl-6">
                                 <p class="col-lg-6 col-form-label heading-bold">
-                                  {{ addNewPurchaseForm.get("warehouseDetails")?.value?.name ?? ' -- ' }}
+                                  {{ getSelectedWarehouseName() }}
                                 </p>
                               </div>
                             </div>
                           </div>
-                          <div class="col-xl-6 col-lg-6 col-sm-6">
+                          <!-- <div class="col-xl-6 col-lg-6 col-sm-6">
                             <div class="form-group row mb-2">
                               <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
                                 Transportation Charge
@@ -654,7 +920,7 @@
                                 </p>
                               </div>
                             </div>
-                          </div>
+                          </div> -->
                           <!-- <div class="col-xl-6 col-lg-6 col-sm-6">
                             <div class="form-group row mb-2">
                               <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
@@ -821,6 +1087,40 @@
                           </p-accordionTab>
                         </p-accordion>
                       </div>
+
+                      <form *ngIf="expenses.controls[0].get('payment')?.value != ''"
+                      [formGroup]="expensesForm" >
+                        <p-accordion [activeIndex]="0">
+                          <p-accordionTab>
+                            <ng-template pTemplate="header">
+                              <div class="d-flex justify-content-between align-items-center w-100">
+                                <span class="font-bold">Expenses</span>
+                              </div>
+                            </ng-template>
+
+                            <div class="row">
+                              <table class="table table-bordered" formArrayName="expenses">
+                                <thead>
+                                  <tr>
+                                    <th>Type</th>
+                                    <th>Payment</th>
+                                    <th>Paid By</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let expense of expenses.controls; let i = index" [formGroupName]="i">
+                                    <td>{{ getExpenseTypeName(expense.get('type')?.value) }}</td>
+                                    <td>{{ expense.get('payment')?.value }}</td>
+                                    <td>{{ capitalizeFirstLetter(expense.get('paidBy')?.value) }}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </p-accordionTab>
+                        </p-accordion>
+                      </form>
+
+
                     </div>
 
                     <div class="row">
@@ -857,7 +1157,36 @@
                           </div>
                         </div>
 
-                        <div class="row mt-4" *ngIf="addNewPurchaseForm.get('taxable')?.value">
+
+                        <div class="invoice-faq">
+                          <div class="panel-group" id="attachFile" role="tablist" aria-multiselectable="true">
+                            <div class="faq-tab">
+                              <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="attachFile">
+                                  <p class="panel-title">
+                                    <a data-bs-toggle="collapse" data-bs-parent="#attachFile" href="#collapseattachFile"
+                                      aria-expanded="true" aria-controls="collapseattachFile">
+                                      <i class="fas fa-plus-circle me-1"></i> Attach File
+                                    </a>
+                                  </p>
+                                </div>
+                                <div id="collapseattachFile" class="panel-collapse" role="tabpanel"
+                                  aria-labelledby="attachFile" data-bs-parent="#attachFile">
+                                  <div class="panel-body">
+                                    <app-file-upload type="purchase" 
+                                      [existingAttachments]="attachments"
+                                      (filesChanged)="salesFilesChangedHandler($event)"
+                                      (uploadComplete)="salesUploadCompleteHandler($event)"
+                                      (fileDeleted)="handleFileDeleted($event)">
+                                    </app-file-upload>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- <div class="row mt-4" *ngIf="addNewPurchaseForm.get('taxable')?.value">
                           <div class="col-md-6 col-xl-6 checkbox">
                             <p-checkbox [binary]="true" class="m-r-10" formControlName="isTaxVendor"
                               (onChange)="changeVaidationForTaxVendor()">
@@ -925,7 +1254,7 @@
 
                             </div>
                           </div>
-                        </div>
+                        </div> -->
 
 
                       </div>
@@ -1015,6 +1344,42 @@
 
                                 </span>
                               </p>
+                                <p *ngIf="addNewPurchaseForm.get('otherCharges').value">
+                                Other Charges
+                                <span>
+                                  ₹
+                                  {{ addNewPurchaseForm.get("otherCharges").value || 0.00 | indianCurrency }}
+                                  </span>
+                              </p>
+                               <p *ngIf="addNewPurchaseForm.get('transportationCharges').value">
+                                Transportation Charges
+                                <span>
+                                  ₹
+                                  {{ addNewPurchaseForm.get("transportationCharges").value || 0.00 | indianCurrency }}
+                                  </span>
+                              </p>
+                               <p *ngIf="addNewPurchaseForm.get('royaltyCharge')?.value">
+                                Royalty Charges
+                                <span>
+                                  ₹
+                                  {{ addNewPurchaseForm.get("royaltyCharge").value || 0.00 | indianCurrency }}
+                                  </span>
+                              </p>
+                              <!-- Expenses Section -->
+                              <ng-container *ngIf="expenses && hasAnyPayment()">
+                                <div class="mt-3 mb-2">
+                                  <h5 class="expenses-title">Expenses</h5>
+                                </div>
+                                <ng-container *ngFor="let expense of expenses.controls; let i = index">
+                                  <p>
+                                    {{ getExpenseTypeName(expense.get('type')?.value) }}
+                                    <small class="text-muted ml-1">({{ expense.get('paidBy')?.value }})</small>
+                                    <span>
+                                      ₹ {{ expense.get('payment')?.value || 0.00 | indianCurrency }}
+                                    </span>
+                                  </p>
+                                </ng-container>
+                              </ng-container>
                             </div>
 
                             <div class="invoice-total-footer" *ngIf="lotTypeValue === 'Lot'">
@@ -1109,8 +1474,7 @@
                       <button type="button" class="btn btn-primary" (click)="backStep(prevCallback, 'Slab')">
                         <i class="fa-solid fa-arrow-left"></i> Back
                       </button>
-                      <button type="submit" class="border-0 btn btn-primary btn-gradient-primary"
-                        [disabled]="!addNewPurchaseForm.valid">
+                      <button type="submit" class="border-0 btn btn-primary btn-gradient-primary">
                         Submit
                       </button>
                     </div>

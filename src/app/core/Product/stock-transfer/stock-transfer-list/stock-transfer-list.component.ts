@@ -161,6 +161,7 @@ export class StockTransferListComponent implements OnInit {
             slabNo: element.slabNo,
             totalSQFT: element.totalSQFT,
           },
+          disabled: element.totalSQFT === 0 
         }));
       }
     );

@@ -1,0 +1,48 @@
+<div class="file-upload-container">
+  <p-toast></p-toast>
+  <div class="upload-zone">
+    <input
+      type="file"
+      class="file-input"
+      (change)="onFileSelect($event)"
+      #fileInput
+      id="fileInput"
+      [attr.disabled]="isUploading ? '' : null"
+    >
+    <label for="fileInput" class="upload-label" [class.disabled]="isUploading">
+      <i class="fa fa-cloud-upload"></i>
+      <span>Choose a file</span>
+      <div class="upload-limits">
+        <small class="max-size-info">(Max file size: 10MB)</small>
+      </div>
+    </label>
+  </div>
+
+  <div class="selected-files">
+    <div class="file-list">
+      <div class="file-item" *ngFor="let fileItem of selectedFiles" [class.error]="fileItem.uploadStatus === 'error'">
+        <div class="file-info">
+          <i class="fa {{ getFileIcon(fileItem.file.name) }}"></i>
+          <div class="file-details">
+            <span class="file-name">{{ fileItem.file.name }}</span>
+            <small class="file-size">{{ getFileSize(fileItem.file.size) }}</small>
+            <small class="upload-status" [class]="fileItem.uploadStatus">
+              <span *ngIf="fileItem.uploadStatus === 'pending'">Pending upload...</span>
+              <span *ngIf="fileItem.uploadStatus === 'uploading'">Uploading...</span>
+              <span *ngIf="fileItem.uploadStatus === 'success'">Upload complete</span>
+              <span *ngIf="fileItem.uploadStatus === 'error'" class="error-message">
+                {{ fileItem.uploadError }}
+              </span>
+            </small>
+          </div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn btn-link text-danger" (click)="removeFile(fileItem.id, $event)" 
+                  [disabled]="fileItem.uploadStatus === 'uploading'">
+            <i class="fa fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

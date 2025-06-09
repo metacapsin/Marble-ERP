@@ -860,7 +860,7 @@
                             </div>
                           </div>
   
-                          <div class="row mt-4" *ngIf="editNewPurchaseForm.get('taxable')?.value">
+                          <div class="row mt-4" *ngIf="SlabItemDetails.taxApplied > 0">
                             <div class="col-md-6 col-xl-6 checkbox">
                               <p-checkbox [binary]="true" class="m-r-10" formControlName="isTaxVendor" (onChange)="changeVaidationForTaxVendor()">
                               </p-checkbox>

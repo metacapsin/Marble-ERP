@@ -9,6 +9,13 @@ import { routes } from "src/app/shared/routes/routes";
 import { MessageService } from "primeng/api";
 import { WarehouseService } from "../../warehouse/warehouse.service";
 import { validationRegex } from "src/app/core/validation";
+import { BankAccountsService } from "../../bank-accounts/bank-accounts.service";
+
+interface BankAccount {
+  _id: string;
+  bankName: string;
+  accountNumber: string;
+}
 
 @Component({
   selector: "app-add-billing-Address",
@@ -24,6 +31,7 @@ export class AddBillingAddressComponent implements OnInit {
   public passwordClass = false;
   wareHousedata: any = [];
   wareHouseLists = [];
+  bankAccounts: BankAccount[] = [];
 
   // Regex pattern
 
@@ -49,7 +57,8 @@ export class AddBillingAddressComponent implements OnInit {
     private fb: UntypedFormBuilder,
     private Addusersdata: BillingAddressService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private bankAccountsService: BankAccountsService
   ) {
     this.addBillingAddress = this.fb.group({
       city: [
@@ -95,10 +104,12 @@ export class AddBillingAddressComponent implements OnInit {
       taxNo: [""],
       termsAndCondition: [""],
       subjectTo: [""],
+      associatedBankAccount: ['', [Validators.required]]
     });
   }
   ngOnInit(): void {
     this.getStates()
+    this.getBankAccounts()
     this.Addusersdata.getCountries().subscribe((resp: any) => {
       this.countriesList = [];
       this.orgCountriesList = resp.data;
@@ -115,9 +126,10 @@ export class AddBillingAddressComponent implements OnInit {
   }
 
   addBillingAddressFrom() {
-    this.Addusersdata.createBillingAddress(
-      this.addBillingAddress.value
-    ).subscribe((resp: any) => {
+    const formData = this.addBillingAddress.value;
+
+
+    this.Addusersdata.createBillingAddress(formData).subscribe((resp: any) => {
       console.log(resp);
       if (resp) {
         if (resp.status === "success") {
@@ -142,5 +154,38 @@ export class AddBillingAddressComponent implements OnInit {
     this.Addusersdata.getstates().subscribe((resp: any) => {
       this.StatesList = resp.data;
     });
+  }
+
+  getBankAccounts(): void {
+    this.bankAccountsService.getBankAccountsList().subscribe({
+      next: (response: any) => {
+        if (response.status === 'success') {
+          // Map the response to include only required fields
+          this.bankAccounts = response.data.map((account: any) => ({
+            _id: account._id,
+            bankName: account.bankName,
+            accountNumber: account.accountNumber
+          }));
+          console.log('Bank Accounts:', this.bankAccounts); // For debugging
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: response.message || 'Failed to fetch bank accounts'
+          });
+        }
+      },
+      error: (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: error.message || 'Failed to fetch bank accounts'
+        });
+      }
+    });
+  }
+
+  getBankAccountLabel(bankAccount: BankAccount): string {
+    return `${bankAccount.bankName} (${bankAccount.accountNumber.slice(-4)})`;
   }
 }

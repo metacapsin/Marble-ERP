@@ -5,11 +5,11 @@
       <form [formGroup]="lotAddForm" (ngSubmit)="LotAddFormSubmit()">
         <div class="row">
           <div class="col-md-6 col-sm-12">
-            <h3>Add Lot Details</h3>
+            <h3>Lot Details :</h3>
           </div>
         </div>
         <div class="row mt-3">
-          <div class="col-12 col-md-6 col-xl-6">
+          <div class="col-12 col-md-4 col-xl-4">
             <div class="form-group local-forms">
               <label for="lotNo">Lot Number <span class="login-danger">*</span></label>
               <input class="form-control" type="text" placeholder="Enter Lot Number" formControlName="lotNo" />
@@ -27,7 +27,7 @@
               </div>
             </div>
           </div>
-          <div class="col-12 col-md-6 col-xl-6">
+          <div class="col-12 col-md-4 col-xl-4">
             <div class="form-group local-forms">
               <label for="lotName">Lot Name <span class="login-danger">*</span></label>
               <input class="form-control" type="text" placeholder="Enter Lot Name" formControlName="lotName" />
@@ -45,7 +45,7 @@
               </div>
             </div>
           </div>
-          <div class="col-12 col-md-6 col-xl-6">
+          <!-- <div class="col-12 col-md-6 col-xl-6">
             <div class="form-group local-forms">
               <label for="vehicleNo">Vehicle Number</label>
               <input class="form-control" type="text" placeholder="Enter Vehicle Number" formControlName="vehicleNo" />
@@ -64,7 +64,6 @@
                 placeholder="Select Warehouse" formControlName="warehouse" [style]="{ width: '100%' }" [filter]="true"
                 filterBy="name" [showClear]="true">
               </p-dropdown>
-              <!-- {{ lotAddForm.get('warehouse')?.value}} -->
               <div *ngIf="
                   lotAddForm.get('warehouse')?.hasError('required') &&
                   lotAddForm.get('warehouse')?.touched
@@ -109,11 +108,11 @@
                 <span class="login-danger">Field is required.</span>
               </div>
             </div>
-          </div>
+          </div> -->
 
-          <div class="col-12 col-md-6 col-xl-6">
+          <div class="col-12 col-md-4 col-xl-4">
             <div class="form-group local-forms">
-              <label for="lotWeight">Lot Weight (Ton) <span class="login-danger">*</span></label>
+              <label for="lotWeight">Lot Weight/Ton<span class="login-danger">*</span></label>
               <input class="form-control" type="number" placeholder="Enter Lot Weight In Ton"
                 (change)="calculateTotalAmount()" formControlName="lotWeight" />
               <div *ngIf="
@@ -134,7 +133,7 @@
             </div>
           </div>
 
-          <div class="col-12 col-md-6">
+          <div class="col-12 col-md-4">
             <div class="form-group local-forms">
               <label for="pricePerTon">Price / Ton<span class="login-danger">*</span></label>
               <div class="input-group">
@@ -165,7 +164,7 @@
               </div>
             </div>
           </div>
-          <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+          <!-- <div class="col-xl-6 col-md-6 col-sm-12 col-12">
             <div class="form-group local-forms">
               <label for="customer">Taxable Amount</label>
               <p-inputGroup>
@@ -202,11 +201,6 @@
             <div class="form-group local-forms">
               <label for="nonTaxableAmount">Non-Taxable Amount </label>
               <div class="input-group">
-                <!-- <div class="input-group-prepend">
-                  <span class="input-group-text">₹</span>
-                </div> -->
-                <!-- <input type="number" formControlName="nonTaxableAmount" (change)="calculateTotalAmount()"
-                  class="form-control" placeholder="Enter Non-Taxable Amount" /> -->
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text">₹</span>
@@ -226,11 +220,6 @@
             </div>
           </div>
 
-          <!-- <div
-            *ngIf="(lotAddForm.get('taxableAmount').touched || lotAddForm.get('nonTaxableAmount').touched) && lotAddForm.hasError('atLeastOneRequired')"
-            class="col-xl-6 col-md-6 ">
-            <span class="login-danger">At least one of "Taxable Amount" or "Non-Taxable Amount" must be filled.</span>
-          </div> -->
 
           <div class="col-xl-6 col-md-6 col-sm-12 col-12">
             <div class="form-group local-forms">
@@ -342,14 +331,15 @@
                 </span>
               </div>
             </div>
-          </div>
+          </div> -->
 
-          <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+          <div class="col-xl-8 col-md-8 col-sm-12 col-12 text-end">
             <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10 mb-3"
-              (click)="addBlockDialog()" [disabled]="!lotAddForm.valid">
+              (click)="addBlockDialog()" >
               Add Block
             </button>
           </div>
+
         </div>
       </form>
     </div>
@@ -364,7 +354,7 @@
               <h3>Block List</h3>
             </div>
 
-            <div class="row practice-card">
+            <!-- <div class="row practice-card">
               <div class="col-xl-6 col-lg-6 col-sm-6 d-none">
                 <div class="form-group row mb-2">
                   <h5 class="col-lg-6 col-md-6 col-xl-6 col-form-label heading-bold">
@@ -416,7 +406,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
 
           <div class="row p-2">
@@ -479,7 +469,10 @@
                                 </p>
                               </div>
                             </div>
-                            <div class="form-group row mb-2">
+                         
+                          </div>
+                          <div class="col-xl-6 col-lg-6 col-sm-12">
+                               <div class="form-group row mb-2">
                               <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                                 Weight (Ton)
                               </h5>
@@ -489,8 +482,6 @@
                                 </p>
                               </div>
                             </div>
-                          </div>
-                          <div class="col-xl-6 col-lg-6 col-sm-12">
                             <div *ngIf="data?.blockProcessor?.name" class="form-group row mb-2">
                               <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                                 Block Processor
@@ -511,7 +502,7 @@
                                 </p>
                               </div>
                             </div>
-                            <div class="form-group row mb-2">
+                            <!-- <div class="form-group row mb-2">
                               <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                                 Transportation
                               </h5>
@@ -532,7 +523,7 @@
                                   {{ data.royaltyCosting?.toFixed(3) }}
                                 </p>
                               </div>
-                            </div>
+                            </div> -->
                             <div class="form-group row mb-2">
                               <h5 class="col-lg-3 col-md-3 col-xl-3 col-form-label">
                                 Total Costing
@@ -562,8 +553,45 @@
   <div class="modal-content">
     <div class="modal-body">
       <form #myForm="ngForm">
-        <div class="row">
+        <div class="row pt-4">
           <!-- Block Number Field -->
+            <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="category">Category <span class="login-danger">*</span></label>
+              <p-dropdown [options]="CategoryListsEditArray" styleClass="" appendTo="body" optionLabel="name"
+                optionValue="_id" placeholder="Select Category" formControlName="categoryDetail"
+                [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="false"
+                (onChange)="findSubCategory($event.value)">
+              </p-dropdown>
+              <div *ngIf="
+                  lotAddForm
+                    .get('categoryDetail')
+                    ?.hasError('required') &&
+                  lotAddForm.get('categoryDetail')?.touched
+                ">
+                <span class="login-danger">Field is required.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="form-group local-forms">
+              <label for="subCategory">Sub Category <span class="login-danger">*</span></label>
+              <p-dropdown [options]="subCategorListByCategory" styleClass="" appendTo="body" optionValue="_id"
+                placeholder="Select Sub Category" optionLabel="name" formControlName="subCategoryDetail"
+                [style]="{ width: '100%' }" [filter]="true" filterBy="name" [showClear]="false">
+              </p-dropdown>
+              <div *ngIf="
+                  lotAddForm
+                    .get('subCategoryDetail')
+                    ?.hasError('required') &&
+                  lotAddForm.get('subCategoryDetail')?.touched
+                ">
+                <span class="login-danger">Field is required.</span>
+              </div>
+            </div>
+          </div>
+
           <div class="col-12 col-md-6 col-xl-6 mt-2">
             <div class="form-group local-forms">
               <label for="blockNo">Block Number<span class="login-danger">*</span></label>

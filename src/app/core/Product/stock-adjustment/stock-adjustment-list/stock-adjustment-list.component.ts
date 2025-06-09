@@ -216,6 +216,7 @@ export class StockAdjustmentListComponent implements OnInit {
             slabNo: element.slabNo,
             // totalSQFT: element.totalSQFT,
           },
+          disabled: element.totalSQFT === 0 
         }));
       }
     );
@@ -275,6 +276,7 @@ export class StockAdjustmentListComponent implements OnInit {
           const message = "Stock Adjustment has been added";
           this.messageService.add({ severity: "success", detail: message });
           this.getAdjustmentList();
+          this.slabData = [];
         } else {
           const message = resp.message;
           this.messageService.add({ severity: "error", detail: message });

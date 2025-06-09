@@ -286,6 +286,11 @@ export class DataService {
               route: routes.taxVendors,
               base: routes.taxVendors,
             },
+            {
+              menuValue: "General Parties",
+              route: routes.generalParties,
+              base: routes.generalParties,
+            },
           ],
         },
         {

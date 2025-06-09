@@ -59,11 +59,14 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    FileUploadComponent
+  ],
   imports: [
     CommonModule,
     NgxBootstrapModule,
@@ -133,13 +136,13 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
     MatPaginatorModule,
     MatIconModule,
     MatTabsModule,
+    InputGroupAddonModule,
     MatCheckboxModule,
     MatRadioModule,
-    TotalValueDirective
-    
-
-    
-    
+    TotalValueDirective,
+    CarouselModule,
+    MatIconModule,
+    MatButtonModule
   ],
   exports: [
     SelectButtonModule,
@@ -196,14 +199,10 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
     MatTabsModule,
     InputGroupModule,
     MatCheckboxModule,
-MatRadioModule,
-TotalValueDirective,
-CarouselModule,
-    
-
-    
-    
-
+    MatRadioModule,
+    TotalValueDirective,
+    CarouselModule,
+    FileUploadComponent
   ],
   providers: [DataService,MessageService],
 })

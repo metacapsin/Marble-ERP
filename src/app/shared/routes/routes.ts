@@ -1,4 +1,3 @@
-
 export class routes {
 
   private static Url = '';
@@ -220,7 +219,7 @@ export class routes {
     return this.baseUrl + '/invoice/invoices-grid';
   }
   public static get allInvoice(): string {
-    return this.baseUrl + '/invoice/all-invoice';
+    return this.baseUrl + '/dashboard/admin-dashboard';
   }
   public static get invoicesCancelled(): string {
     return this.baseUrl + '/invoice/invoices-cancelled';
@@ -740,5 +739,25 @@ export class routes {
   }
   public static get editbillingAddress(): string {
     return this.baseUrl + '/settings/billing-Address/edit-billing-Address';
+  }
+
+  public static get bankAccounts(): string {
+    return this.baseUrl + '/settings/bank-accounts';
+  }
+
+  public static get generalParties(): string {
+    return this.baseUrl + '/general-parties';
+  }
+
+  public static get addGeneralParties(): string {
+    return this.baseUrl + '/general-parties/add-general-parties';
+  }
+
+  public static get editGeneralParties(): string {
+    return this.baseUrl + '/general-parties/edit-general-parties';
+  }
+
+  public static get viewGeneralParties(): string {
+    return this.baseUrl + '/general-parties/view-general-parties';
   }
 }

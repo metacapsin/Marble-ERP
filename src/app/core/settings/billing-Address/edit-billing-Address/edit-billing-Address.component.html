@@ -429,7 +429,37 @@
                       </div>
                     </div>
                   </div>
-
+                  <div class="col-12 col-md-6 col-xl-6">
+                    <div class="form-group local-forms">
+                      <label for="associatedBankAccount">Associated Bank Account <span class="login-danger">*</span></label>
+                      <p-dropdown
+                        [options]="bankAccounts"
+                        appendTo="body"
+                        optionLabel="bankName"
+                        placeholder="Select Bank Account"
+                        formControlName="associatedBankAccount"
+                        [style]="{ width: '100%' }"
+                        [filter]="true"
+                        filterBy="bankName"
+                        [showClear]="true">
+                        <ng-template let-option pTemplate="item">
+                          <div>{{ getBankAccountLabel(option) }}</div>
+                        </ng-template>
+                        <ng-template let-option pTemplate="selectedItem">
+                          <div>{{ getBankAccountLabel(option) }}</div>
+                        </ng-template>
+                      </p-dropdown>
+                      <div
+                        *ngIf="
+                          editBillingAddress.get('associatedBankAccount')?.hasError('required') &&
+                          editBillingAddress.get('associatedBankAccount')?.touched
+                        "
+                        class="login-danger Font_size"
+                      >
+                        Field is required.
+                      </div>
+                    </div>
+                  </div>
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
                       <label for="termsAndCondition">Terms & Conditions</label>
@@ -453,6 +483,8 @@
                         formControlName="subjectTo" />
                     </div>
                   </div>
+
+                
 
                   <div class="col-12 col-md-6 col-xl-6">
                     <div class="doctor-submit">

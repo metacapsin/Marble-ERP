@@ -261,6 +261,7 @@
                       </div>
                     </div>
                   </div>
+                
                   <div class="col-xl-3 col-md-6 col-sm-12 col-12">
                     <div class="form-group local-forms">
                       <label for="salesDate"
@@ -327,6 +328,23 @@
                       </div>
                     </div>
                   </div>
+                  <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+                    <div class="form-group local-forms">
+                      <label for="salesPerson">Salesperson</label>
+                      <p-multiSelect
+                          [options]="salesPersonList"
+                          [style]="{ width: '100%' }"
+                          placeholder="Select Sales Person"
+                          formControlName="salesPerson"
+                          optionLabel="name"
+                          display="chip"
+                          [filter]="true"
+                          filterBy="name"
+                          appendTo="body"
+                          [maxSelectedLabels]="3"
+                        ></p-multiSelect>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -363,11 +381,11 @@
                               [style]="{ width: '100%' }"
                               optionLabel="name"
                               [filter]="true"
-                              filterBy="slabName"
+                              filterBy="name"
                               optionValue="_id"
                               formControlName="salesWarehouseDetails"
                               placeholder="Select Warehouse"
-                              (onChange)="onWareHouseSelect($event.value, i)"
+                              (onChange)="onWareHouseSelect($event.value, i, true)"
                             ></p-dropdown>
                             <div
                               *ngIf="
@@ -401,10 +419,19 @@
                               [filter]="true"
                               filterBy="displayLabel"
                               optionValue="_id"
+                              name="salesItemProduct"
                               formControlName="salesItemProduct"
                               placeholder="Select Product"
                               (onChange)="onSlabSelect($event.value, i)"
-                            ></p-dropdown>
+                            >
+
+                            <ng-template let-option pTemplate="item">
+                              <div [ngClass]="{ 'disabled-item': option.totalSQFT === 0 }">
+                                {{ option.displayLabel }}
+                              </div>
+                            </ng-template>
+
+                          </p-dropdown>
                             <div
                               *ngIf="
                                 editSalesForm
@@ -850,6 +877,60 @@
                       role="tablist"
                       aria-multiselectable="true"
                     >
+                      <div class="faq-tab">
+                        <div class="panel panel-default">
+                          <div class="panel-heading" role="tab" id="headingThree">
+                            <p class="panel-title">
+                              <a
+                                class="collapsed"
+                                data-bs-toggle="collapse"
+                                data-bs-parent="#accordion"
+                                href="#collapseFour"
+                                [attr.aria-expanded]="attachments.length > 0 ? 'true' : 'false'"
+                                aria-controls="collapseFour"
+                              >
+                                <i class="fas fa-plus-circle me-1"></i> Add
+                                Attachments
+                              </a>
+                            </p>
+                          </div>
+                          <div
+                            id="collapseFour"
+                            class="panel-collapse collapse"
+                            [ngClass]="{'show': attachments.length > 0}"
+                            role="tabpanel"
+                            aria-labelledby="headingThree"
+                            data-bs-parent="#accordion"
+                          >
+                            <div class="panel-body">
+                              <!-- Display existing attachments -->
+                              <div class="existing-attachments mb-3" *ngIf="attachments.length > 0">
+                                <h6 class="mb-2">Existing Attachments:</h6>
+                                <div class="attachment-list">
+                                  <div class="attachment-item d-flex align-items-center mb-2" *ngFor="let attachment of attachments">
+                                    <i class="fas fa-file me-2"></i>
+                                    <span class="attachment-name text-truncate" style="max-width: 400px;" title="{{ attachment.name }}">{{ attachment.name }}</span>
+                                    <div class="ms-auto">
+                                      <button class="btn btn-sm btn-info me-2" (click)="viewAttachment(attachment)">
+                                        <i class="fas fa-eye"></i>
+                                      </button>
+                                      <button class="btn btn-sm btn-danger" (click)="deleteAttachment(attachment)">
+                                        <i class="fas fa-trash"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- File upload component -->
+                              <app-file-upload 
+                                type="sales" 
+                                (filesChanged)="salesFilesChangedHandler($event)"
+                                (uploadComplete)="salesUploadCompleteHandler($event)">
+                              </app-file-upload>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                       <div class="faq-tab">
                         <div class="panel panel-default">
                           <div class="panel-heading" role="tab" id="headingTwo">
@@ -1394,6 +1475,7 @@
   </div>
 </div>
 <p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
 
 <p-dialog
   header="E-Way Bill Form"
@@ -1570,4 +1652,87 @@
       </div>
     </div>
   </form>
+</p-dialog>
+
+<p-dialog
+  header="Delete Attachment"
+  [(visible)]="displayDeleteConfirmDialog"
+  [modal]="true"
+  [closable]="true"
+  [responsive]="true"
+  [style]="{ width: '30%' }"
+>
+  <div class="p-fluid mt-2">
+    <div class="col-12 col-md-12 col-xl-12">
+      <p>Are you sure you want to delete this attachment?</p>
+    </div>
+
+    <div class="d-flex justify-content-evenly">
+      <div class="w-50"></div>
+      <div class="d-flex w-75">
+        <button
+          (click)="closeDeleteConfirmDialog()"
+          type="button"
+          class="btn btn-secondary w-75"
+          pButton
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger mx-2 w-75"
+          pButton
+          (click)="confirmDelete()"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+
+<!-- File Preview Dialog -->
+<p-dialog
+  [header]="previewFileName"
+  [(visible)]="displayFilePreviewDialog"
+  [modal]="true"
+  [closable]="true"
+  [responsive]="true"
+  [style]="{ width: '80%', height: '80%' }"
+  (onHide)="closeFilePreview()"
+>
+  <div class="file-preview-container" style="height: calc(100% - 60px);">
+    <!-- PDF Preview -->
+    <ng-container *ngIf="previewFileType === 'pdf'">
+      <iframe 
+        [src]="previewFileUrl | safe" 
+        style="width: 100%; height: 100%; border: none;"
+        type="application/pdf"
+        title="PDF Preview">
+      </iframe>
+    </ng-container>
+
+    <!-- Image Preview -->
+    <ng-container *ngIf="previewFileType === 'image'">
+      <img [src]="previewFileUrl" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+    </ng-container>
+
+    <!-- Other File Types -->
+    <ng-container *ngIf="previewFileType === 'other'">
+      <div class="text-center p-4">
+        <i class="fas fa-file fa-3x mb-3"></i>
+        <p>Preview not available for this file type</p>
+      </div>
+    </ng-container>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-muted">{{ previewFileName }}</span>
+      <div>
+        <button pButton type="button" label="Download" icon="pi pi-download" class="p-button-primary" (click)="downloadPreviewFile()"></button>
+        <button pButton type="button" label="Close" icon="pi pi-times" class="p-button-secondary ml-2" (click)="closeFilePreview()"></button>
+      </div>
+    </div>
+  </ng-template>
 </p-dialog>

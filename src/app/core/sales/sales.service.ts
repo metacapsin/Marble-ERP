@@ -67,4 +67,8 @@ export class SalesService {
       .get(url, { responseType: "blob" })
       .pipe(catchError(this.handleError));
   }
+
+  getSalesPersonList() {
+    return this.http.get(`${environment.apiUrl}/sales/salesperson`);
+  }
 }

@@ -3,13 +3,19 @@
     <form [formGroup]="slabAddForm" (ngSubmit)="slabAddFormSubmit()">
         <div class="row">
             <div class="col-sm-12">
-                <div class="row">
+                <div *ngIf="tab == 'product'" class="row">
                     <div class="col-md-6 col-sm-12">
                         <h3>Add Slab Details</h3>
                     </div>
+                    <div class="col-md-6 col-sm-12 text-end">
+                        <button [disabled]="addSlabdisableBtn" type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
+                            (click)="addSlabDialog()">
+                            Add Slab
+                        </button>
+                    </div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-12 col-md-6">
+                    <!-- <div class="col-12 col-md-6">
                         <div class="form-group local-forms">
                             <label for="vehicleNo">Vehicle Number</label>
                             <input class="form-control" type="text" placeholder="Enter Vehicle Number"
@@ -26,176 +32,101 @@
                                 placeholder="Select Warehouse" formControlName="warehouse" [style]="{ width: '100%' }"
                                 [filter]="true" filterBy="name" [showClear]="true">
                             </p-dropdown>
-                            <!-- {{ slabAddForm.get('warehouse')?.value}} -->
                             <div *ngIf="setValidations('warehouse')">
                                 <span class="login-danger">Field is required.</span>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
 
-                    <div class="col-12">
+                    <!-- <div class="col-12">
                         <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10 mb-3"
                             (click)="addSlabDialog()" [disabled]="!slabAddForm.get('warehouse')?.value">
                             Add Slab
                         </button>
-                        <!-- [disabled]="!slabAddForm.valid" -->
-                    </div>
+                    </div> -->
+                    <!-- <div class="col-12 text-end">
+                        <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10 mb-3"
+                            (click)="addSlabDialog()">
+                            Add Slab
+                        </button>
+                    </div> -->
+
                 </div>
 
             </div>
         </div>
 
-        <div class="row" *ngIf="slabDetails?.length > 0">
-            <div class="col-sm-12">
-                <div class="card card-table">
-                    <div class="card-body">
-                        <div class="page-table-header mb-2">
-                            <div class="d-flex m-b-10" style="justify-content: space-between">
-                                <h3>Slab List</h3>
-                            </div>
+        <form [formGroup]="expensesForm">
+            <p-accordion *ngIf="tab == 'purchase'" [activeIndex]="0">
+                <p-accordionTab>
+                    <ng-template pTemplate="header">
+                        <div class="d-flex justify-content-between align-items-center w-100">
+                            <span class="font-bold">Expenses</span>
+                            <button pButton type="button" icon="fa fa-plus" class="p-button-text p-0"
+                                (click)="addExpense($event)"></button>
                         </div>
+                    </ng-template>
 
-                        <div class="row p-2">
-                            <p-accordion [activeIndex]="[0]" [multiple]="true">
-                                <p-accordionTab *ngFor="let data of slabDetails; let i = index; trackBy: trackByFn">
-                                    <ng-template pTemplate="header">
-                                        <span class="d-flex justify-content-between w-full">
-                                            <span class="font-bold white-space-nowrap">
-                                                Slab Number: {{ data?.slabNo }}
-                                            </span>
-                                            <p-button [text]="true" styleClass="w-2rem h-2rem p-0" icon="fa fa-trash"
-                                                (click)="deleteAccordian(i)"></p-button>
-                                        </span>
-                                    </ng-template>
-
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="card card-table show-entire">
-                                                <div class="page-table-header mb-2 m-3">
-                                                    <div class="row practice-card">
-                                                        <div class="col-xl-6 col-lg-6 col-sm-12">
-                                                            <div class="form-group row mb-2">
-                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                                                    Slab Name
-                                                                </h5>
-                                                                <div class="col-lg-8 col-md-8 col-xl-8">
-                                                                    <p class="col-form-label">
-                                                                        {{ data?.slabName ?? ' -- '?? '--' }}
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row mb-2">
-                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                                                    Length (Inch)
-                                                                </h5>
-                                                                <div class="col-lg-8 col-md-8 col-xl-8">
-                                                                    <p class="col-form-label">
-                                                                        {{ data?.length ?? ' -- '}}
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row mb-2">
-                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                                                    Width (Inch)
-                                                                </h5>
-                                                                <div class="col-lg-8 col-md-8 col-xl-8">
-                                                                    <p class="col-form-label">{{ data?.width ?? ' -- '}}
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row mb-2">
-                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                                                    Thickness
-                                                                </h5>
-                                                                <div class="col-lg-8 col-md-8 col-xl-8">
-                                                                    <p class="col-form-label">
-                                                                        {{ data?.thickness ?? ' -- '}}
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row mb-2">
-                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                                                    Finishes
-                                                                </h5>
-                                                                <div class="col-lg-8 col-md-8 col-xl-8">
-                                                                    <p class="col-form-label">
-                                                                        {{ data?.finishes.name ?? ' -- ' }}
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xl-6 col-lg-6 col-sm-12">
-                                                            <div class="form-group row mb-2">
-                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                                                  Quantity (Square Feet)
-                                                                </h5>
-                                                                <div class="col-lg-8 col-md-8 col-xl-8">
-                                                                  <p class="col-form-label">
-                                                                    {{ data?.totalSQFT ?? " -- " }}
-                                                                  </p>
-                                                                </div>
-                                                              </div>
-                                                            <div class="form-group row mb-2">
-                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                                                    Rate / Sq. Feet
-                                                                </h5>
-                                                                <div class="col-lg-8 col-md-8 col-xl-8">
-                                                                    <p class="col-form-label">
-                                                                        ₹ {{ data?.ratePerSqFeet ?? ' -- '}}
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row mb-2">
-                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                                                    Total Amount
-                                                                </h5>
-                                                                <div class="col-lg-8 col-md-8 col-xl-8">
-                                                                    <p class="col-form-label">
-                                                                        ₹ {{ data?.totalCosting ?? ' -- '}}
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row mb-2">
-                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                                                    Number of Pieces
-                                                                </h5>
-                                                                <div class="col-lg-8 col-md-8 col-xl-8">
-                                                                    <p class="col-form-label">
-                                                                        {{ data?.noOfPieces ?? ' -- '}}
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                       
-                                                            <div class="form-group row mb-2">
-                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                                                    Cost Per SQFT
-                                                                </h5>
-                                                                <div class="col-lg-8 col-md-8 col-xl-8">
-                                                                    <p class="col-form-label">
-                                                                        ₹ {{ data?.costPerSQFT ?? ' -- '}}
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                    <div class="row">
+                        <div class="expenses-content" *ngIf="expensesExpanded">
+                            <table class="expenses-table w-100" formArrayName="expenses">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Payment</th>
+                                        <th>Paid by:</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let expense of expenses.controls; let i = index" [formGroupName]="i">
+                                        <td>
+                                            <p-dropdown [options]="expenseTypeOptions" formControlName="type"
+                                                placeholder="Select Type" (onChange)="calculateTotalAmount()"
+                                                optionLabel="name" optionValue="value" styleClass="w-100"
+                                                appendTo="body">
+                                            </p-dropdown>
+                                        </td>
+                                        <td>
+                                            <div class="input-with-icon">
+                                                <input type="text" pInputText formControlName="payment"
+                                                    (change)="calculateTotalAmount()" class="form-control">
+                                                <span class="input-icon">₹</span>
                                             </div>
-                                        </div>
-                                    </div>
-                                </p-accordionTab>
-                            </p-accordion>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-3">
+                                                <p-radioButton [name]="'paidBy'" [value]="'self'" [formControlName]="'paidBy'" (onClick)="updatePaidBy(i, 'self')">
+                                                </p-radioButton>
+                                                <label class="me-3">Self</label>
+
+                                                <p-radioButton [name]="'paidBy'" [value]="'supplier'" [formControlName]="'paidBy'"
+                                                    (onClick)="updatePaidBy(i, 'supplier')">
+                                                </p-radioButton>
+                                                <label>Supplier</label>
+                                            </div>
+
+                                        </td>
+                                        <td class="text-center">
+                                            <button pButton type="button" icon="fa fa-trash"
+                                                class="p-button-text p-button-danger" (click)="removeExpense(i)">
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                </p-accordionTab>
+            </p-accordion>
+        </form>
 
 
-        <div class="row mt-3" *ngIf="slabDetails?.length > 0">
-            <div class="col-md-12 col-sm-12 col-12">
-                <h3>More Details</h3>
-            </div>
+        <div class="row mt-3" *ngIf="slabDetails?.length > 0 && tab == 'purchase'">
+            <!-- <div class="col-md-12 col-sm-12 col-12">
+                <h3>Purchase</h3>
+            </div> -->
             <div class="mt-3 row">
                 <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
@@ -208,16 +139,12 @@
                                 optionValue="orderNamevalue" display="chip"
                                 (onChange)="calculateTotalAmount()"></p-multiSelect>
                         </p-inputGroup>
-                        <!-- <div *ngIf="taxableAmount">
-                            <span class="login-danger">Non-Taxable Amount and Taxable Amount should be equal to Total
-                                Amount (Paid to Supplier)</span>
-                        </div> -->
                         <div *ngIf="
     slabAddForm.hasError('taxRequired') && 
     slabAddForm.get('taxableAmount')?.touched
   ">
-  <span class="login-danger">Please apply tax.</span>
-</div>
+                            <span class="login-danger">Please apply tax.</span>
+                        </div>
                         <div *ngIf=" (slabAddForm.get('taxableAmount')?.hasError('min') &&
               slabAddForm.get('taxableAmount')?.touched) ||
             (slabAddForm.get('taxableAmount')?.hasError('max') &&
@@ -236,8 +163,6 @@
                 <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
                         <label for="finishes">Non-Taxable Amount</label>
-                        <!-- <input class="form-control" type="number" placeholder="Enter Non-Taxable Amount"
-                            formControlName="nonTaxableAmount" (onChange)="calculateTotalAmount()" /> -->
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">₹</span>
@@ -295,7 +220,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-md-6 col-xl-6">
+                <!-- <div class="col-12 col-md-6 col-xl-6">
                     <div class="form-group local-forms">
                         <label for="transportationCharge">Transportation Charges</label>
                         <div class="input-group">
@@ -332,9 +257,161 @@
                             </span>
                         </div>
                     </div>
+                </div> -->
+            </div>
+        </div>
+
+        <div class="row" *ngIf="slabDetails?.length > 0">
+            <div class="col-sm-12">
+                <div class="card card-table">
+                    <div class="card-body">
+                        <div class="page-table-header mb-2">
+                            <div class="d-flex m-b-10" style="justify-content: space-between">
+                                <h3>Slab List</h3>
+                            </div>
+                        </div>
+
+                        <div class="row p-2">
+                            <p-accordion [activeIndex]="[0]" [multiple]="true">
+                                <p-accordionTab *ngFor="let data of slabDetails; let i = index; trackBy: trackByFn">
+                                    <ng-template pTemplate="header">
+                                        <span class="d-flex justify-content-between w-full">
+                                            <span class="font-bold white-space-nowrap">
+                                                Slab Number: {{ data?.slabNo }}
+                                            </span>
+                                            <p-button *ngIf="tab == 'product'" [text]="true"
+                                                styleClass="w-2rem h-2rem p-0" icon="fa fa-trash"
+                                                (click)="deleteAccordian(i)"></p-button>
+                                        </span>
+                                    </ng-template>
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card card-table show-entire">
+                                                <div class="page-table-header mb-2 m-3">
+                                                    <div class="row practice-card">
+                                                        <div class="col-xl-6 col-lg-6 col-sm-12">
+
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Length (Inch)
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">
+                                                                        {{ data?.length ?? ' -- '}}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Width (Inch)
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">{{ data?.width ?? ' -- '}}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Thickness
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">
+                                                                        {{ data?.thickness ?? ' -- '}}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Number of Pieces
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">
+                                                                        {{ data?.noOfPieces ?? ' -- '}}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Finishes
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">
+                                                                        {{ data?.finishes.name ?? ' -- ' }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-xl-6 col-lg-6 col-sm-12">
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Slab Name
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">
+                                                                        {{ data?.slabName ?? ' -- '?? '--' }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Quantity / Sq. Feet
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">
+                                                                        {{ data?.totalSQFT ? (data.totalSQFT |
+                                                                        number:'1.2-2') : '--' }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Rate / Sq. Feet
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">
+                                                                        ₹ {{ data?.ratePerSqFeet ?? ' -- '}}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Total Amount
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">
+                                                                        ₹ {{ data?.totalCosting ?? ' -- '}}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Cost Per SQFT
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">
+                                                                        ₹ {{ data?.costPerSQFT ?? ' -- '}}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
+
     </form>
     <div class="row" style="display: flex; justify-content: end;" *ngIf="slabAddForm.get('totalCost')?.value">
         <div class="col-md-4">
@@ -343,11 +420,19 @@
                 <div class="invoice-total-box">
                     <div class="invoice-total-inner">
                         <p *ngIf="slabAddForm.get('totalSQFT')?.value">
-                            Total Square Feet<span>
-                              {{ slabAddForm.get('totalSQFT').value }}
+                            Total Quantity (Sq. Feet)<span>
+                                {{ slabAddForm.get('totalSQFT').value | number:'1.2-2' }}
 
                             </span>
-                          </p>
+                        </p>
+                        <div class="invoice-total-inner">
+                            <p *ngIf="slabAddForm.get('ratePerSqFeet')?.value">
+                                Rate / Sq. Feet<span>
+                                    ₹ {{ slabAddForm.get('ratePerSqFeet').value }}
+
+                                </span>
+                            </p>
+                        </div>
                         <!-- <p *ngIf="slabAddForm.get('transportationCharge')?.value" class="mt-2">
                             Transportation Charges
                             <span>
@@ -414,28 +499,6 @@
             <form #myForm="ngForm">
                 <div>
                     <div class="row">
-                        <div class="col-12 col-md-6 col-xl-6">
-                            <div class="form-group local-forms">
-                                <label for="slabName">Marble / Stone Name</label>
-                                <input class="form-control" type="text" placeholder="Enter Marble / Stone Name"
-                                    pattern="^.{1,50}$" name="marbleName" [(ngModel)]="marbleName"
-                                    (change)="getSlabDetails()" #MARBLENAME="ngModel" />
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-6 col-xl-6">
-                            <div class="form-group local-forms">
-                                <label for="slabNumber">Slab Number <span class="login-danger">*</span></label>
-                                <input class="form-control" type="text" placeholder="Enter Slab Number"
-                                    pattern="^.{1,50}$" required name="slabNumber" [(ngModel)]="slabNumber"
-                                    (change)="getSlabDetails()" #SLABNUMBER="ngModel" />
-                                <div *ngIf="SLABNUMBER.invalid && (SLABNUMBER.dirty || SLABNUMBER.touched)">
-                                    <div *ngIf="SLABNUMBER.errors?.['required']">
-                                        <span class="login-danger">Slab Number is required.</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                         <div class="col-12 col-md-6 col-xl-6">
                             <div class="form-group local-forms">
@@ -459,24 +522,13 @@
                         <div class="col-12 col-md-6 col-xl-6">
                             <div class="form-group local-forms">
                                 <label for="subCategory">Sub Category<span class="login-danger">*</span></label>
-                                <p-dropdown 
-                                [options]="subCategorListByCategory" 
-                                styleClass="" 
-                                appendTo="body"
-                                placeholder="Select Sub Category" 
-                                optionLabel="name" 
-                                optionValue="_id" 
-                                (onChange)="getHsnCode($event.value)" 
-                                [style]="{ width: '100%' }" 
-                                [filter]="true" 
-                                filterBy="name" 
-                                [showClear]="false" 
-                                required 
-                                [(ngModel)]="subCategory" 
-                                name="subCategory" 
-                                #SUBCATEGORY="ngModel">
-                              </p-dropdown>
-                              
+                                <p-dropdown [options]="subCategorListByCategory" styleClass="" appendTo="body"
+                                    placeholder="Select Sub Category" optionLabel="name" optionValue="_id"
+                                    (onChange)="getHsnCode($event.value)" [style]="{ width: '100%' }" [filter]="true"
+                                    filterBy="name" [showClear]="false" required [(ngModel)]="subCategory"
+                                    name="subCategory" #SUBCATEGORY="ngModel">
+                                </p-dropdown>
+
                                 <!-- <div *ngIf="SUBCATEGORY.invalid && (SUBCATEGORY.dirty || SUBCATEGORY.touched)">
                                         <div *ngIf="SUBCATEGORY.errors?.['required']">
                                             <span class="login-danger">Sub Category is required.</span>
@@ -491,9 +543,50 @@
 
                         <div class="col-12 col-md-6 col-xl-6">
                             <div class="form-group local-forms">
+                                <label for="slabName">Stone Name</label>
+                                <input class="form-control" type="text" placeholder="Enter Marble / Stone Name"
+                                    pattern="^.{1,50}$" name="marbleName" [(ngModel)]="marbleName"
+                                    (change)="getSlabDetails(true)" #MARBLENAME="ngModel" />
+                            </div>
+                        </div>
+
+
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms position-relative">
+                                <label for="slabNumber">Slab Number <span class="login-danger">*</span></label>
+
+                                <div class="input-with-barcode">
+                                    <input class="form-control pr-5" type="text" pattern="^.{1,50}$" [disabled]="true"
+                                        name="slabNumber" [(ngModel)]="slabNumber" (change)="getSlabDetails(true)"
+                                        #SLABNUMBER="ngModel" />
+
+                                    <img *ngIf="slabNumber" (click)="openBarCodePopup()" src="assets/img/barcode.png"
+                                        alt="barcode" class="barcode-icon" />
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <!-- <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label for="finishes">Finishes</label>
+                                <p-dropdown [options]="finisheshList" styleClass="" appendTo="body" name="finishes"
+                                    placeholder="Select finishes" optionLabel="name" [style]="{ width: '100%' }"
+                                    [filter]="true" filterBy="name" [showClear]="true" [(ngModel)]="finishes"
+                                    #FINISHESH="ngModel">
+                                </p-dropdown>
+                            </div>
+                        </div> -->
+
+
+                        <h3 class="slab-specification">Slab Specification :</h3>
+
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
                                 <label for="noOfPieces">Number of Pieces <span class="login-danger">*</span> </label>
                                 <input class="form-control" type="number" placeholder="Enter Number of Pieces"
-                                    name="noOfPieces" (change)="getSlabDetails()" min="1" max="10000" required
+                                    name="noOfPieces" (change)="getSlabDetails(true)" min="1" max="10000" required
                                     [(ngModel)]="noOfPieces" #NOOFPIECES="ngModel" />
                                 <div *ngIf="NOOFPIECES.invalid && (NOOFPIECES.dirty || NOOFPIECES.touched)">
                                     <div *ngIf="NOOFPIECES.errors?.['required']">
@@ -515,7 +608,7 @@
                                         <span class="input-group-text">Inch</span>
                                     </div>
                                     <input class="form-control" type="number" id="length" name="length"
-                                        (change)="getSlabDetails()" min="1" max="500" placeholder="Enter Length"
+                                        (change)="getSlabDetails(true)" min="1" max="500" placeholder="Enter Length"
                                         [(ngModel)]="length" #LENGTH="ngModel" />
                                 </div>
                                 <div *ngIf="LENGTH.invalid && (LENGTH.dirty || LENGTH.touched)">
@@ -538,7 +631,7 @@
                                         <span class="input-group-text">Inch</span>
                                     </div>
                                     <input class="form-control" type="number" id="width" name="width"
-                                        (change)="getSlabDetails()" min="1" max="500" placeholder="Enter Width"
+                                        (change)="getSlabDetails(true)" min="1" max="500" placeholder="Enter Width"
                                         [(ngModel)]="width" #WIDTH="ngModel" />
                                 </div>
                                 <div *ngIf="WIDTH.invalid && (WIDTH.dirty || WIDTH.touched)">
@@ -561,7 +654,7 @@
                                         <span class="input-group-text">MM</span>
                                     </div>
                                     <input class="form-control" type="number" id="thickness" name="thickness"
-                                        (change)="getSlabDetails()" min="1" max="500" placeholder="Enter Thickness"
+                                        (change)="getSlabDetails(true)" min="1" max="500" placeholder="Enter Thickness"
                                         [(ngModel)]="thickness" #THISCKNESS="ngModel" />
                                 </div>
                                 <div *ngIf="THISCKNESS.invalid && (THISCKNESS.dirty || THISCKNESS.touched)">
@@ -575,31 +668,114 @@
                             </div>
                         </div>
 
-                        <div class="col-12 col-md-6 col-xl-6">
-                            <div class="form-group local-forms">
-                                <label for="finishes">Finishes</label>
-                                <p-dropdown [options]="finisheshList" styleClass="" appendTo="body" name="finishes"
-                                    placeholder="Select finishes" optionLabel="name" [style]="{ width: '100%' }"
-                                    [filter]="true" filterBy="name" [showClear]="true" [(ngModel)]="finishes"
-                                    #FINISHESH="ngModel">
-                                </p-dropdown>
-                            </div>
-                        </div>
+                        <p-accordion [activeIndex]="rows.length > 0 ? 0 : null">
+                            <p-accordionTab>
+                                <ng-template pTemplate="header">
+                                    <div class="header-flex">
+                                        <span>Slab Details</span>
+                                        <p-button [text]="true" styleClass="p-button-text add-btn" icon="fa fa-plus"
+                                            (click)="addRow();$event.stopPropagation()"></p-button>
+                                    </div>
+                                </ng-template>
+                                <div class="scrollable-table-wrapper">
+
+                                    <p-table [value]="rows" editable="true">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>Piece Number</th>
+                                                <th>Length (Inch)</th>
+                                                <th>Width (Inch)</th>
+                                                <th>Thickness (MM)</th>
+                                                <th>Quantity (Sq. Feet)</th>
+                                                <th style="width: 20%;">Finishes</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </ng-template>
+
+                                        <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
+                                            <tr>
+                                                <td>
+                                                    <input class="form-control" type="number" [disabled]="true"
+                                                        [(ngModel)]="rowData.pieceNumber" name="pieceNumber{{ri}}" />
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="number"
+                                                        [disabled]="!rowData.isEditing" [(ngModel)]="rowData.length"
+                                                        name="length{{ri}}" (input)="updateQuantity(rowData); calculateTotalQuantity()" />
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="number"
+                                                        [disabled]="!rowData.isEditing" [(ngModel)]="rowData.width"
+                                                        name="width{{ri}}" (input)="updateQuantity(rowData); calculateTotalQuantity()" />
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="number"
+                                                        [disabled]="!rowData.isEditing" min="1" max="500"
+                                                        [(ngModel)]="rowData.thickness" (change)="getSlabDetails(true)"
+                                                        name="thickness{{ri}}" />
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="number"
+                                                        [disabled]="!rowData.isEditing" [(ngModel)]="rowData.quantity"
+                                                        name="quantity{{ri}}"  (input)="calculateTotalQuantity()" />
+                                                </td>
+                                                <td>
+                                                    <p-dropdown [options]="finisheshList" optionLabel="name"
+                                                        [disabled]="!rowData.isEditing" [(ngModel)]="rowData.finish"
+                                                        name="finish{{ri}}" placeholder="Select Finish" appendTo="body">
+                                                    </p-dropdown>
+
+                                                </td>
+                                                <td>
+                                                    <ng-container *ngIf="!rowData.isEditing">
+                                                        <p-button icon="fa fa-pencil" styleClass="p-button-text"
+                                                            (click)="enableEdit(rowData)"></p-button>
+                                                        <p-button icon="fa fa-trash" styleClass="p-button-text"
+                                                            (click)="deleteRow(ri)"></p-button>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="rowData.isEditing">
+                                                        <p-button icon="fa fa-save" styleClass="p-button-text"
+                                                            (click)="saveRow(rowData)"></p-button>
+                                                        <p-button icon="fa fa-times" styleClass="p-button-text"
+                                                            (click)="cancelEdit(rowData)"></p-button>
+                                                    </ng-container>
+                                                </td>
+
+                                                <!-- <td>
+                                                <p-button [text]="true" styleClass="p-button-text" icon="fa fa-pencil"
+                                                    (click)="addRow()"></p-button>
+                                                <p-button [text]="true" styleClass="p-button-text  p-button-danger"
+                                                    icon="fa fa-trash" (click)="deleteRow(ri)"></p-button>
+                                            </td> -->
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+                            </p-accordionTab>
+                        </p-accordion>
+
+
+
+
+
+                        <h3 class="slab-specification">Price :</h3>
+
 
                         <div class="col-12 col-md-6 col-xl-6">
                             <div class="form-group local-forms">
-                                <label for="quantity">Quantity (Sq. Feet) <span class="login-danger">*</span> </label>
-                                <input class="form-control" type="number" name="quantity" (change)="getSlabDetails()"
-                                    min="1" max="1000000" placeholder="Enter Quantity" [(ngModel)]="quantity" required
-                                    #QUANTITY="ngModel" />
-                                <div *ngIf="QUANTITY.invalid && (QUANTITY.dirty || QUANTITY.touched)">
+                                <label for="quantity">Total Quantity (Sq. Feet) <span class="login-danger">*</span>
+                                </label>
+                                <input class="form-control" type="number" name="quantity"
+                                    (change)="getSlabDetails(false)" min="1" max="1000000" placeholder="Enter Quantity"
+                                    [(ngModel)]="totalQuantity" required #QUANTITY="ngModel" />
+                                <!-- <div *ngIf="QUANTITY.invalid && (QUANTITY.dirty || QUANTITY.touched)">
                                     <div *ngIf="QUANTITY.errors?.['required']">
                                         <span class="login-danger">Quantity is required.</span>
                                     </div>
                                     <div *ngIf="QUANTITY.errors?.['min'] || QUANTITY.errors?.['max']">
                                         <span class="login-danger">Quantity must be between 1 and 1000000.</span>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
 
@@ -607,7 +783,7 @@
                             <div class="form-group local-forms">
                                 <label for="ratePerSqFeet">Rate / Sq. Feet <span class="login-danger">*</span> </label>
                                 <input class="form-control" type="number" placeholder="Enter Rate / Sq. Feet"
-                                    name="ratePerSqFeet" (change)="getSlabDetails()" min="1" max="1000000"
+                                    name="ratePerSqFeet" (change)="getSlabDetails(false)" min="1" max="1000000"
                                     [(ngModel)]="ratePerSqFeet" #RATEPERSQFT="ngModel" required />
                                 <div *ngIf="RATEPERSQFT.invalid && (RATEPERSQFT.dirty || RATEPERSQFT.touched)">
                                     <div *ngIf="RATEPERSQFT.errors?.['required']">
@@ -632,7 +808,7 @@
                         <div class="col-12">
                             <div class="settings-btns text-end m-b-10">
                                 <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                                    (click)="addSlabDetails(myForm) ; calculateTotalAmount()"
+                                    (click)="logSlabDetails(myForm);"
                                     [disabled]="myForm.invalid || !subCategory?.name || !category?.name">
                                     Save
                                 </button>
@@ -645,5 +821,26 @@
                 </div>
             </form>
         </div>
+    </div>
+</p-dialog>
+
+<p-dialog header="Barcode" [(visible)]="addbarcodevisible" [modal]="true" [style]="{ width: '30%'}"
+    (onHide)="closeBarCodeForm()">
+    <div class="modal-content mt-2">
+
+        <!-- Show the barcode image -->
+        <div class="text-center mb-3">
+            <img [src]="barcodeImage" alt="Barcode" style="max-width: 100%; height: auto;" />
+        </div>
+
+        <!-- Centered print button -->
+        <div class="col-12">
+            <div class="settings-btns text-center m-b-10">
+                <button type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10">
+                    Print Barcode
+                </button>
+            </div>
+        </div>
+
     </div>
 </p-dialog>
