@@ -296,10 +296,19 @@
                                                 <div class="page-table-header mb-2 m-3">
                                                     <div class="row practice-card">
                                                         <div class="col-xl-6 col-lg-6 col-sm-12">
-
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                                                    Length (Inch)
+                                                                    Slab Name
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">
+                                                                        {{ data?.slabName ?? ' -- '?? '--' }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Length ({{unitsType == 'square_feet' ? 'Inch' : 'Meter'}})
                                                                 </h5>
                                                                 <div class="col-lg-8 col-md-8 col-xl-8">
                                                                     <p class="col-form-label">
@@ -309,7 +318,7 @@
                                                             </div>
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                                                    Width (Inch)
+                                                                    Width ({{unitsType == 'square_feet' ? 'Inch' : 'Meter'}})
                                                                 </h5>
                                                                 <div class="col-lg-8 col-md-8 col-xl-8">
                                                                     <p class="col-form-label">{{ data?.width ?? ' -- '}}
@@ -346,19 +355,19 @@
                                                                     </p>
                                                                 </div>
                                                             </div>
-                                                        </div>
-
-                                                        <div class="col-xl-6 col-lg-6 col-sm-12">
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                                                    Slab Name
+                                                                    Total Amount
                                                                 </h5>
                                                                 <div class="col-lg-8 col-md-8 col-xl-8">
                                                                     <p class="col-form-label">
-                                                                        {{ data?.slabName ?? ' -- '?? '--' }}
+                                                                        ₹ {{ data?.totalCosting ?? ' -- '}}
                                                                     </p>
                                                                 </div>
                                                             </div>
+                                                        </div>
+
+                                                        <div class="col-xl-6 col-lg-6 col-sm-12">
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                                                                     Quantity / Sq. Feet
@@ -366,6 +375,17 @@
                                                                 <div class="col-lg-8 col-md-8 col-xl-8">
                                                                     <p class="col-form-label">
                                                                         {{ data?.totalSQFT ? (data.totalSQFT |
+                                                                        number:'1.2-2') : '--' }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Quantity / Sq. Meter
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">
+                                                                        {{ data?.totalSQMT ? (data.totalSQMT |
                                                                         number:'1.2-2') : '--' }}
                                                                     </p>
                                                                 </div>
@@ -382,16 +402,14 @@
                                                             </div>
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                                                    Total Amount
+                                                                    Rate / Sq. Meter
                                                                 </h5>
                                                                 <div class="col-lg-8 col-md-8 col-xl-8">
                                                                     <p class="col-form-label">
-                                                                        ₹ {{ data?.totalCosting ?? ' -- '}}
+                                                                        ₹ {{ data?.ratePerSqMeter ?? ' -- '}}
                                                                     </p>
                                                                 </div>
                                                             </div>
-
-
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
                                                                     Cost Per SQFT
@@ -399,6 +417,16 @@
                                                                 <div class="col-lg-8 col-md-8 col-xl-8">
                                                                     <p class="col-form-label">
                                                                         ₹ {{ data?.costPerSQFT ?? ' -- '}}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-2">
+                                                                <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                                                    Cost Per SQMT
+                                                                </h5>
+                                                                <div class="col-lg-8 col-md-8 col-xl-8">
+                                                                    <p class="col-form-label">
+                                                                        ₹ {{ data?.costPerSQMT ?? ' -- '}}
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -814,16 +842,35 @@
 
                         <div class="col-12 col-md-6 col-xl-6">
                             <div class="form-group local-forms">
-                                <label for="ratePerSqFeet">Rate / Sq. {{unitsType == 'square_feet' ? 'Feet' : 'Meter'}} <span class="login-danger">*</span> </label>
-                                <input class="form-control" type="number" placeholder="Enter Rate / Sq. {{unitsType == 'square_feet' ? 'Feet' : 'Meter'}}"
-                                    name="ratePerSqFeet" (change)="getSlabDetails(true)" min="1" max="1000000"
-                                    [(ngModel)]="ratePerSqFeet" #RATEPERSQFT="ngModel" required />
+                                <label for="ratePerSqFeet">Rate / Sq. Feet <span class="login-danger">*</span> </label>
+                                <input class="form-control" type="number" placeholder="Enter Rate / Sq. Feet"
+                                    name="ratePerSqFeet" (change)="getSlabDetails(true);getRate('feet')" min="1" max="1000000"
+                                    [(ngModel)]="ratePerSqFeet" #RATEPERSQFT="ngModel" required [disabled]="unitsType == 'square_meter'"/>
                                 <div *ngIf="RATEPERSQFT.invalid && (RATEPERSQFT.dirty || RATEPERSQFT.touched)">
                                     <div *ngIf="RATEPERSQFT.errors?.['required']">
                                         <span class="login-danger">Ṛate / Sq. Feet is required.</span>
                                     </div>
                                     <div *ngIf="RATEPERSQFT.errors?.['min'] || RATEPERSQFT.errors?.['max']">
                                         <span class="login-danger">Rate / Sq. Feet must be between 1 and 1000000.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label for="ratePerSqMeter">Rate / Sq. Meter <span class="login-danger">*</span> </label>
+                                <input class="form-control" type="number" placeholder="Enter Rate / Sq. Meter"
+                                    name="ratePerSqMeter" (change)="getSlabDetails(true);getRate('meter')" min="1" max="1000000"
+                                    [(ngModel)]="ratePerSqMeter" #RATEPERSQMT="ngModel" required [disabled]="unitsType == 'square_feet'" />
+                                <div *ngIf="RATEPERSQMT.invalid && (RATEPERSQMT.dirty || RATEPERSQMT.touched)">
+                                    <div *ngIf="RATEPERSQMT.errors?.['required']">
+                                        <span class="login-danger">Ṛate / Sq. Meter is required.</span>
+                                    </div>
+                                    <div *ngIf="RATEPERSQMT.errors?.['min'] || RATEPERSQMT.errors?.['max']">
+                                        <span class="login-danger">Rate / Sq. Meter must be between 1 and 1000000.</span>
                                     </div>
                                 </div>
                             </div>

@@ -65,6 +65,7 @@ export class AddSlabPurchaseComponent {
   ratePerSqFeet: number;
   totalAmount: number;
   addvisible: boolean = false;
+  ratePerSqMeter: number;
   addbarcodevisible: boolean = false;
   vehicleRegex = /^[A-Z]{2}[ -]?[0-9]{1,2}(?: ?[A-Z])?(?: ?[A-Z]*)? ?[0-9]{4}$/;
   slabTotalCost: number = 0;
@@ -156,6 +157,9 @@ export class AddSlabPurchaseComponent {
     this.rows = []; // Reset rows when unit type changes
     this.totalQuantity = 0; // Reset total quantity
     this.totalQuantityMeter = 0; // Reset total quantity in meters
+    this.ratePerSqFeet = null; // Reset rate per square feet
+    this.ratePerSqMeter = null; // Reset rate per square feet
+    this.totalAmount = null; // Reset total amount
     this.getSlabDetails(true);
   }
 
@@ -385,7 +389,6 @@ export class AddSlabPurchaseComponent {
     this.finishes = this.finisheshList.find((f) => f.name === "Unpolished");
   }
 
-
   deleteAccordian(index: number) {
     // Subtract the cost of the deleted slab from the total
     this.slabTotalCost -= Number(this.slabDetails[index].totalCosting || 0);
@@ -519,6 +522,7 @@ export class AddSlabPurchaseComponent {
 
     // Ensure values are numbers and not null/undefined before calculations
     const totalQuantity = Number(this.totalQuantity) || 0;
+    const totalQuantityMeter = Number(this.totalQuantityMeter) || 0;
     const totalAmount = Number(this.totalAmount) || 0;
     const noOfPieces = Number(this.noOfPieces) || 1; // Avoid division by zero
     const quantity = Number(this.quantity) || 0;
@@ -535,12 +539,15 @@ export class AddSlabPurchaseComponent {
       thickness: this.thickness,
       finishes: this.finishes,
       totalSQFT: totalQuantity,
+      totalSQMT: totalQuantityMeter,
       ratePerSqFeet: this.ratePerSqFeet,
+      ratePerSqMeter: this.ratePerSqMeter,
       totalCosting: totalAmount,
-      // purchaseCost: this.totalAmount,
-      // warehouseDetails: this.slabAddForm.get("warehouse").value,
-
+      sqmtPerPiece: Number(quantityMeter / noOfPieces || 0).toFixed(2),
       sqftPerPiece: Number(quantity / noOfPieces || 0).toFixed(2),
+      costPerSQMT: totalQuantityMeter > 0
+          ? Number(totalAmount / totalQuantityMeter || 0).toFixed(2)
+          : "0",
       costPerSQFT:
         totalQuantity > 0
           ? Number(totalAmount / totalQuantity || 0).toFixed(2)
@@ -723,8 +730,11 @@ export class AddSlabPurchaseComponent {
       this.totalQuantityMeter = Number(
         AreaConversions.squareFeetToSquareMeters(totalQuantity)
       );
-      if(this.ratePerSqFeet) {
-        this.totalAmount = +(this.totalQuantity * this.ratePerSqFeet).toFixed(2);
+      debugger
+      if (this.ratePerSqFeet) {
+        this.totalAmount = +(this.totalQuantity * this.ratePerSqFeet).toFixed(
+          2
+        );
       }
     }
     if (this.unitsType === "square_meter") {
@@ -734,9 +744,26 @@ export class AddSlabPurchaseComponent {
         AreaConversions.squareMetersToSquareFeet(totalQuantityMeter)
       );
       this.totalQuantityMeter = +totalQuantityMeter.toFixed(2);
-      if(this.ratePerSqFeet) {
-        this.totalAmount = +(this.totalQuantityMeter * this.ratePerSqFeet).toFixed(2);
+      if (this.ratePerSqMeter) {
+        this.totalAmount = +(
+          this.totalQuantityMeter * this.ratePerSqMeter
+        ).toFixed(2);
       }
+    }
+  }
+
+  getRate(type: string) {
+    if (type === "meter" && this.unitsType === "square_meter") {
+      this.ratePerSqFeet = AreaConversions.squareMetersToSquareFeet(
+        this.ratePerSqMeter
+      );
+      return;
+    }
+    if (type === "feet" && this.unitsType === "square_feet") {
+      this.ratePerSqMeter = AreaConversions.squareFeetToSquareMeters(
+        this.ratePerSqFeet
+      );
+      return;
     }
   }
 
@@ -854,6 +881,12 @@ export class AddSlabPurchaseComponent {
           const totalCosting = Number(slab.totalCosting) || 0;
           slab.costPerSQFT =
             totalSQFT > 0 ? this.safeNumber(totalCosting / totalSQFT) : "0.00";
+        }
+        if (slab && (slab.costPerSQMT === "NaN" || isNaN(slab.costPerSQMT))) {
+          const totalSQMT = Number(slab.totalSQMT) || 0;
+          const totalCosting = Number(slab.totalCosting) || 0;
+          slab.costPerSQMT =
+            totalSQMT > 0 ? this.safeNumber(totalCosting / totalSQMT) : "0.00";
         }
         return slab;
       });
@@ -1002,7 +1035,7 @@ export class AddSlabPurchaseComponent {
       ...e,
       taxAmountPerSQFT: Number(
         ((taxApplied / this.slabTotalCost) * Number(e.totalCosting)) /
-        Number(e.totalSQFT)
+          Number(e.totalSQFT)
       ).toFixed(2),
     }));
 
@@ -1111,16 +1144,17 @@ export class AddSlabPurchaseComponent {
         costPerSQFT: Number(finalCostPerSQFT).toFixed(2),
         sellingPricePerSQFT: Number(
           (Number(e.ratePerSqFeet) || 0) +
-          (Number(e.taxAmountPerSQFT) || 0) +
-          (Number(transportationAndOtherChargePerSQFT) || 0)
+            (Number(e.taxAmountPerSQFT) || 0) +
+            (Number(transportationAndOtherChargePerSQFT) || 0)
         ).toFixed(2),
         transportationCharges: Number(
           transportationChargesPerSlab * e.totalSQFT
         ).toFixed(2),
         royaltyCharges: Number(royaltyChargesPerSlab * e.totalSQFT).toFixed(2),
         otherCharges: Number(otherChargesPerSlab * e.totalSQFT).toFixed(2),
-        slabSize: `${e.width ? e.width : " "} x ${e.length ? e.length : " "
-          } x ${e.thickness ? e.thickness : " "}`,
+        slabSize: `${e.width ? e.width : " "} x ${
+          e.length ? e.length : " "
+        } x ${e.thickness ? e.thickness : " "}`,
         purchaseCost:
           ((Number(e.ratePerSqFeet) || 0) +
             (Number(e.taxAmountPerSQFT) || 0) +
