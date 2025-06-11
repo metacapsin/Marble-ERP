@@ -8,8 +8,8 @@
                         <h3>Add Slab Details</h3>
                     </div>
                     <div class="col-md-6 col-sm-12 text-end">
-                        <button [disabled]="addSlabdisableBtn" type="button" class="border-0 btn btn-primary btn-gradient-primary m-r-10"
-                            (click)="addSlabDialog()">
+                        <button [disabled]="addSlabdisableBtn" type="button"
+                            class="border-0 btn btn-primary btn-gradient-primary m-r-10" (click)="addSlabDialog()">
                             Add Slab
                         </button>
                     </div>
@@ -97,17 +97,14 @@
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center gap-3">
-                                                <p-radioButton [name]="'paidBy_' + i" 
-                                                              [value]="'self'" 
-                                                              [formControlName]="'paidBy'"
-                                                              (onClick)="updatePaidBy(i, 'self')">
+                                                <p-radioButton [name]="'paidBy_' + i" [value]="'self'"
+                                                    [formControlName]="'paidBy'" (onClick)="updatePaidBy(i, 'self')">
                                                 </p-radioButton>
                                                 <label class="me-3">Self</label>
 
-                                                <p-radioButton [name]="'paidBy_' + i" 
-                                                              [value]="'supplier'" 
-                                                              [formControlName]="'paidBy'"
-                                                              (onClick)="updatePaidBy(i, 'supplier')">
+                                                <p-radioButton [name]="'paidBy_' + i" [value]="'supplier'"
+                                                    [formControlName]="'paidBy'"
+                                                    (onClick)="updatePaidBy(i, 'supplier')">
                                                 </p-radioButton>
                                                 <label>Supplier</label>
                                             </div>
@@ -128,143 +125,198 @@
         </form>
 
 
-        <div class="row mt-3" *ngIf="slabDetails?.length > 0 && tab == 'purchase'">
-            <!-- <div class="col-md-12 col-sm-12 col-12">
-                <h3>Purchase</h3>
-            </div> -->
-            <div class="mt-3 row">
-                <div class="col-12 col-md-6 col-xl-6">
-                    <div class="form-group local-forms">
-                        <label for="taxableAmount">Taxable Amount</label>
-                        <p-inputGroup>
-                            <input type="number" formControlName="taxableAmount" class="form-control" style="width: 50%"
-                                placeholder="Enter Taxable Amount" (change)="calculateTotalAmount()" />
-                            <p-multiSelect [style]="{ width: '100%' }" placeholder="Select Tax" [options]="orderTaxList"
-                                appendTo="body" formControlName="ItemTax" optionLabel="orderTaxName"
-                                optionValue="orderNamevalue" display="chip"
-                                (onChange)="calculateTotalAmount()"></p-multiSelect>
-                        </p-inputGroup>
-                        <div *ngIf="
-    slabAddForm.hasError('taxRequired') && 
-    slabAddForm.get('taxableAmount')?.touched
-  ">
-                            <span class="login-danger">Please apply tax.</span>
+        <p-accordion *ngIf="tab == 'purchase'" [activeIndex]="0">
+            <p-accordionTab>
+                <ng-template pTemplate="header">
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <span class="font-bold">Amount Details</span>
+                    </div>
+                </ng-template>
+
+                <div class="row mt-3" *ngIf="slabDetails?.length > 0 && tab == 'purchase'">
+                    <div class="mt-3 row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-12 col-md-3 col-xl-3">
+                                    <div class="form-group local-forms">
+                                        <label for="taxableAmount">Taxable Amount</label>
+                                        <input type="number" formControlName="taxableAmount" class="form-control"
+                                            placeholder="Enter Taxable Amount" (change)="calculateTotalAmount()" />
+                                        <div *ngIf="
+                                                                    slabAddForm.hasError('taxRequired') && 
+                                                                    slabAddForm.get('taxableAmount')?.touched
+                                                                        ">
+                                            <span class="login-danger">Please apply tax.</span>
+                                        </div>
+                                        <div *ngIf=" (slabAddForm.get('taxableAmount')?.hasError('min') &&
+                                                                        slabAddForm.get('taxableAmount')?.touched) ||
+                                                                        (slabAddForm.get('taxableAmount')?.hasError('max') &&
+                                                                        slabAddForm.get('taxableAmount')?.touched)">
+                                            <span class="login-danger">Taxable Amount cannot be greater than Paid To
+                                                Supplier Amount
+                                                ({{slabTotalCost}}).</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4 col-xl-4">
+                                    <p-radioButton formControlName="state_tax" value="intra_state_tax" name="state_tax"
+                                        (onClick)="getTaxType()">
+                                    </p-radioButton>
+                                    <label class="me-5 ms-3">Intra State Tax</label>
+
+                                    <p-radioButton formControlName="state_tax" value="inter_state_tax" name="state_tax"
+                                        (onClick)="getTaxType()">
+                                    </p-radioButton>
+                                    <label class="me-5 ms-3">Inter State Tax</label>
+                                </div>
+                                <div class="col-12 col-md-4 col-xl-4">
+                                    <div class="row">
+                                        <div class="{{slabAddForm.get('state_tax')?.value === 'intra_state_tax' ? 'col-md-6' : 'col-md-4'}}" *ngIf="slabAddForm.get('state_tax')?.value">
+                                            <div class="form-group local-forms">
+                                                <p-dropdown [options]="orderTaxList" styleClass="" appendTo="body"
+                                                    optionLabel="orderTaxName" optionValue="orderNamevalue"
+                                                    placeholder="Select Tax" [style]="{ width: '100%' }" [filter]="true"
+                                                    filterBy="name" [showClear]="false" required
+                                                    formControlName="ItemTax" name="ItemTax"
+                                                    (onChange)="calculateTotalAmount()"></p-dropdown>
+                                            </div>
+                                        </div>
+                                        <div class="{{slabAddForm.get('state_tax')?.value === 'intra_state_tax' ? 'col-md-6 d-block' : 'd-none'}}" *ngIf="slabAddForm.get('state_tax')?.value">
+                                            <input type="number" [disabled]="true" formControlName="IGST" class="form-control"
+                                                placeholder="Enter IGST" (change)="calculateTotalAmount()" />
+                                        </div>
+                                        <div class="{{slabAddForm.get('state_tax')?.value === 'intra_state_tax' ? 'd-none' : 'col-md-4 d-block'}}" *ngIf="slabAddForm.get('state_tax')?.value">
+                                            <input type="number" formControlName="CGST" [disabled]="true" class="form-control"
+                                                placeholder="Enter CGST" (change)="calculateTotalAmount()" />
+                                        </div>
+                                        <div class="{{slabAddForm.get('state_tax')?.value === 'intra_state_tax' ? 'd-none' : 'col-md-4 d-block'}}" *ngIf="slabAddForm.get('state_tax')?.value">
+                                            <input type="number" formControlName="SGST" [disabled]="true" class="form-control"
+                                                placeholder="Enter SGST" (change)="calculateTotalAmount()" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div *ngIf=" (slabAddForm.get('taxableAmount')?.hasError('min') &&
-              slabAddForm.get('taxableAmount')?.touched) ||
-            (slabAddForm.get('taxableAmount')?.hasError('max') &&
-              slabAddForm.get('taxableAmount')?.touched)">
-                            <span class="login-danger">Taxable Amount cannot be greater than Paid To Supplier Amount
-                                ({{slabTotalCost}}).</span>
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label for="finishes">Non-Taxable Amount</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">₹</span>
+                                    </div>
+                                    <span class="form-control">{{
+                                        slabAddForm.get("nonTaxableAmount").value
+                                        }}</span>
+                                </div>
+                            </div>
                         </div>
-                        <span *ngIf="
-                  slabAddForm.get('taxApplied').value > 0
-                " style="color: #97704f; font-size: 12px">
-                            Applied Tax Amount:
-                            {{ slabAddForm.get('taxApplied').value | number : "1.2-2" }}
-                        </span>
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label for="paidToSupplierPurchaseCost">Payable to Supplier
+                                    <span class="login-danger">*</span></label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">₹</span>
+                                    </div>
+                                    <span class="form-control">{{
+                                        slabAddForm.get("paidToSupplierSlabCost").value
+                                        }}</span>
+                                </div>
+                                <span *ngIf="
+                           slabAddForm.get('taxable').value  > slabAddForm.get('taxableAmount').value &&
+                           slabAddForm.get('taxable').value  != 0
+                          " style="color: #97704f; font-size: 12px">
+                                    Tax Applied Amount:
+                                    {{ slabAddForm.get('taxable')?.value | number : "1.2-2" }}
+                                    + Non Taxable Amount :
+                                    {{
+                                    slabAddForm.get("nonTaxableAmount")?.value | number : "1.2-2"
+                                    }}
+                                    <span *ngIf="slabAddForm.get('purchaseDiscount')?.value > 0">
+                                        - Discount :
+                                        {{
+                                        slabAddForm.get("purchaseDiscount")?.value | number : "1.2-2"
+                                        }}
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label for="purchaseDiscount">Discount </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">₹</span>
+                                    </div>
+                                    <input class="form-control" type="number" placeholder="Enter Discount"
+                                        (change)="calculateTotalAmount()" formControlName="purchaseDiscount" />
+                                </div>
+                                <div *ngIf="setValidations('purchaseDiscount')">
+                                    <span class="login-danger">Input Must be between 1 to {{maxPurchaseAmount}}.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label for="purchaseTDS">TDS </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">₹</span>
+                                    </div>
+                                    <input class="form-control" type="number" placeholder="Enter Discount"
+                                        (change)="calculateTotalAmount()" formControlName="purchaseTDS" />
+                                </div>
+                                <div *ngIf="setValidations('purchaseTDS')">
+                                    <span class="login-danger">Input Must be between 1 to {{maxPurchaseAmount}}.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label for="transportationCharge">Transportation Charges</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">₹</span>
+                                    </div>
+                                    <input class="form-control" type="number" placeholder="Enter Transportation Charges"
+                                        (change)="calculateTotalAmount()" formControlName="transportationCharge" />
+                                </div>
+                                <div *ngIf="setValidations('transportationCharge')">
+                                    <span class="login-danger">Field is required.</span>
+                                </div>
+                                <div *ngIf="setValidations('transportationCharge')">
+                                    <span class="login-danger">Input Must be between 1 to 100000.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label for="royaltyCharge">Other Charges</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">₹</span>
+                                    </div>
+                                    <input class="form-control" type="number" placeholder="Enter Other Charges"
+                                        formControlName="royaltyCharge" (change)="calculateTotalAmount()" />
+                                </div>
+                                <div *ngIf="setValidations('royaltyCharge')">
+                                    <span class="login-danger">Field is required.</span>
+                                </div>
+                                <div *ngIf="setValidations('royaltyCharge')">
+                                    <span class="login-danger">Input Must be between 1 to 100000.
+                                    </span>
+                                </div>
+                            </div>
+                        </div> -->
                     </div>
                 </div>
-                <div class="col-12 col-md-6 col-xl-6">
-                    <div class="form-group local-forms">
-                        <label for="finishes">Non-Taxable Amount</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">₹</span>
-                            </div>
-                            <span class="form-control">{{
-                                slabAddForm.get("nonTaxableAmount").value
-                                }}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-xl-6">
-                    <div class="form-group local-forms">
-                        <label for="paidToSupplierPurchaseCost">Purchase Cost ( Paid to Supplier )
-                            <span class="login-danger">*</span></label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">₹</span>
-                            </div>
-                            <span class="form-control">{{
-                                slabAddForm.get("paidToSupplierSlabCost").value
-                                }}</span>
-                        </div>
-                        <span *ngIf="
-                   slabAddForm.get('taxable').value  > slabAddForm.get('taxableAmount').value &&
-                   slabAddForm.get('taxable').value  != 0
-                  " style="color: #97704f; font-size: 12px">
-                            Tax Applied Amount:
-                            {{ slabAddForm.get('taxable')?.value | number : "1.2-2" }}
-                            + Non Taxable Amount :
-                            {{
-                            slabAddForm.get("nonTaxableAmount")?.value | number : "1.2-2"
-                            }}
-                            <span *ngIf="slabAddForm.get('purchaseDiscount')?.value > 0">
-                                - Discount :
-                                {{
-                                slabAddForm.get("purchaseDiscount")?.value | number : "1.2-2"
-                                }}
-                            </span>
-                        </span>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-xl-6">
-                    <div class="form-group local-forms">
-                        <label for="purchaseDiscount">Discount </label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">₹</span>
-                            </div>
-                            <input class="form-control" type="number" placeholder="Enter Discount"
-                                (change)="calculateTotalAmount()" formControlName="purchaseDiscount" />
-                        </div>
-                        <div *ngIf="setValidations('purchaseDiscount')">
-                            <span class="login-danger">Input Must be between 1 to {{maxPurchaseAmount}}.
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <!-- <div class="col-12 col-md-6 col-xl-6">
-                    <div class="form-group local-forms">
-                        <label for="transportationCharge">Transportation Charges</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">₹</span>
-                            </div>
-                            <input class="form-control" type="number" placeholder="Enter Transportation Charges"
-                                (change)="calculateTotalAmount()" formControlName="transportationCharge" />
-                        </div>
-                        <div *ngIf="setValidations('transportationCharge')">
-                            <span class="login-danger">Field is required.</span>
-                        </div>
-                        <div *ngIf="setValidations('transportationCharge')">
-                            <span class="login-danger">Input Must be between 1 to 100000.
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-xl-6">
-                    <div class="form-group local-forms">
-                        <label for="royaltyCharge">Other Charges</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">₹</span>
-                            </div>
-                            <input class="form-control" type="number" placeholder="Enter Other Charges"
-                                formControlName="royaltyCharge" (change)="calculateTotalAmount()" />
-                        </div>
-                        <div *ngIf="setValidations('royaltyCharge')">
-                            <span class="login-danger">Field is required.</span>
-                        </div>
-                        <div *ngIf="setValidations('royaltyCharge')">
-                            <span class="login-danger">Input Must be between 1 to 100000.
-                            </span>
-                        </div>
-                    </div>
-                </div> -->
-            </div>
-        </div>
+            </p-accordionTab>
+        </p-accordion>
+
+
 
         <div class="row" *ngIf="slabDetails?.length > 0">
             <div class="col-sm-12">
@@ -308,7 +360,8 @@
                                                             </div>
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                                                    Length ({{unitsType == 'square_feet' ? 'Inch' : 'Meter'}})
+                                                                    Length ({{unitsType == 'square_feet' ? 'Inch' :
+                                                                    'Meter'}})
                                                                 </h5>
                                                                 <div class="col-lg-8 col-md-8 col-xl-8">
                                                                     <p class="col-form-label">
@@ -318,7 +371,8 @@
                                                             </div>
                                                             <div class="form-group row mb-2">
                                                                 <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                                                    Width ({{unitsType == 'square_feet' ? 'Inch' : 'Meter'}})
+                                                                    Width ({{unitsType == 'square_feet' ? 'Inch' :
+                                                                    'Meter'}})
                                                                 </h5>
                                                                 <div class="col-lg-8 col-md-8 col-xl-8">
                                                                     <p class="col-form-label">{{ data?.width ?? ' -- '}}
@@ -525,7 +579,7 @@
     </div>
 </div>
 
-<p-dialog header="Add Slab" [(visible)]="addvisible" [modal]="true" [style]="{ width: '60%'}" 
+<p-dialog header="Add Slab" [(visible)]="addvisible" [modal]="true" [style]="{ width: '60%'}"
     (onHide)="closeSlabForm(myForm)">
     <div class="modal-content mt-2" style="position: relative;">
         <div class="modal-body">
@@ -614,107 +668,109 @@
 
                         <h3 class="slab-specification">Slab Specification :</h3>
 
-                            <div class="col-12 col-md-6 col-xl-6">
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label for="noOfPieces">Select Unit<span class="login-danger">*</span> </label>
+                                <p-dropdown [options]="unitsList" appendTo="body" optionLabel="name" optionValue="value"
+                                    placeholder="Select Unit" name="unitsType" [(ngModel)]="unitsType"
+                                    [style]="{ width: '100%' }" #UNITSTYPE="ngModel" [filter]="true" filterBy="name"
+                                    (onChange)="getNewUnit($event.value)">
+                                </p-dropdown>
+                                <div *ngIf="UNITSTYPE.invalid && (UNITSTYPE.dirty || UNITSTYPE.touched)">
+                                    <div *ngIf="UNITSTYPE.errors?.['required']">
+                                        <span class="login-danger">Field is required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label for="noOfPieces">Number of Pieces <span class="login-danger">*</span> </label>
+                                <input class="form-control" type="number" placeholder="Enter Number of Pieces"
+                                    name="noOfPieces" (change)="getSlabDetails(true)" min="1" max="10000" required
+                                    [(ngModel)]="noOfPieces" #NOOFPIECES="ngModel" />
+                                <div *ngIf="NOOFPIECES.invalid && (NOOFPIECES.dirty || NOOFPIECES.touched)">
+                                    <div *ngIf="NOOFPIECES.errors?.['required']">
+                                        <span class="login-danger">Field is required.</span>
+                                    </div>
+                                    <div *ngIf="NOOFPIECES.errors?.['min'] || NOOFPIECES.errors?.['max']">
+                                        <span class="login-danger">Number Of Pieces must be between 1 and 10000.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Length Field -->
+                            <div class="col-12 col-md-4 col-xl-4">
                                 <div class="form-group local-forms">
-                                    <label for="noOfPieces">Select Unit<span class="login-danger">*</span> </label>
-                                    <p-dropdown [options]="unitsList" appendTo="body" optionLabel="name" optionValue="value" 
-                                    placeholder="Select Unit" name="unitsType"
-                                        [(ngModel)]="unitsType" [style]="{ width: '100%' }" #UNITSTYPE="ngModel" [filter]="true" filterBy="name"
-                                        (onChange)="getNewUnit($event.value)">
-                                    </p-dropdown>               
-                                    <div *ngIf="UNITSTYPE.invalid && (UNITSTYPE.dirty || UNITSTYPE.touched)">
-                                        <div *ngIf="UNITSTYPE.errors?.['required']">
-                                            <span class="login-danger">Field is required.</span>
+                                    <label for="length">Length </label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">{{unitsType == 'square_feet' ? 'Inch' :
+                                                'Meter'}}</span>
+                                        </div>
+                                        <input class="form-control" type="number" id="length" name="length"
+                                            (change)="getSlabDetails(true)" min="1" max="500" placeholder="Enter Length"
+                                            [(ngModel)]="length" #LENGTH="ngModel" />
+                                    </div>
+                                    <div *ngIf="LENGTH.invalid && (LENGTH.dirty || LENGTH.touched)">
+                                        <!-- <div *ngIf="LENGTH.errors?.['required']">
+                          <span class="login-danger">Field is required.</span>
+                        </div> -->
+                                        <div *ngIf="LENGTH.errors?.['min'] || LENGTH.errors?.['max']">
+                                            <span class="login-danger">Length must be between 1 and 500.</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6 col-xl-6">
+
+                            <!-- Width Field -->
+                            <div class="col-12 col-md-4 col-xl-4">
                                 <div class="form-group local-forms">
-                                    <label for="noOfPieces">Number of Pieces <span class="login-danger">*</span> </label>
-                                    <input class="form-control" type="number" placeholder="Enter Number of Pieces" name="noOfPieces"
-                                        (change)="getSlabDetails(true)" min="1" max="10000" required [(ngModel)]="noOfPieces"
-                                        #NOOFPIECES="ngModel" />
-                                    <div *ngIf="NOOFPIECES.invalid && (NOOFPIECES.dirty || NOOFPIECES.touched)">
-                                        <div *ngIf="NOOFPIECES.errors?.['required']">
-                                            <span class="login-danger">Field is required.</span>
+                                    <label for="width">Width </label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">{{unitsType == 'square_feet' ? 'Inch' :
+                                                'Meter'}}</span>
                                         </div>
-                                        <div *ngIf="NOOFPIECES.errors?.['min'] || NOOFPIECES.errors?.['max']">
-                                            <span class="login-danger">Number Of Pieces must be between 1 and 10000.</span>
+                                        <input class="form-control" type="number" id="width" name="width"
+                                            (change)="getSlabDetails(true)" min="1" max="500" placeholder="Enter Width"
+                                            [(ngModel)]="width" #WIDTH="ngModel" />
+                                    </div>
+                                    <div *ngIf="WIDTH.invalid && (WIDTH.dirty || WIDTH.touched)">
+                                        <!-- <div *ngIf="WIDTH.errors?.['required']">
+                          <span class="login-danger">Field is required.</span>
+                        </div> -->
+                                        <div *ngIf="WIDTH.errors?.['min'] || WIDTH.errors?.['max']">
+                                            <span class="login-danger">Width must be between 1 and 500.</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <!-- Length Field -->
-                                <div class="col-12 col-md-4 col-xl-4">
-                                    <div class="form-group local-forms">
-                                        <label for="length">Length </label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">{{unitsType == 'square_feet' ? 'Inch' : 'Meter'}}</span>
-                                            </div>
-                                            <input class="form-control" type="number" id="length" name="length"
-                                                (change)="getSlabDetails(true)" min="1" max="500" placeholder="Enter Length"
-                                                [(ngModel)]="length" #LENGTH="ngModel" />
+
+                            <!-- Height Field -->
+                            <div class="col-12 col-md-4 col-xl-4">
+                                <div class="form-group local-forms">
+                                    <label for="thickness">Thickness </label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">MM</span>
                                         </div>
-                                        <div *ngIf="LENGTH.invalid && (LENGTH.dirty || LENGTH.touched)">
-                                            <!-- <div *ngIf="LENGTH.errors?.['required']">
-                          <span class="login-danger">Field is required.</span>
-                        </div> -->
-                                            <div *ngIf="LENGTH.errors?.['min'] || LENGTH.errors?.['max']">
-                                                <span class="login-danger">Length must be between 1 and 500.</span>
-                                            </div>
-                                        </div>
+                                        <input class="form-control" type="number" id="thickness" name="thickness"
+                                            min="1" max="500" placeholder="Enter Thickness" [(ngModel)]="thickness"
+                                            #THISCKNESS="ngModel" />
                                     </div>
-                                </div>
-        
-                                <!-- Width Field -->
-                                <div class="col-12 col-md-4 col-xl-4">
-                                    <div class="form-group local-forms">
-                                        <label for="width">Width </label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">{{unitsType == 'square_feet' ? 'Inch' : 'Meter'}}</span>
-                                            </div>
-                                            <input class="form-control" type="number" id="width" name="width"
-                                                (change)="getSlabDetails(true)" min="1" max="500" placeholder="Enter Width"
-                                                [(ngModel)]="width" #WIDTH="ngModel" />
-                                        </div>
-                                        <div *ngIf="WIDTH.invalid && (WIDTH.dirty || WIDTH.touched)">
-                                            <!-- <div *ngIf="WIDTH.errors?.['required']">
-                          <span class="login-danger">Field is required.</span>
-                        </div> -->
-                                            <div *ngIf="WIDTH.errors?.['min'] || WIDTH.errors?.['max']">
-                                                <span class="login-danger">Width must be between 1 and 500.</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-        
-                                <!-- Height Field -->
-                                <div class="col-12 col-md-4 col-xl-4">
-                                    <div class="form-group local-forms">
-                                        <label for="thickness">Thickness </label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">MM</span>
-                                            </div>
-                                            <input class="form-control" type="number" id="thickness" name="thickness"
-                                                min="1" max="500" placeholder="Enter Thickness"
-                                                [(ngModel)]="thickness" #THISCKNESS="ngModel" />
-                                        </div>
-                                        <div *ngIf="THISCKNESS.invalid && (THISCKNESS.dirty || THISCKNESS.touched)">
-                                            <!-- <div *ngIf="THISCKNESS.errors?.['required']">
+                                    <div *ngIf="THISCKNESS.invalid && (THISCKNESS.dirty || THISCKNESS.touched)">
+                                        <!-- <div *ngIf="THISCKNESS.errors?.['required']">
                                                 <span class="login-danger">Field is required.</span>
                                             </div> -->
-                                            <div *ngIf="THISCKNESS.errors?.['min'] || THISCKNESS.errors?.['max']">
-                                                <span class="login-danger">Thickness must be between 1 and 500.</span>
-                                            </div>
+                                        <div *ngIf="THISCKNESS.errors?.['min'] || THISCKNESS.errors?.['max']">
+                                            <span class="login-danger">Thickness must be between 1 and 500.</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
 
                         <p-accordion [activeIndex]="rows.length > 0 ? 0 : null">
@@ -739,50 +795,58 @@
                                                 <th>Actions</th>
                                             </tr>
                                         </ng-template>
-                                
+
                                         <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
                                             <tr>
                                                 <td>
-                                                    <input class="form-control" type="number" [disabled]="true" [(ngModel)]="rowData.pieceNumber"
-                                                        name="pieceNumber{{ri}}" />
+                                                    <input class="form-control" type="number" [disabled]="true"
+                                                        [(ngModel)]="rowData.pieceNumber" name="pieceNumber{{ri}}" />
                                                 </td>
                                                 <td>
-                                                    <input class="form-control" type="number" [disabled]="!rowData.isEditing"
-                                                        [(ngModel)]="rowData.length" name="length{{ri}}"
+                                                    <input class="form-control" type="number"
+                                                        [disabled]="!rowData.isEditing" [(ngModel)]="rowData.length"
+                                                        name="length{{ri}}"
                                                         (input)="updateQuantity(rowData); calculateTotalQuantity()" />
                                                 </td>
                                                 <td>
-                                                    <input class="form-control" type="number" [disabled]="!rowData.isEditing"
-                                                        [(ngModel)]="rowData.width" name="width{{ri}}" (input)="updateQuantity(rowData);
+                                                    <input class="form-control" type="number"
+                                                        [disabled]="!rowData.isEditing" [(ngModel)]="rowData.width"
+                                                        name="width{{ri}}" (input)="updateQuantity(rowData);
                                                                                         calculateTotalQuantity()" />
                                                 </td>
                                                 <td>
-                                                    <input class="form-control" type="number" [disabled]="true" [(ngModel)]="rowData.quantity"
-                                                        name="quantity{{ri}}" (input)="calculateTotalQuantity()" />
+                                                    <input class="form-control" type="number" [disabled]="true"
+                                                        [(ngModel)]="rowData.quantity" name="quantity{{ri}}"
+                                                        (input)="calculateTotalQuantity()" />
                                                 </td>
                                                 <td>
-                                                    <input class="form-control" type="number" [disabled]="true" [(ngModel)]="rowData.totalQuantityMeter"
-                                                        (input)="calculateTotalQuantity()" name="totalQuantityMeter{{ri}}" />
+                                                    <input class="form-control" type="number" [disabled]="true"
+                                                        [(ngModel)]="rowData.totalQuantityMeter"
+                                                        (input)="calculateTotalQuantity()"
+                                                        name="totalQuantityMeter{{ri}}" />
                                                 </td>
                                                 <td>
-                                                    <p-dropdown [options]="finisheshList" optionLabel="name" [disabled]="!rowData.isEditing"
-                                                        [(ngModel)]="rowData.finish" name="finish{{ri}}" placeholder="Select Finish" appendTo="body">
+                                                    <p-dropdown [options]="finisheshList" optionLabel="name"
+                                                        [disabled]="!rowData.isEditing" [(ngModel)]="rowData.finish"
+                                                        name="finish{{ri}}" placeholder="Select Finish" appendTo="body">
                                                     </p-dropdown>
-                                
+
                                                 </td>
                                                 <td>
                                                     <ng-container *ngIf="!rowData.isEditing">
                                                         <p-button icon="fa fa-pencil" styleClass="p-button-text"
                                                             (click)="enableEdit(rowData)"></p-button>
-                                                        <p-button icon="fa fa-trash" styleClass="p-button-text" (click)="deleteRow(ri)"></p-button>
+                                                        <p-button icon="fa fa-trash" styleClass="p-button-text"
+                                                            (click)="deleteRow(ri)"></p-button>
                                                     </ng-container>
                                                     <ng-container *ngIf="rowData.isEditing">
-                                                        <p-button icon="fa fa-save" styleClass="p-button-text" (click)="saveRow(rowData)"></p-button>
+                                                        <p-button icon="fa fa-save" styleClass="p-button-text"
+                                                            (click)="saveRow(rowData)"></p-button>
                                                         <p-button icon="fa fa-times" styleClass="p-button-text"
                                                             (click)="cancelEdit(rowData)"></p-button>
                                                     </ng-container>
                                                 </td>
-                                
+
                                                 <!-- <td>
                                                                                     <p-button [text]="true" styleClass="p-button-text" icon="fa fa-pencil"
                                                                                         (click)="addRow()"></p-button>
@@ -807,9 +871,11 @@
                             <div class="form-group local-forms">
                                 <label for="quantity">Total Quantity (Sq. Feet) <span class="login-danger">*</span>
                                 </label>
-                                <input class="form-control" type="number" name="quantity" [disabled]="unitsType == 'square_meter'"
-                                    (change)="getSlabDetails(false, true); updateTotalQuantity('feet')" min="1" max="1000000" placeholder="Enter Quantity"
-                                    [(ngModel)]="totalQuantity" required #QUANTITY="ngModel"/>
+                                <input class="form-control" type="number" name="quantity"
+                                    [disabled]="unitsType == 'square_meter'"
+                                    (change)="getSlabDetails(false, true); updateTotalQuantity('feet')" min="1"
+                                    max="1000000" placeholder="Enter Quantity" [(ngModel)]="totalQuantity" required
+                                    #QUANTITY="ngModel" />
 
                                 <!-- <div *ngIf="QUANTITY.invalid && (QUANTITY.dirty || QUANTITY.touched)">
                                     <div *ngIf="QUANTITY.errors?.['required']">
@@ -823,11 +889,14 @@
                         </div>
                         <div class="col-12 col-md-6 col-xl-6">
                             <div class="form-group local-forms">
-                                <label for="quantityMeter">Total Quantity (Sq. Meter) <span class="login-danger">*</span>
+                                <label for="quantityMeter">Total Quantity (Sq. Meter) <span
+                                        class="login-danger">*</span>
                                 </label>
-                                <input class="form-control" type="number" name="quantityMeter" [disabled]="unitsType == 'square_feet'"
-                                    (change)="getSlabDetails(false, true); updateTotalQuantity('meter')" min="1" max="1000000" placeholder="Enter quantity in Meter"
-                                    [(ngModel)]="totalQuantityMeter" required #QUANTITYMETER="ngModel" />
+                                <input class="form-control" type="number" name="quantityMeter"
+                                    [disabled]="unitsType == 'square_feet'"
+                                    (change)="getSlabDetails(false, true); updateTotalQuantity('meter')" min="1"
+                                    max="1000000" placeholder="Enter quantity in Meter" [(ngModel)]="totalQuantityMeter"
+                                    required #QUANTITYMETER="ngModel" />
 
                                 <!-- <div *ngIf="QUANTITY.invalid && (QUANTITY.dirty || QUANTITY.touched)">
                                     <div *ngIf="QUANTITY.errors?.['required']">
@@ -844,8 +913,9 @@
                             <div class="form-group local-forms">
                                 <label for="ratePerSqFeet">Rate / Sq. Feet <span class="login-danger">*</span> </label>
                                 <input class="form-control" type="number" placeholder="Enter Rate / Sq. Feet"
-                                    name="ratePerSqFeet" (change)="getSlabDetails(true);getRate('feet')" min="1" max="1000000"
-                                    [(ngModel)]="ratePerSqFeet" #RATEPERSQFT="ngModel" required [disabled]="unitsType == 'square_meter'"/>
+                                    name="ratePerSqFeet" (change)="getSlabDetails(true);getRate('feet')" min="1"
+                                    max="1000000" [(ngModel)]="ratePerSqFeet" #RATEPERSQFT="ngModel" required
+                                    [disabled]="unitsType == 'square_meter'" />
                                 <div *ngIf="RATEPERSQFT.invalid && (RATEPERSQFT.dirty || RATEPERSQFT.touched)">
                                     <div *ngIf="RATEPERSQFT.errors?.['required']">
                                         <span class="login-danger">Ṛate / Sq. Feet is required.</span>
@@ -857,20 +927,23 @@
                             </div>
                         </div>
 
-                        
+
 
                         <div class="col-12 col-md-6 col-xl-6">
                             <div class="form-group local-forms">
-                                <label for="ratePerSqMeter">Rate / Sq. Meter <span class="login-danger">*</span> </label>
+                                <label for="ratePerSqMeter">Rate / Sq. Meter <span class="login-danger">*</span>
+                                </label>
                                 <input class="form-control" type="number" placeholder="Enter Rate / Sq. Meter"
-                                    name="ratePerSqMeter" (change)="getSlabDetails(true);getRate('meter')" min="1" max="1000000"
-                                    [(ngModel)]="ratePerSqMeter" #RATEPERSQMT="ngModel" required [disabled]="unitsType == 'square_feet'" />
+                                    name="ratePerSqMeter" (change)="getSlabDetails(true);getRate('meter')" min="1"
+                                    max="1000000" [(ngModel)]="ratePerSqMeter" #RATEPERSQMT="ngModel" required
+                                    [disabled]="unitsType == 'square_feet'" />
                                 <div *ngIf="RATEPERSQMT.invalid && (RATEPERSQMT.dirty || RATEPERSQMT.touched)">
                                     <div *ngIf="RATEPERSQMT.errors?.['required']">
                                         <span class="login-danger">Ṛate / Sq. Meter is required.</span>
                                     </div>
                                     <div *ngIf="RATEPERSQMT.errors?.['min'] || RATEPERSQMT.errors?.['max']">
-                                        <span class="login-danger">Rate / Sq. Meter must be between 1 and 1000000.</span>
+                                        <span class="login-danger">Rate / Sq. Meter must be between 1 and
+                                            1000000.</span>
                                     </div>
                                 </div>
                             </div>

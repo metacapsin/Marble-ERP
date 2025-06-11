@@ -78,6 +78,7 @@ export class AddSlabPurchaseComponent {
   allSubCategoryList: any = [];
   subCategorListByCategory: any = [];
   maxPurchaseAmount = 0;
+  state_tax: any
   previousSlabData: any;
   products: any[] = [];
   unitsType = "square_feet";
@@ -132,6 +133,10 @@ export class AddSlabPurchaseComponent {
         royaltyCharge: ["", [Validators.min(0), Validators.max(100000)]],
         totalCost: [""],
         totalSQFT: [""],
+        state_tax: ['', Validators.required], // default value as needed
+        CGST: [[{ value: '', disabled: true }]], // default value as needed
+        SGST: [[{ value: '', disabled: true }]], // default value as needed
+        purchaseTDS: ['']
       },
       {
         //  validators: atLeastOneRequiredValidator()
@@ -370,7 +375,7 @@ export class AddSlabPurchaseComponent {
     }
 
     console.log("not run");
-
+    this.unitsType = "square_feet";
     console.log(this.slabDetails);
     this.rows = [];
     this.marbleName = "";
@@ -545,7 +550,8 @@ export class AddSlabPurchaseComponent {
       totalCosting: totalAmount,
       sqmtPerPiece: Number(quantityMeter / noOfPieces || 0).toFixed(2),
       sqftPerPiece: Number(quantity / noOfPieces || 0).toFixed(2),
-      costPerSQMT: totalQuantityMeter > 0
+      costPerSQMT:
+        totalQuantityMeter > 0
           ? Number(totalAmount / totalQuantityMeter || 0).toFixed(2)
           : "0",
       costPerSQFT:
@@ -692,6 +698,10 @@ export class AddSlabPurchaseComponent {
     }
   }
 
+  getTaxType() {
+
+  }
+
   getFormattedQuantity(): number | null {
     if (this.length && this.width) {
       const result = AreaConversions.inchesToSquareFeet(
@@ -730,7 +740,6 @@ export class AddSlabPurchaseComponent {
       this.totalQuantityMeter = Number(
         AreaConversions.squareFeetToSquareMeters(totalQuantity)
       );
-      debugger
       if (this.ratePerSqFeet) {
         this.totalAmount = +(this.totalQuantity * this.ratePerSqFeet).toFixed(
           2
@@ -754,13 +763,13 @@ export class AddSlabPurchaseComponent {
 
   getRate(type: string) {
     if (type === "meter" && this.unitsType === "square_meter") {
-      this.ratePerSqFeet = AreaConversions.squareMetersToSquareFeet(
+      this.ratePerSqFeet = AreaConversions.convertRatePerSQFT(
         this.ratePerSqMeter
       );
       return;
     }
     if (type === "feet" && this.unitsType === "square_feet") {
-      this.ratePerSqMeter = AreaConversions.squareFeetToSquareMeters(
+      this.ratePerSqMeter = AreaConversions.convertRatePerSQMT(
         this.ratePerSqFeet
       );
       return;
@@ -930,7 +939,8 @@ export class AddSlabPurchaseComponent {
       expenseBreakdown.transportation.self ||
       expenseBreakdown.transportation.supplier;
     const purchaseDiscount = Number(form.get("purchaseDiscount")?.value) || 0;
-    const tax = form.get("ItemTax")?.value || [];
+    const purchaseTDS = Number(form.get("purchaseTDS")?.value) || 0;
+    const tax = form.get("ItemTax")?.value || {};
     let taxableAmount = Number(form.get("taxableAmount")?.value) || 0;
     let nonTaxableAmount = Number(form.get("nonTaxableAmount")?.value) || 0;
     console.log(
@@ -938,6 +948,8 @@ export class AddSlabPurchaseComponent {
       "nonTaxableAmount",
       nonTaxableAmount
     );
+    console.log(tax, 'tax tax tax');
+    
     let taxable = 0;
     let transportationAndOtherChargePerSQFT = 0;
     let transportationChargesPerSlab = 0;
@@ -981,11 +993,13 @@ export class AddSlabPurchaseComponent {
     }
 
     let taxApplied = 0;
-    if (Array.isArray(tax)) {
-      tax.forEach((selectedTax: any) => {
-        taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
-      });
-    } else if (tax) {
+    if (tax) {
+        taxApplied += (taxableAmount * tax.taxRate) / 100;
+        this.slabAddForm.get('IGST')?.setValue(tax.taxRate)
+        const halfTaxRate = tax.taxRate / 2;
+        this.slabAddForm.get('CGST')?.setValue(halfTaxRate);
+        this.slabAddForm.get('SGST')?.setValue(halfTaxRate);    
+    } else {
       taxApplied = (taxableAmount * tax) / 100;
     }
 
@@ -1014,6 +1028,7 @@ export class AddSlabPurchaseComponent {
         // totalCost: Number(formData?.totalCost),
         // paidToSupplierSlabCost: Number(formData.paidToSupplierSlabCost),
         purchaseDiscount: Number(formData.purchaseDiscount),
+        purchaseTDS: Number(formData.purchaseTDS),
         // nonTaxableAmount: Number(formData.nonTaxableAmount),
         // taxableAmount: Number(formData.taxableAmount),
         // taxable: Number(formData.taxable),

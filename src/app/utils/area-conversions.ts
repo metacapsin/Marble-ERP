@@ -145,18 +145,25 @@ export class AreaConversions {
   }
 
   /**
- * Convert feet to meters
- */
+   * Convert feet to meters
+   */
   static calculateFeetToMeter(value: number): number {
     if (value <= 0) return 0;
     return Number((value / 3.281).toFixed(4));
   }
 
   /**
- * Convert meters to feet
- */
+   * Convert meters to feet
+   */
   static calculateMeterToFeet(value: number): number {
     if (value <= 0) return 0;
     return Number((value * 3.281).toFixed(4));
+  }
+
+  static convertRatePerSQMT(ratePerSqFeet) {
+    return Number((ratePerSqFeet * 10.7639).toFixed(4));
+  }
+  static convertRatePerSQFT(ratePerSqMeter) {
+    return Number((ratePerSqMeter / 10.7639).toFixed(4));
   }
 }
