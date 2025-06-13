@@ -238,6 +238,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./GeneralParties/general-parties.module').then((m) => m.GeneralPartiesModule),
       },
+      {
+        path: 'ledger-pay',
+        loadChildren: () =>
+          import('./ledger-pay/ledger-pay.module').then((m) => m.LedgerPayModule),
+      },
     ],
   },
 ];
