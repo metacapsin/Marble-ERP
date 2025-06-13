@@ -146,7 +146,7 @@
 
 
                                         <tr
-                                            *ngIf="(expense.get('type')?.value === 'transportationCharge' && expense.get('paidBy')?.value === 'self' && expense.get('rcmApplicable')?.value) || (expense.get('type')?.value === 'otherCharges' || expense.get('type')?.value === 'royaltyCharges') && expense.get('paidBy')?.value === 'self'">
+                                            *ngIf="(expense.get('type')?.value === 'transportationCharge' && expense.get('paidBy')?.value === 'self' && expense.get('rcmApplicable')?.value && expense.get('state_tax')?.value) || (expense.get('type')?.value === 'otherCharges' || expense.get('type')?.value === 'royaltyCharges') && expense.get('paidBy')?.value === 'self' && expense.get('state_tax')?.value">
                                             <td colspan="12">
                                                 <div class="row">
                                                     <!-- Tax Dropdown -->

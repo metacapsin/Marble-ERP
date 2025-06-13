@@ -327,14 +327,14 @@ export class AddSlabPurchaseComponent {
     return this.fb.group({
       type: [data?.type || ""],
       payment: [data?.payment || ""],
-      paidBy: [""],
-      state_tax: [''],
-      ItemTax: [''],
-      IGST: [''],
-      CGST: [''],
-      SGST: [''],
-      taxAppliedExpense: [''],
-      rcmApplicable: [false],
+      paidBy: [data?.paidBy],
+      state_tax: [data?.state_tax],
+      ItemTax: [data?.ItemTax],
+      IGST: [data?.IGST],
+      CGST: [data?.CGST],
+      SGST: [data?.SGST],
+      taxAppliedExpense: [data?.taxAppliedExpense],
+      rcmApplicable: [data?.rcmApplicable],
     });
   }
 
@@ -370,6 +370,11 @@ export class AddSlabPurchaseComponent {
         taxApplied: this.previousSlabData.taxApplied,
         totalCost: this.previousSlabData.totalCost,
         totalSQFT: this.previousSlabData.totalSQFT,
+        purchaseTDS: this.previousSlabData.purchaseTDS,
+        state_tax: this.previousSlabData.state_tax,
+        IGST: this.previousSlabData.IGST,
+        CGST: this.previousSlabData.CGST,
+        SGST: this.previousSlabData.SGST
       });
     }
 
@@ -547,6 +552,7 @@ export class AddSlabPurchaseComponent {
       subCategoryDetail: this.subCategory,
       noOfPieces: noOfPieces,
       width: this.width,
+      unit: this.unitsType,
       length: this.length,
       thickness: this.thickness,
       finishes: this.finishes,
@@ -712,6 +718,18 @@ export class AddSlabPurchaseComponent {
   getFormattedQuantity(): number | null {
     if (this.length && this.width) {
       const result = AreaConversions.inchesToSquareFeet(
+        this.width,
+        this.length
+      );
+      console.log("Formatted Quantity:", result);
+
+      return parseFloat(result.toFixed(2)); // toFixed returns a string, so convert back to number
+    }
+    return null;
+  }
+  getFormattedQuantityMeter(): number | null {
+    if (this.length && this.width) {
+      const result = AreaConversions.inchesToSquareMeters(
         this.width,
         this.length
       );
@@ -1047,8 +1065,13 @@ export class AddSlabPurchaseComponent {
       });
       this.slabDetails = []; // Clear slabDetails data
       const formData = this.slabAddForm.value;
-
+      console.log(formData, 'formData');
+      
       const payload = {
+        state_tax: formData.state_tax,
+        IGST: formData.IGST,
+        CGST: formData.CGST,
+        SGST: formData.SGST,
         warehouseDetails: formData.warehouse,
         vehicleNo: formData.vehicleNo,
         transportationCharge: Number(formData.transportationCharge),
@@ -1071,6 +1094,9 @@ export class AddSlabPurchaseComponent {
         totalCost: 0,
         totalSQFT: 0,
       };
+      debugger
+      console.log(payload, 'payload');
+      
       this.NewPurchaseService.setFormData("stepFirstSlabData", payload);
 
       return; // Exit the function early as there's no data
@@ -1216,7 +1242,7 @@ export class AddSlabPurchaseComponent {
     });
 
     taxable = taxApplied + taxableAmount;
-    const paidToSupplierSlabAmount = taxable + nonTaxableAmount;
+    let paidToSupplierSlabAmount = taxable + nonTaxableAmount;
 
     console.log("Taxable:", taxable);
     console.log("Non-Taxable Amount:", nonTaxableAmount);
@@ -1232,6 +1258,9 @@ export class AddSlabPurchaseComponent {
       royaltyCharge +
       otherCharge;
 
+
+    paidToSupplierSlabAmount = paidToSupplierSlabAmount - purchaseTDS
+
     console.log("Total Cost:", totalCost);
     form.patchValue({
       paidToSupplierSlabCost: paidToSupplierSlabAmount
@@ -1246,6 +1275,12 @@ export class AddSlabPurchaseComponent {
     this.slabDetails = [...calculatedDetails];
 
     this.setValidator();
+
+
+
+
+    console.log(this.slabAddForm, 'slabAddFormslabAddFormslabAddFormslabAddFormslabAddFormslabAddFormslabAddForm');
+    
   }
 
   trackByFn(index: number, item: any) {
@@ -1335,7 +1370,14 @@ export class AddSlabPurchaseComponent {
       purchaseItemTax: formData?.ItemTax,
       taxApplied: safeNumberFormat(formData?.taxApplied),
       totalSQFT: Number(formData?.totalSQFT || 0),
+      state_tax: formData.state_tax,
+      purchaseTDS: formData.purchaseTDS,
+      IGST: formData.IGST,
+      CGST: formData.CGST,
+      SGST: formData.SGST,
     };
+
+    debugger
 
     this.NewPurchaseService.setFormData("stepFirstSlabData", payload);
     // this.saveClicked.emit()
@@ -1361,6 +1403,7 @@ export class AddSlabPurchaseComponent {
       width: this.width || 0,
       thickness: this.width || 0,
       quantity: this.getFormattedQuantity() || 0,
+      totalQuantityMeter: this.getFormattedQuantityMeter() || 0,
       finish: this.finishes || {},
       isEditing: true,
     };

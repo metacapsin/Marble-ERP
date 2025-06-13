@@ -25,8 +25,7 @@ import { TaxesService } from "../../settings/taxes/taxes.service";
 import { TaxVendorsService } from "../../tax-vendors/tax-vendors.service";
 import { blockProcessorService } from "../../block-processor/block-processor.service";
 import { AddSlabPurchaseComponent } from "../add-slab-purchase/add-slab-purchase.component";
-import * as moment from 'moment';
-
+import * as moment from "moment";
 
 @Component({
   selector: "app-add-new-purchase",
@@ -103,9 +102,9 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   // expensesExpanded: boolean = true;
   // expenses: any[] = [];
   expenseTypeOptions = [
-    { name: 'Transportation Charges', value: 'transportationCharge' },
-    { name: 'Royalty Charges', value: 'royaltyCharges' },
-    { name: 'Other Charges', value: 'otherCharges' }
+    { name: "Transportation Charges", value: "transportationCharge" },
+    { name: "Royalty Charges", value: "royaltyCharges" },
+    { name: "Other Charges", value: "otherCharges" },
   ];
   piecesDetails = [];
   addSlabData: any;
@@ -128,11 +127,15 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     private taxVendorsService: TaxVendorsService
   ) {
     this.expensesForm = this.fb.group({
-      expenses: this.fb.array([])
+      expenses: this.fb.array([]),
     });
     this.addNewPurchaseForm = this.fb.group({
       paidToSupplierPurchaseCost: [""],
-
+       purchaseTDS: [''],
+        state_tax: [''],
+        IGST: [''],
+        CGST: [''],
+        SGST: [''],
       // slabNo: [
       //   "",
       //   [Validators.required, Validators.pattern(this.invoiceRegex)],
@@ -162,7 +165,10 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       warehouseDetails: [""],
       totalCosting: [""],
       purchaseTotalAmount: [""],
-      invoiceNumber: ["", [Validators.required, Validators.pattern(this.invoiceRegex)]],
+      invoiceNumber: [
+        "",
+        [Validators.required, Validators.pattern(this.invoiceRegex)],
+      ],
       purchaseDate: ["", Validators.required],
       supplier: ["", [Validators.required]],
       purchaseType: ["", [Validators.required]],
@@ -182,7 +188,8 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       transportationCharges: [""],
       otherCharges: [""],
       vehicleNo: ["", [Validators.pattern(this.vehicleRegex)]],
-      warehouse: ["", [Validators.required]], totalSQFT: [""],
+      warehouse: ["", [Validators.required]],
+      totalSQFT: [""],
       isTaxVendor: [false],
     });
   }
@@ -194,18 +201,24 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   };
   ngOnInit(): void {
     // Initialize expenses with default transportation charge
-    const expensesArray = this.expensesForm.get('expenses') as FormArray;
-    expensesArray.push(this.createExpenseGroup({type: 'transportationCharge', payment: '100', paidBy: 'Self'}));
+    const expensesArray = this.expensesForm.get("expenses") as FormArray;
+    expensesArray.push(
+      this.createExpenseGroup({
+        type: "transportationCharge",
+        payment: "100",
+        paidBy: "Self",
+      })
+    );
     // You can add more default expenses here if needed
     // expensesArray.push(this.createExpenseGroup({type: 'otherCharges', payment: '200', paidBy: 'Self'}));
-    this.NewPurchaseService.slabDetailsLength.subscribe(length => {
+    this.NewPurchaseService.slabDetailsLength.subscribe((length) => {
       this.slabDetailsLength = length;
     });
-    this.NewPurchaseService.taxableAmount.subscribe(amount => {
-      this.taxableAmount = Number(amount) || 0; ;
+    this.NewPurchaseService.taxableAmount.subscribe((amount) => {
+      this.taxableAmount = Number(amount) || 0;
       console.log(this.taxableAmount, "taxableAmount");
     });
-    this.NewPurchaseService.itemTax.subscribe(amount => {
+    this.NewPurchaseService.itemTax.subscribe((amount) => {
       this.itemTax = amount;
     });
 
@@ -335,6 +348,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     // if (this.attachments && this.attachments.length > 0) {
     //   this.localStorageService.setItem('purchase_attachments', JSON.stringify(this.attachments));
     // }
+    this.slabChild?.slabAddFormSubmit();
     prevCallback.emit();
     this.addNewPurchaseForm.get("taxVendor").clearValidators();
     this.addNewPurchaseForm.get("taxVendorAmount").clearValidators();
@@ -362,7 +376,7 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
           this.expenses.removeAt(0);
         }
 
-        expensesData.forEach(data => {
+        expensesData.forEach((data) => {
           this.expenses.push(this.createExpenseGroup(data));
         });
       }
@@ -408,6 +422,11 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
           warehouseDetails: this.SlabItemDetails?.warehouseDetails,
           vehicleNo: this.addNewPurchaseForm.get("vehicleNo")?.value,
           totalSQFT: this.SlabItemDetails?.totalSQFT,
+          purchaseTDS: this.SlabItemDetails.purchaseTDS,
+          state_tax: this.SlabItemDetails.state_tax,
+          IGST: this.SlabItemDetails.IGST,
+          CGST: this.SlabItemDetails.CGST,
+          SGST: this.SlabItemDetails.SGST
         });
 
         console.log(this.addNewPurchaseForm.value);
@@ -458,6 +477,11 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
           warehouseDetails: this.SlabItemDetails?.warehouseDetails,
           vehicleNo: this.SlabItemDetails?.vehicleNo,
           totalSQFT: this.SlabItemDetails?.totalSQFT,
+          purchaseTDS: this.SlabItemDetails.purchaseTDS,
+          state_tax: this.SlabItemDetails.state_tax,
+          IGST: this.SlabItemDetails.IGST,
+          CGST: this.SlabItemDetails.CGST,
+          SGST: this.SlabItemDetails.SGST
         });
       }
 
@@ -587,7 +611,6 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     this.addNewPurchaseForm.get("taxVendorAmount").updateValueAndValidity();
     this.addNewPurchaseForm.get("vendorTaxApplied").updateValueAndValidity();
 
-
     if (isTaxVendor) {
       this.addNewPurchaseForm
         .get("paidToSupplierPurchaseCost")
@@ -595,30 +618,34 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
     } else {
       this.lotTypeValue === "Lot"
         ? this.addNewPurchaseForm
-          .get("paidToSupplierPurchaseCost")
-          ?.patchValue(this.ItemDetails.paidToSupplierLotCost)
+            .get("paidToSupplierPurchaseCost")
+            ?.patchValue(this.ItemDetails.paidToSupplierLotCost)
         : this.addNewPurchaseForm
-          .get("paidToSupplierPurchaseCost")
-          ?.patchValue(
-            (
-              Number(Number(this.addNewPurchaseForm.get("nonTaxable").value || 0).toFixed(2)) +
-              Number(Number(this.addNewPurchaseForm.get("taxable").value || 0).toFixed(2))
-            )
-          );
+            .get("paidToSupplierPurchaseCost")
+            ?.patchValue(
+              Number(
+                Number(
+                  this.addNewPurchaseForm.get("nonTaxable").value || 0
+                ).toFixed(2)
+              ) +
+                Number(
+                  Number(
+                    this.addNewPurchaseForm.get("taxable").value || 0
+                  ).toFixed(2)
+                )
+            );
     }
   }
 
-
   selectSubCate(event: any): void {
-    console.log('Selected Sub Category:', event);
+    console.log("Selected Sub Category:", event);
   }
 
   getSelectedWarehouseDetails(): { _id: string; name: string } | null {
-    const selectedId = this.addNewPurchaseForm.get('warehouse')?.value;
-    const warehouse = this.wareHousedata.find(w => w._id === selectedId);
+    const selectedId = this.addNewPurchaseForm.get("warehouse")?.value;
+    const warehouse = this.wareHousedata.find((w) => w._id === selectedId);
     return warehouse ? { _id: warehouse._id, name: warehouse.name } : null;
   }
-
 
   addNewPurchaseFormSubmit() {
     const formData = this.addNewPurchaseForm.value;
@@ -632,7 +659,9 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
       vendorTaxApplied: Number(formData.vendorTaxApplied),
     };
     if (this.addNewPurchaseForm.value.purchaseType == "Lot") {
-      let convertedDate = moment(formData.purchaseDate, "DD/MM/YYYY").format("MM/DD/YYYY");
+      let convertedDate = moment(formData.purchaseDate, "DD/MM/YYYY").format(
+        "MM/DD/YYYY"
+      );
 
       if (formData && formData.paidToSupplierPurchaseCost !== undefined) {
         this;
@@ -666,18 +695,23 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         warehouseDetails: this.ItemDetails?.warehouseDetails,
         transportationCharges: this.ItemDetails?.transportationCharge,
         otherCharges: this.ItemDetails?.royaltyCharge,
-        totalTransportationCharges: this.ItemDetails?.totalTransportationCharges,
+        totalTransportationCharges:
+          this.ItemDetails?.totalTransportationCharges,
       };
     } else {
-      let convertedDate = moment(formData.purchaseDate, "DD/MM/YYYY").format("MM/DD/YYYY");
+      let convertedDate = moment(formData.purchaseDate, "DD/MM/YYYY").format(
+        "MM/DD/YYYY"
+      );
       // Set warehouse details for each slab in the array
       if (Array.isArray(this.SlabItemDetails.slabDetails)) {
-        this.SlabItemDetails.slabDetails = this.SlabItemDetails.slabDetails.map(slab => {
-          return {
-            ...slab,
-            warehouseDetails: this.getSelectedWarehouseDetails()
-          };
-        });
+        this.SlabItemDetails.slabDetails = this.SlabItemDetails.slabDetails.map(
+          (slab) => {
+            return {
+              ...slab,
+              warehouseDetails: this.getSelectedWarehouseDetails(),
+            };
+          }
+        );
       }
       payload = {
         purchaseInvoiceNumber: formData.invoiceNumber,
@@ -698,9 +732,15 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
           ? taxVenoderObj
           : null,
         taxApplied: Number(formData?.taxApplied)?.toFixed(2),
-        otherCharges: isNaN(Number(formData?.otherCharges)) ? "0.00" : Number(formData?.otherCharges).toFixed(2),
-        transportationCharges: isNaN(Number(formData?.transportationCharges)) ? "0.00" : Number(formData?.transportationCharges).toFixed(2),
-        royaltycharges: isNaN(Number(formData?.royaltyCharge)) ? "0.00" : Number(formData?.royaltyCharge).toFixed(2),
+        otherCharges: isNaN(Number(formData?.otherCharges))
+          ? "0.00"
+          : Number(formData?.otherCharges).toFixed(2),
+        transportationCharges: isNaN(Number(formData?.transportationCharges))
+          ? "0.00"
+          : Number(formData?.transportationCharges).toFixed(2),
+        royaltycharges: isNaN(Number(formData?.royaltyCharge))
+          ? "0.00"
+          : Number(formData?.royaltyCharge).toFixed(2),
         warehouseDetails: this.getSelectedWarehouseDetails(),
         vehicleNo: formData?.vehicleNo?.length > 0 ? formData?.vehicleNo : null,
         totalSQFT: formData?.totalSQFT,
@@ -713,6 +753,11 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         taxAmountPerSQFT: this.SlabItemDetails.taxAmountPerSQFT,
         processingFeePerSQFT: this.SlabItemDetails.processingFeePerSQFT,
         piecesDetails: this.piecesDetails,
+        purchaseTDS: this.SlabItemDetails.purchaseTDS,
+        state_tax: this.SlabItemDetails.state_tax,
+        IGST: this.SlabItemDetails.IGST,
+        CGST: this.SlabItemDetails.CGST,
+        SGST: this.SlabItemDetails.SGST
       };
       // payload = this.slabSelected(formData) as any;
       console.log(payload);
@@ -806,8 +851,9 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         quantity: Number(item.quantity),
         ratePerSqFeet: item.ratePerSqFeet,
         totalAmount: Number(item.totalAmount) || "",
-        slabSize: `${item.width ? item.width : " "} x ${item.length ? item.length : " "
-          } x ${item.thickness ? item.thickness : " "}`,
+        slabSize: `${item.width ? item.width : " "} x ${
+          item.length ? item.length : " "
+        } x ${item.thickness ? item.thickness : " "}`,
         noOfPieces: Number(item.noOfPieces) || "",
       });
       squarefeet += item.quantity;
@@ -830,11 +876,12 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   }
 
   getSelectedWarehouseName(): string {
-    const selectedId = this.addNewPurchaseForm.get('warehouse')?.value;
-    const selectedWarehouse = this.wareHousedata.find(w => w._id === selectedId);
-    return selectedWarehouse ? selectedWarehouse.name : '--';
+    const selectedId = this.addNewPurchaseForm.get("warehouse")?.value;
+    const selectedWarehouse = this.wareHousedata.find(
+      (w) => w._id === selectedId
+    );
+    return selectedWarehouse ? selectedWarehouse.name : "--";
   }
-
 
   // toggleExpenses(): void {
   //   this.expensesExpanded = !this.expensesExpanded;
@@ -863,15 +910,15 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   // }
 
   salesFilesChangedHandler(files: File[]) {
-    console.log('Files changed:', files);
+    console.log("Files changed:", files);
   }
 
   salesUploadCompleteHandler(response: any) {
-    console.log('Upload complete:', response);
-    if (response && response.status === 'success' && response.data) {
+    console.log("Upload complete:", response);
+    if (response && response.status === "success" && response.data) {
       // Store the attachment data
       this.attachments.push(...response.data);
-      console.log(this.attachments, 'attachments');
+      console.log(this.attachments, "attachments");
       // this.messageService.add({
       //   severity: 'success',
       //   detail: 'File uploaded successfully'
@@ -885,42 +932,54 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   }
 
   handleFileDeleted(event: any) {
-    console.log('File deleted:', event);
+    console.log("File deleted:", event);
     if (event && event.id) {
       // Remove the deleted file from attachments array
-      this.attachments = this.attachments.filter(attachment => 
-        attachment._id !== event.id && attachment.id !== event.id
+      this.attachments = this.attachments.filter(
+        (attachment) =>
+          attachment._id !== event.id && attachment.id !== event.id
       );
-      console.log('Updated attachments after deletion:', this.attachments);
+      console.log("Updated attachments after deletion:", this.attachments);
     }
   }
 
   get expenses(): FormArray {
-    console.log(this.expensesForm.get('expenses'), 'FormArray');
-    return this.expensesForm.get('expenses') as FormArray;
+    console.log(this.expensesForm.get("expenses"), "FormArray");
+    return this.expensesForm.get("expenses") as FormArray;
   }
 
   getExpenseTypeName(value: string): string {
-    const option = this.expenseTypeOptions.find(opt => opt.value === value);
+    const option = this.expenseTypeOptions.find((opt) => opt.value === value);
     return option ? option.name : value; // fallback to value if not found
   }
 
   createExpenseGroup(data?: any): FormGroup {
     return this.fb.group({
-      type: [data?.type || ''],
-      payment: [data?.payment || ''],
-      paidBy: [data?.paidBy || '']
+      type: [data?.type || ""],
+      payment: [data?.payment || ""],
+      paidBy: [data?.paidBy || ""],
+      state_tax: [data?.state_tax || ""],
+      ItemTax: [data?.ItemTax || ""],
+      IGST: [data?.IGST || ""],
+      CGST: [data?.CGST || ""],
+      SGST: [data?.SGST || ""],
+      taxAppliedExpense: [data?.taxAppliedExpense || ""],
+      rcmApplicable: [data?.rcmApplicable || false],
     });
   }
 
   capitalizeFirstLetter(value: string): string {
-    return value ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase() : '';
+    return value
+      ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+      : "";
   }
 
   onVehicleInput(event: Event) {
     const input = event.target as HTMLInputElement;
     const uppercaseValue = input.value.toUpperCase();
-    this.addNewPurchaseForm.get('vehicleNo')?.setValue(uppercaseValue, { emitEvent: false });
+    this.addNewPurchaseForm
+      .get("vehicleNo")
+      ?.setValue(uppercaseValue, { emitEvent: false });
   }
 
   onnextBtnDisabled(data: any) {
@@ -928,7 +987,8 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
   }
 
   hasAnyPayment(): boolean {
-    return this.expenses?.controls?.some(ctrl => !!ctrl.get('payment')?.value);
+    return this.expenses?.controls?.some(
+      (ctrl) => !!ctrl.get("payment")?.value
+    );
   }
-
 }
