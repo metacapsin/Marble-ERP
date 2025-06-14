@@ -316,7 +316,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-6">
+                                <div class="col-12 col-md-6 col-xl-6" *ngIf="slabAddForm.get('taxableAmount').value">
                                     <p-radioButton formControlName="state_tax" value="intra_state_tax" name="state_tax"
                                         (onClick)="getTaxType()">
                                     </p-radioButton>
@@ -348,9 +348,12 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">₹</span>
                                             </div>
-                                            <span class="form-control">{{
-                                                slabAddForm.get("IGST").value
-                                                }}</span>
+                                            <span class="form-control">
+                                                <p *ngIf="slabAddForm.get('IGST')?.value" class="m-0 p-0">{{
+                                                slabAddForm.get("IGST").value | number : "1.2-2"
+                                                }}
+                                                </p>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -363,9 +366,12 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">₹</span>
                                             </div>
-                                            <span class="form-control">{{
-                                                slabAddForm.get("CGST").value
-                                                }}</span>
+                                            <span class="form-control">
+                                                <p *ngIf="slabAddForm.get('CGST')?.value" class="m-0 p-0">{{
+                                                slabAddForm.get("CGST").value | number : "1.2-2"
+                                                }}
+                                                </p>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -378,9 +384,12 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">₹</span>
                                             </div>
-                                            <span class="form-control">{{
-                                                slabAddForm.get("SGST").value
-                                                }}</span>
+                                            <span class="form-control">
+                                                <p *ngIf="slabAddForm.get('SGST')?.value" class="m-0 p-0">{{
+                                                slabAddForm.get("SGST").value | number : "1.2-2"
+                                                }}
+                                                </p>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

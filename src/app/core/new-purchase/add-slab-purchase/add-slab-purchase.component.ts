@@ -133,11 +133,11 @@ export class AddSlabPurchaseComponent {
         royaltyCharge: ["", [Validators.min(0), Validators.max(100000)]],
         totalCost: [""],
         totalSQFT: [""],
-        purchaseTDS: [''],
-        state_tax: [''],
-        IGST: [''],
-        CGST: [''],
-        SGST: ['']
+        purchaseTDS: [""],
+        state_tax: [""],
+        IGST: ["0"],
+        CGST: ["0"],
+        SGST: ["0"],
       },
       {
         //  validators: atLeastOneRequiredValidator()
@@ -260,22 +260,23 @@ export class AddSlabPurchaseComponent {
         });
       });
     });
-    this.getAllGenralParty()
+    this.getAllGenralParty();
   }
 
-    getAllGenralParty() {
-      this.NewPurchaseService.getAllGenralParty().subscribe((resp) => {
-        this.serviceProviderList = resp;
-        this.serviceProviderList = this.serviceProviderList.map((element: any) => ({
+  getAllGenralParty() {
+    this.NewPurchaseService.getAllGenralParty().subscribe((resp) => {
+      this.serviceProviderList = resp;
+      this.serviceProviderList = this.serviceProviderList.map(
+        (element: any) => ({
           name: element.name,
           _id: {
             _id: element._id,
             name: element.name,
           },
-        }));
-      })
-    }
-  
+        })
+      );
+    });
+  }
 
   getSubCategories(value?: any) {
     this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
@@ -391,7 +392,7 @@ export class AddSlabPurchaseComponent {
         state_tax: this.previousSlabData.state_tax,
         IGST: this.previousSlabData.IGST,
         CGST: this.previousSlabData.CGST,
-        SGST: this.previousSlabData.SGST
+        SGST: this.previousSlabData.SGST,
       });
     }
 
@@ -728,9 +729,7 @@ export class AddSlabPurchaseComponent {
     }
   }
 
-  getTaxType() {
-
-  }
+  getTaxType() {}
 
   getFormattedQuantity(): number | null {
     if (this.length && this.width) {
@@ -853,6 +852,7 @@ export class AddSlabPurchaseComponent {
     let royaltyChargesBySelf = 0;
     let otherByChargesSupplier = 0;
     let otherByChargesSelf = 0;
+    let totalTax = 0;
 
     this.expenses.controls.forEach((expenseGroup: any) => {
       const type = expenseGroup.get("type")?.value;
@@ -864,34 +864,31 @@ export class AddSlabPurchaseComponent {
       const payment = Number(expenseGroup.get("payment")?.value) || 0;
 
       console.log(ItemTax, CGST, IGST, SGST);
-      
 
-    let taxApplied = 0;
-    let totalTax = 0;
-    if (ItemTax) {
+      let taxApplied = 0;
+
+      if (ItemTax) {
         taxApplied += (payment * ItemTax.taxRate) / 100;
-        expenseGroup.get('IGST')?.setValue(ItemTax.taxRate)
+        expenseGroup.get("IGST")?.setValue(ItemTax.taxRate);
         const halfTaxRate = ItemTax.taxRate / 2;
-        expenseGroup.get('CGST')?.setValue(halfTaxRate);
-        expenseGroup.get('SGST')?.setValue(halfTaxRate);    
-    } else {
-      taxApplied = (payment * ItemTax) / 100;
-    }
-    totalTax += taxApplied + payment;
-    expenseGroup.get('taxAppliedExpense').setValue(totalTax)
-    console.log(taxApplied, 'taxApplied', payment, 'payment', totalTax, 'totalTax');
-    
+        expenseGroup.get("CGST")?.setValue(halfTaxRate);
+        expenseGroup.get("SGST")?.setValue(halfTaxRate);
+      } else {
+        taxApplied = (payment * ItemTax) / 100;
+      }
+      totalTax = taxApplied + payment;
+      expenseGroup.get("taxAppliedExpense").setValue(totalTax);
 
       if (paidBy === "supplier") {
         if (type === "transportationCharge")
-          transportationChargesBySupplier += payment;
-        if (type === "royaltyCharges") royaltyChargesBySupplier += payment;
-        if (type === "otherCharges") otherByChargesSupplier += payment;
+          transportationChargesBySupplier += totalTax;
+        if (type === "royaltyCharges") royaltyChargesBySupplier += totalTax;
+        if (type === "otherCharges") otherByChargesSupplier += totalTax;
       } else if (paidBy === "self") {
         if (type === "transportationCharge")
-          transportationChargesBySelf += payment;
-        if (type === "royaltyCharges") royaltyChargesBySelf += payment;
-        if (type === "otherCharges") otherByChargesSelf += payment;
+          transportationChargesBySelf += totalTax;
+        if (type === "royaltyCharges") royaltyChargesBySelf += totalTax;
+        if (type === "otherCharges") otherByChargesSelf += totalTax;
       }
     });
 
@@ -987,19 +984,18 @@ export class AddSlabPurchaseComponent {
     // });
 
     // this.nonTaxableAmount = this.slabAddForm.get("nonTaxableAmount").value;
+    console.log(expenseBreakdown, "expenseBreakdown");
+
     const totalSupplierExpenses =
       expenseBreakdown.royalty.supplier +
       expenseBreakdown.transportation.supplier +
       expenseBreakdown.other.supplier;
     const form = this.slabAddForm;
     const slabTotalAmount = this.slabTotalCost;
-    // const royaltyCharge = Number(form.get("royaltyCharge")?.value) || 0;
     const royaltyCharge =
       expenseBreakdown.royalty.self || expenseBreakdown.royalty.supplier;
     const otherCharge =
       expenseBreakdown.other.self || expenseBreakdown.other.supplier;
-    // const transportationCharge =
-    //   Number(form.get("transportationCharge")?.value) || 0;
     const transportationCharge =
       expenseBreakdown.transportation.self ||
       expenseBreakdown.transportation.supplier;
@@ -1013,8 +1009,8 @@ export class AddSlabPurchaseComponent {
       "nonTaxableAmount",
       nonTaxableAmount
     );
-    console.log(tax, 'tax tax tax');
-    
+    console.log(tax, "tax tax tax");
+
     let taxable = 0;
     let transportationAndOtherChargePerSQFT = 0;
     let transportationChargesPerSlab = 0;
@@ -1059,11 +1055,11 @@ export class AddSlabPurchaseComponent {
 
     let taxApplied = 0;
     if (tax) {
-        taxApplied += (taxableAmount * tax.taxRate) / 100;
-        this.slabAddForm.get('IGST')?.setValue(tax.taxRate)
-        const halfTaxRate = tax.taxRate / 2;
-        this.slabAddForm.get('CGST')?.setValue(halfTaxRate);
-        this.slabAddForm.get('SGST')?.setValue(halfTaxRate);    
+      taxApplied += (taxableAmount * tax.taxRate) / 100;
+      this.slabAddForm.get("IGST")?.setValue(tax.taxRate);
+      const halfTaxRate = tax.taxRate / 2;
+      this.slabAddForm.get("CGST")?.setValue(halfTaxRate);
+      this.slabAddForm.get("SGST")?.setValue(halfTaxRate);
     } else {
       taxApplied = (taxableAmount * tax) / 100;
     }
@@ -1082,8 +1078,8 @@ export class AddSlabPurchaseComponent {
       });
       this.slabDetails = []; // Clear slabDetails data
       const formData = this.slabAddForm.value;
-      console.log(formData, 'formData');
-      
+      console.log(formData, "formData");
+
       const payload = {
         state_tax: formData.state_tax,
         IGST: formData.IGST,
@@ -1111,9 +1107,9 @@ export class AddSlabPurchaseComponent {
         totalCost: 0,
         totalSQFT: 0,
       };
-      
-      console.log(payload, 'payload');
-      
+
+      console.log(payload, "payload");
+
       this.NewPurchaseService.setFormData("stepFirstSlabData", payload);
 
       return; // Exit the function early as there's no data
@@ -1162,8 +1158,13 @@ export class AddSlabPurchaseComponent {
         taxableAmount -= remainingDiscount;
       }
 
-      console.log(remainingDiscount, taxableAmount, nonTaxableAmount, apiPurchaseDiscount, apiTaxableAmount);
-      
+      console.log(
+        remainingDiscount,
+        taxableAmount,
+        nonTaxableAmount,
+        apiPurchaseDiscount,
+        apiTaxableAmount
+      );
 
       form.patchValue({
         nonTaxableAmount: Number(nonTaxableAmount).toFixed(2),
@@ -1181,11 +1182,21 @@ export class AddSlabPurchaseComponent {
         taxableAmount && taxableAmount <= slabTotalAmount
           ? slabTotalAmount - taxableAmount + totalSupplierExpenses
           : slabTotalAmount - 0 + totalSupplierExpenses;
-      console.log(nonTaxableAmount, taxableAmount, totalSupplierExpenses, purchaseDiscount, slabTotalAmount, 'purchaseDiscountpurchaseDiscountpurchaseDiscount');
-      
+      console.log(
+        nonTaxableAmount,
+        taxableAmount,
+        totalSupplierExpenses,
+        purchaseDiscount,
+        slabTotalAmount,
+        "purchaseDiscountpurchaseDiscountpurchaseDiscount"
+      );
+
       // Discount Logic (Your Original Logic)
-      console.log(purchaseDiscount, 'purchaseDiscountpurchaseDiscountpurchaseDiscount');
-      
+      console.log(
+        purchaseDiscount,
+        "purchaseDiscountpurchaseDiscountpurchaseDiscount"
+      );
+
       // if (purchaseDiscount) {
       //   let remainingDiscount = purchaseDiscount;
 
@@ -1275,8 +1286,7 @@ export class AddSlabPurchaseComponent {
       royaltyCharge +
       otherCharge;
 
-
-    paidToSupplierSlabAmount = paidToSupplierSlabAmount - purchaseTDS
+    paidToSupplierSlabAmount = paidToSupplierSlabAmount - purchaseTDS;
 
     console.log("Total Cost:", totalCost);
     form.patchValue({
@@ -1293,11 +1303,10 @@ export class AddSlabPurchaseComponent {
 
     this.setValidator();
 
-
-
-
-    console.log(this.slabAddForm, 'slabAddFormslabAddFormslabAddFormslabAddFormslabAddFormslabAddFormslabAddForm');
-    
+    console.log(
+      this.slabAddForm,
+      "slabAddFormslabAddFormslabAddFormslabAddFormslabAddFormslabAddFormslabAddForm"
+    );
   }
 
   trackByFn(index: number, item: any) {
@@ -1322,9 +1331,9 @@ export class AddSlabPurchaseComponent {
     this.slabAddForm.get("taxableAmount")?.updateValueAndValidity;
   }
 
-  getValue(index, value){
-    console.log(value, 'getValue');
-    
+  getValue(index, value) {
+    console.log(value, "getValue");
+
     const expenseControl = this.expenses.at(index);
     if (expenseControl) {
       expenseControl.get("type")?.setValue(value);
@@ -1393,8 +1402,6 @@ export class AddSlabPurchaseComponent {
       CGST: formData.CGST,
       SGST: formData.SGST,
     };
-
-    
 
     this.NewPurchaseService.setFormData("stepFirstSlabData", payload);
     // this.saveClicked.emit()
@@ -1467,7 +1474,9 @@ export class AddSlabPurchaseComponent {
 
   getSelectedType(index) {
     const expenseControl = this.expenses.at(index);
-    return this.expenseTypeOptions.find(ele => ele.value === expenseControl.get('type')?.value)?.name
+    return this.expenseTypeOptions.find(
+      (ele) => ele.value === expenseControl.get("type")?.value
+    )?.name;
   }
 
   saveRow(row: any) {
@@ -1509,35 +1518,42 @@ export class AddSlabPurchaseComponent {
   updateTaxType(index: number, value: string, type?: string) {
     const expenseControl = this.expenses.at(index);
     console.log(value);
-    if(type === 'rcm' || value == 'supplier') {
+    if (type === "rcm") {
       const rcmApplicable = expenseControl.get("rcmApplicable")?.value;
-      !rcmApplicable || value == 'supplier' ? (expenseControl.get("ItemTax")?.setValue(null), expenseControl.get("serviceProvider")?.setValue(null)) : null
+      !rcmApplicable
+        ? (expenseControl.get("ItemTax")?.setValue(null),
+          expenseControl.get("serviceProvider")?.setValue(null))
+        : null;
+    } else if (value === "supplier") {
+      expenseControl.get("ItemTax")?.setValue(null);
+      expenseControl.get("serviceProvider")?.setValue(null);
     }
+    console.log(expenseControl.get("ItemTax")?.value);
+
     if (expenseControl) {
       expenseControl.get("state_tax")?.setValue(value);
       this.calculateTotalAmount();
     }
   }
 
-onRcmChange(index: number, value: boolean) {
-  const control = this.expenses.at(index);
-  control.get('rcmApplicable')?.setValue(value);
-  // any other logic you want on checkbox change
-}
-
+  onRcmChange(index: number, value: boolean) {
+    const control = this.expenses.at(index);
+    control.get("rcmApplicable")?.setValue(value);
+    // any other logic you want on checkbox change
+  }
 
   createExpense(): FormGroup {
     return this.fb.group({
       type: ["", Validators.required],
       payment: ["", Validators.required],
       paidBy: ["", Validators.required],
-      state_tax: [''],
-      ItemTax: [''],
-      IGST: [''],
-      CGST: [''],
-      SGST: [''],
-      taxAppliedExpense:[''],
-      serviceProvider:[''],
+      state_tax: [""],
+      ItemTax: [""],
+      IGST: [""],
+      CGST: [""],
+      SGST: [""],
+      taxAppliedExpense: [""],
+      serviceProvider: [""],
       rcmApplicable: [false],
     });
   }
