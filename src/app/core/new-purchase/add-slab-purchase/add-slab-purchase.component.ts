@@ -77,6 +77,7 @@ export class AddSlabPurchaseComponent {
   // nonTaxableAmount: number;
   allSubCategoryList: any = [];
   subCategorListByCategory: any = [];
+  serviceProviderList: any = [];
   maxPurchaseAmount = 0;
   previousSlabData: any;
   products: any[] = [];
@@ -259,7 +260,22 @@ export class AddSlabPurchaseComponent {
         });
       });
     });
+    this.getAllGenralParty()
   }
+
+    getAllGenralParty() {
+      this.NewPurchaseService.getAllGenralParty().subscribe((resp) => {
+        this.serviceProviderList = resp;
+        this.serviceProviderList = this.serviceProviderList.map((element: any) => ({
+          name: element.name,
+          _id: {
+            _id: element._id,
+            name: element.name,
+          },
+        }));
+      })
+    }
+  
 
   getSubCategories(value?: any) {
     this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
@@ -335,6 +351,7 @@ export class AddSlabPurchaseComponent {
       SGST: [data?.SGST],
       taxAppliedExpense: [data?.taxAppliedExpense],
       rcmApplicable: [data?.rcmApplicable],
+      serviceProvider: [data?.serviceProvider],
     });
   }
 
@@ -1094,7 +1111,7 @@ export class AddSlabPurchaseComponent {
         totalCost: 0,
         totalSQFT: 0,
       };
-      debugger
+      
       console.log(payload, 'payload');
       
       this.NewPurchaseService.setFormData("stepFirstSlabData", payload);
@@ -1377,7 +1394,7 @@ export class AddSlabPurchaseComponent {
       SGST: formData.SGST,
     };
 
-    debugger
+    
 
     this.NewPurchaseService.setFormData("stepFirstSlabData", payload);
     // this.saveClicked.emit()
@@ -1448,6 +1465,11 @@ export class AddSlabPurchaseComponent {
     this.editedRowBackup = { ...row }; // shallow copy
   }
 
+  getSelectedType(index) {
+    const expenseControl = this.expenses.at(index);
+    return this.expenseTypeOptions.find(ele => ele.value === expenseControl.get('type')?.value)?.name
+  }
+
   saveRow(row: any) {
     console.log(row, "saveRow");
     console.log(this.rows, "this.rows");
@@ -1484,10 +1506,13 @@ export class AddSlabPurchaseComponent {
     }
   }
 
-  updateTaxType(index: number, value: string) {
-    console.log(value);
-    
+  updateTaxType(index: number, value: string, type?: string) {
     const expenseControl = this.expenses.at(index);
+    console.log(value);
+    if(type === 'rcm' || value == 'supplier') {
+      const rcmApplicable = expenseControl.get("rcmApplicable")?.value;
+      !rcmApplicable || value == 'supplier' ? (expenseControl.get("ItemTax")?.setValue(null), expenseControl.get("serviceProvider")?.setValue(null)) : null
+    }
     if (expenseControl) {
       expenseControl.get("state_tax")?.setValue(value);
       this.calculateTotalAmount();
@@ -1512,6 +1537,7 @@ onRcmChange(index: number, value: boolean) {
       CGST: [''],
       SGST: [''],
       taxAppliedExpense:[''],
+      serviceProvider:[''],
       rcmApplicable: [false],
     });
   }

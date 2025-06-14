@@ -988,106 +988,141 @@
                                 <div class="card card-table show-entire">
                                   <div class="page-table-header mb-2 m-3">
                                     <div class="row practice-card">
-                                      <div class="col-xl-6 col-lg-6 col-sm-12">
-                                        <div class="form-group row mb-2">
-                                          <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                            Slab Name
-                                          </h5>
-                                          <div class="col-lg-8 col-md-8 col-xl-8">
-                                            <p class="col-form-label">
-                                              {{ data?.slabName ?? ' -- ' }}
-                                            </p>
-                                          </div>
-                                        </div>
-                                        <div class="form-group row mb-2">
-                                          <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                            Length (Inch)
-                                          </h5>
-                                          <div class="col-lg-8 col-md-8 col-xl-8">
-                                            <p class="col-form-label">
-                                              {{ data.length ?? ' -- '}}
-                                            </p>
-                                          </div>
-                                        </div>
-                                        <div class="form-group row mb-2">
-                                          <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                            Width (Inch)
-                                          </h5>
-                                          <div class="col-lg-8 col-md-8 col-xl-8">
-                                            <p class="col-form-label">{{ data?.width ?? " -- " }}</p>
-                                          </div>
-                                        </div>
-                                        <div class="form-group row mb-2">
-                                          <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                            Thickness
-                                          </h5>
-                                          <div class="col-lg-8 col-md-8 col-xl-8">
-                                            <p class="col-form-label">
-                                              {{ data?.thickness ?? " -- " }}
-                                            </p>
-                                          </div>
-                                        </div>
-                                        <div class="form-group row mb-2">
-                                          <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                            Quantity (Square Feet)
-                                          </h5>
-                                          <div class="col-lg-8 col-md-8 col-xl-8">
-                                            <p class="col-form-label">
-                                              {{ data?.totalSQFT ?? " -- " }}
-                                            </p>
-                                          </div>
+                                    <div class="col-xl-6 col-lg-6 col-sm-12">
+                                      <div class="form-group row mb-2">
+                                        <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                          Slab Name
+                                        </h5>
+                                        <div class="col-lg-8 col-md-8 col-xl-8">
+                                          <p class="col-form-label">
+                                            {{ data?.slabName ?? ' -- '?? '--' }}
+                                          </p>
                                         </div>
                                       </div>
-                                      <div class="col-xl-6 col-lg-6 col-sm-12">
-                                        <div class="form-group row mb-2">
-                                          <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                            Rate / Sq. Feet
-                                          </h5>
-                                          <div class="col-lg-8 col-md-8 col-xl-8">
-                                            <p class="col-form-label">
-                                              ₹ {{ data?.ratePerSqFeet ?? " -- "}}
-                                            </p>
-                                          </div>
+                                      <div class="form-group row mb-2">
+                                        <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                          Length ({{data.unitsType == 'square_feet' ? 'Inch' :
+                                          'Meter'}})
+                                        </h5>
+                                        <div class="col-lg-8 col-md-8 col-xl-8">
+                                          <p class="col-form-label">
+                                            {{ data?.length ?? ' -- '}}
+                                          </p>
                                         </div>
-                                        <div class="form-group row mb-2">
-                                          <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                            Total Amount
-                                          </h5>
-                                          <div class="col-lg-8 col-md-8 col-xl-8">
-                                            <p class="col-form-label">
-                                              ₹ {{ data?.totalCosting?.toFixed(2) ?? " -- " }}
-                                            </p>
-                                          </div>
+                                      </div>
+                                      <div class="form-group row mb-2">
+                                        <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                          Width ({{data.unitsType == 'square_feet' ? 'Inch' :
+                                          'Meter'}})
+                                        </h5>
+                                        <div class="col-lg-8 col-md-8 col-xl-8">
+                                          <p class="col-form-label">{{ data?.width ?? ' -- '}}
+                                          </p>
                                         </div>
-                                        <div class="form-group row mb-2">
-                                          <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                            Number of Pieces
-                                          </h5>
-                                          <div class="col-lg-8 col-md-8 col-xl-8">
-                                            <p class="col-form-label">
-                                              {{ data?.noOfPieces ?? " -- " }}
-                                            </p>
-                                          </div>
+                                      </div>
+                                      <div class="form-group row mb-2">
+                                        <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                          Thickness
+                                        </h5>
+                                        <div class="col-lg-8 col-md-8 col-xl-8">
+                                          <p class="col-form-label">
+                                            {{ data?.thickness ?? ' -- '}}
+                                          </p>
                                         </div>
-                                        <div class="form-group row mb-2">
-                                          <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                            Finishes
-                                          </h5>
-                                          <div class="col-lg-8 col-md-8 col-xl-8">
-                                            <p class="col-form-label">
-                                              {{ data?.finishes?.name ?? " -- " }}
-                                            </p>
-                                          </div>
+                                      </div>
+                                      <div class="form-group row mb-2">
+                                        <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                          Number of Pieces
+                                        </h5>
+                                        <div class="col-lg-8 col-md-8 col-xl-8">
+                                          <p class="col-form-label">
+                                            {{ data?.noOfPieces ?? ' -- '}}
+                                          </p>
                                         </div>
-                                        <div class="form-group row mb-2">
-                                          <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
-                                            Cost Per SQFT
-                                          </h5>
-                                          <div class="col-lg-8 col-md-8 col-xl-8">
-                                            <p class="col-form-label">
-                                              {{ data?.costPerSQFT ?? ' -- ' }}
-                                            </p>
-                                          </div>
+                                      </div>
+                                      <div class="form-group row mb-2">
+                                        <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                          Finishes
+                                        </h5>
+                                        <div class="col-lg-8 col-md-8 col-xl-8">
+                                          <p class="col-form-label">
+                                            {{ data?.finishes.name ?? ' -- ' }}
+                                          </p>
+                                        </div>
+                                      </div>
+                                      <div class="form-group row mb-2">
+                                        <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                          Total Amount
+                                        </h5>
+                                        <div class="col-lg-8 col-md-8 col-xl-8">
+                                          <p class="col-form-label">
+                                            ₹ {{ data?.totalCosting ?? ' -- '}}
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="col-xl-6 col-lg-6 col-sm-12">
+                                      <div class="form-group row mb-2">
+                                        <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                          Quantity / Sq. Feet
+                                        </h5>
+                                        <div class="col-lg-8 col-md-8 col-xl-8">
+                                          <p class="col-form-label">
+                                            {{ data?.totalSQFT ? (data.totalSQFT |
+                                            number:'1.2-2') : '--' }}
+                                          </p>
+                                        </div>
+                                      </div>
+                                      <div class="form-group row mb-2">
+                                        <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                          Quantity / Sq. Meter
+                                        </h5>
+                                        <div class="col-lg-8 col-md-8 col-xl-8">
+                                          <p class="col-form-label">
+                                            {{ data?.totalSQMT ? (data.totalSQMT |
+                                            number:'1.2-2') : '--' }}
+                                          </p>
+                                        </div>
+                                      </div>
+                                      <div class="form-group row mb-2">
+                                        <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                          Rate / Sq. Feet
+                                        </h5>
+                                        <div class="col-lg-8 col-md-8 col-xl-8">
+                                          <p class="col-form-label">
+                                            ₹ {{ data?.ratePerSqFeet ?? ' -- '}}
+                                          </p>
+                                        </div>
+                                      </div>
+                                      <div class="form-group row mb-2">
+                                        <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                          Rate / Sq. Meter
+                                        </h5>
+                                        <div class="col-lg-8 col-md-8 col-xl-8">
+                                          <p class="col-form-label">
+                                            ₹ {{ data?.ratePerSqMeter ?? ' -- '}}
+                                          </p>
+                                        </div>
+                                      </div>
+                                      <div class="form-group row mb-2">
+                                        <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                          Cost Per SQFT
+                                        </h5>
+                                        <div class="col-lg-8 col-md-8 col-xl-8">
+                                          <p class="col-form-label">
+                                            ₹ {{ data?.costPerSQFT ?? ' -- '}}
+                                          </p>
+                                        </div>
+                                      </div>
+                                      <div class="form-group row mb-2">
+                                        <h5 class="col-lg-4 col-md-4 col-xl-4 col-form-label">
+                                          Cost Per SQMT
+                                        </h5>
+                                        <div class="col-lg-8 col-md-8 col-xl-8">
+                                          <p class="col-form-label">
+                                            ₹ {{ data?.costPerSQMT ?? ' -- '}}
+                                          </p>
                                         </div>
                                       </div>
                                     </div>
@@ -1095,107 +1130,108 @@
                                 </div>
                               </div>
                             </div>
-                          </p-accordionTab>
-                        </p-accordion>
                       </div>
-
-                      <form *ngIf="expenses.controls[0].get('payment')?.value != ''" [formGroup]="expensesForm">
-                        <p-accordion [activeIndex]="0">
-                          <p-accordionTab>
-                            <ng-template pTemplate="header">
-                              <div class="d-flex justify-content-between align-items-center w-100">
-                                <span class="font-bold">Expenses</span>
-                              </div>
-                            </ng-template>
-
-                            <div class="row">
-                              <table class="table table-bordered" formArrayName="expenses">
-                                <thead>
-                                  <tr>
-                                    <th>Type</th>
-                                    <th>Payment</th>
-                                    <th>Paid By</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr *ngFor="let expense of expenses.controls; let i = index" [formGroupName]="i">
-                                    <td>{{ getExpenseTypeName(expense.get('type')?.value) }}</td>
-                                    <td>{{ expense.get('payment')?.value }}</td>
-                                    <td>{{ capitalizeFirstLetter(expense.get('paidBy')?.value) }}</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                          </p-accordionTab>
-                        </p-accordion>
-                      </form>
-
-
+                      </p-accordionTab>
+                      </p-accordion>
                     </div>
 
-                    <div class="row">
-                      <div class="col-lg-7 col-md-6">
-                        <div class="invoice-fields">
-                          <h4 class="field-title">More Fields</h4>
-                        </div>
-                        <!-- First Collapsible Panel -->
-                        <div class="invoice-faq">
-                          <div class="panel-group" id="headingTwo" role="tablist" aria-multiselectable="true">
-                            <div class="faq-tab">
-                              <div class="panel panel-default">
-                                <div class="panel-heading" role="tab" id="headingTwo">
-                                  <p class="panel-title">
-                                    <a class="collapsed" data-bs-toggle="collapse" data-bs-parent="#headingTwo"
-                                      href="#collapseNotes" aria-expanded="false" aria-controls="collapseNotes">
-                                      <i class="fas fa-plus-circle me-1"></i> Add Narration
-                                    </a>
-                                  </p>
-                                </div>
-                                <div id="collapseNotes" class="panel-collapse collapse" role="tabpanel"
-                                  aria-labelledby="headingTwo" data-bs-parent="#headingTwo">
-                                  <div class="panel-body">
-                                    <textarea class="form-control" formControlName="purchaseNotes"></textarea>
-                                    <div
-                                      *ngIf="addNewPurchaseForm.get('purchaseNotes')?.hasError('pattern')  && addNewPurchaseForm.get('purchaseNotes')?.touched">
-                                      <span class="login-danger">Input must be between 3 to
-                                        500 characters.</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
+                    <form *ngIf="expenses.controls[0].get('payment')?.value != ''" [formGroup]="expensesForm">
+                      <p-accordion [activeIndex]="0">
+                        <p-accordionTab>
+                          <ng-template pTemplate="header">
+                            <div class="d-flex justify-content-between align-items-center w-100">
+                              <span class="font-bold">Expenses</span>
                             </div>
+                          </ng-template>
+
+                          <div class="row">
+                            <table class="table table-bordered" formArrayName="expenses">
+                              <thead>
+                                <tr>
+                                  <th>Type</th>
+                                  <th>Payment</th>
+                                  <th>Paid By</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let expense of expenses.controls; let i = index" [formGroupName]="i">
+                                  <td>{{ getExpenseTypeName(expense.get('type')?.value) }}</td>
+                                  <td>{{ expense.get('payment')?.value }}</td>
+                                  <td>{{ capitalizeFirstLetter(expense.get('paidBy')?.value) }}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </p-accordionTab>
+                      </p-accordion>
+                    </form>
+
+
+          </div>
+
+          <div class="row">
+            <div class="col-lg-7 col-md-6">
+              <div class="invoice-fields">
+                <h4 class="field-title">More Fields</h4>
+              </div>
+              <!-- First Collapsible Panel -->
+              <div class="invoice-faq">
+                <div class="panel-group" id="headingTwo" role="tablist" aria-multiselectable="true">
+                  <div class="faq-tab">
+                    <div class="panel panel-default">
+                      <div class="panel-heading" role="tab" id="headingTwo">
+                        <p class="panel-title">
+                          <a class="collapsed" data-bs-toggle="collapse" data-bs-parent="#headingTwo"
+                            href="#collapseNotes" aria-expanded="false" aria-controls="collapseNotes">
+                            <i class="fas fa-plus-circle me-1"></i> Add Narration
+                          </a>
+                        </p>
+                      </div>
+                      <div id="collapseNotes" class="panel-collapse collapse" role="tabpanel"
+                        aria-labelledby="headingTwo" data-bs-parent="#headingTwo">
+                        <div class="panel-body">
+                          <textarea class="form-control" formControlName="purchaseNotes"></textarea>
+                          <div
+                            *ngIf="addNewPurchaseForm.get('purchaseNotes')?.hasError('pattern')  && addNewPurchaseForm.get('purchaseNotes')?.touched">
+                            <span class="login-danger">Input must be between 3 to
+                              500 characters.</span>
                           </div>
                         </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
 
-                        <div class="invoice-faq">
-                          <div class="panel-group" id="attachFile" role="tablist" aria-multiselectable="true">
-                            <div class="faq-tab">
-                              <div class="panel panel-default">
-                                <div class="panel-heading" role="tab" id="attachFile">
-                                  <p class="panel-title">
-                                    <a data-bs-toggle="collapse" data-bs-parent="#attachFile" href="#collapseattachFile"
-                                      aria-expanded="true" aria-controls="collapseattachFile">
-                                      <i class="fas fa-plus-circle me-1"></i> Attach File
-                                    </a>
-                                  </p>
-                                </div>
-                                <div id="collapseattachFile" class="panel-collapse" role="tabpanel"
-                                  aria-labelledby="attachFile" data-bs-parent="#attachFile">
-                                  <div class="panel-body">
-                                    <app-file-upload type="purchase" [existingAttachments]="attachments"
-                                      (filesChanged)="salesFilesChangedHandler($event)"
-                                      (uploadComplete)="salesUploadCompleteHandler($event)"
-                                      (fileDeleted)="handleFileDeleted($event)">
-                                    </app-file-upload>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+              <div class="invoice-faq">
+                <div class="panel-group" id="attachFile" role="tablist" aria-multiselectable="true">
+                  <div class="faq-tab">
+                    <div class="panel panel-default">
+                      <div class="panel-heading" role="tab" id="attachFile">
+                        <p class="panel-title">
+                          <a data-bs-toggle="collapse" data-bs-parent="#attachFile" href="#collapseattachFile"
+                            aria-expanded="true" aria-controls="collapseattachFile">
+                            <i class="fas fa-plus-circle me-1"></i> Attach File
+                          </a>
+                        </p>
+                      </div>
+                      <div id="collapseattachFile" class="panel-collapse" role="tabpanel" aria-labelledby="attachFile"
+                        data-bs-parent="#attachFile">
+                        <div class="panel-body">
+                          <app-file-upload type="purchase" [existingAttachments]="attachments"
+                            (filesChanged)="salesFilesChangedHandler($event)"
+                            (uploadComplete)="salesUploadCompleteHandler($event)"
+                            (fileDeleted)="handleFileDeleted($event)">
+                          </app-file-upload>
                         </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-                        <!-- <div class="row mt-4" *ngIf="addNewPurchaseForm.get('taxable')?.value">
+              <!-- <div class="row mt-4" *ngIf="addNewPurchaseForm.get('taxable')?.value">
                           <div class="col-md-6 col-xl-6 checkbox">
                             <p-checkbox [binary]="true" class="m-r-10" formControlName="isTaxVendor"
                               (onChange)="changeVaidationForTaxVendor()">
@@ -1266,234 +1302,234 @@
                         </div> -->
 
 
-                      </div>
-                      <div class="col-lg-5 col-md-6">
-                        <div class="invoice-total-card">
-                          <h4 class="invoice-total-title">Summary</h4>
-                          <div class="invoice-total-box">
-                            <div class="invoice-total-inner" *ngIf="lotTypeValue === 'Lot'">
-                              <p *ngIf="ItemDetails?.lotWeight">
-                                Lot Weight ( Ton )<span>
-                                  {{ ItemDetails?.lotWeight}}
-                                </span>
-                              </p>
-                              <p *ngIf="ItemDetails?.lotWeight === undefined">
-                                Lot Weight ( Ton )<span>
+            </div>
+            <div class="col-lg-5 col-md-6">
+              <div class="invoice-total-card">
+                <h4 class="invoice-total-title">Summary</h4>
+                <div class="invoice-total-box">
+                  <div class="invoice-total-inner" *ngIf="lotTypeValue === 'Lot'">
+                    <p *ngIf="ItemDetails?.lotWeight">
+                      Lot Weight ( Ton )<span>
+                        {{ ItemDetails?.lotWeight}}
+                      </span>
+                    </p>
+                    <p *ngIf="ItemDetails?.lotWeight === undefined">
+                      Lot Weight ( Ton )<span>
 
-                                </span>
-                              </p>
-                              <p *ngIf="ItemDetails?.pricePerTon">
-                                Price / Ton<span>
-                                  {{ ItemDetails?.pricePerTon |indianCurrency}}
-                                </span>
-                              </p>
-                              <p *ngIf="ItemDetails?.pricePerTon  === undefined">
-                                Price / Ton<span>
-                                </span>
-                              </p>
-                              <p *ngIf="ItemDetails?.transportationCharge === undefined">
-                                Transport Charges / Ton<span> </span>
-                              </p>
-                              <p *ngIf="ItemDetails?.transportationCharge">
-                                Transport Charges / Ton<span>
-                                  ₹ {{ ItemDetails?.transportationCharge |indianCurrency }}
+                      </span>
+                    </p>
+                    <p *ngIf="ItemDetails?.pricePerTon">
+                      Price / Ton<span>
+                        {{ ItemDetails?.pricePerTon |indianCurrency}}
+                      </span>
+                    </p>
+                    <p *ngIf="ItemDetails?.pricePerTon  === undefined">
+                      Price / Ton<span>
+                      </span>
+                    </p>
+                    <p *ngIf="ItemDetails?.transportationCharge === undefined">
+                      Transport Charges / Ton<span> </span>
+                    </p>
+                    <p *ngIf="ItemDetails?.transportationCharge">
+                      Transport Charges / Ton<span>
+                        ₹ {{ ItemDetails?.transportationCharge |indianCurrency }}
 
-                                </span>
-                              </p>
-                              <p *ngIf="addNewPurchaseForm.get('paidToSupplierPurchaseCost')?.value">
-                                Purchase Cost ( Paid To Supplier)
-                                <span>₹
-                                  {{
-                                  addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value |indianCurrency
-                                  }}
-                                </span>
-                              </p>
-                            </div>
-                            <!-- ---------------slab--------------------------- -->
-                            <div class="invoice-total-inner" *ngIf="lotTypeValue === 'Slab'">
-                              <p *ngIf="addNewPurchaseForm.get('totalSQFT')?.value">
-                                Total Square Feet<span>
-                                  {{ addNewPurchaseForm.get('totalSQFT').value | indianCurrency }}
+                      </span>
+                    </p>
+                    <p *ngIf="addNewPurchaseForm.get('paidToSupplierPurchaseCost')?.value">
+                      Purchase Cost ( Paid To Supplier)
+                      <span>₹
+                        {{
+                        addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value |indianCurrency
+                        }}
+                      </span>
+                    </p>
+                  </div>
+                  <!-- ---------------slab--------------------------- -->
+                  <div class="invoice-total-inner" *ngIf="lotTypeValue === 'Slab'">
+                    <p *ngIf="addNewPurchaseForm.get('totalSQFT')?.value">
+                      Total Square Feet<span>
+                        {{ addNewPurchaseForm.get('totalSQFT').value | indianCurrency }}
 
-                                </span>
-                              </p>
-                              <!-- <p *ngIf="addNewPurchaseForm.get('sellingPricePerSQFT')?.value">
+                      </span>
+                    </p>
+                    <!-- <p *ngIf="addNewPurchaseForm.get('sellingPricePerSQFT')?.value">
                                 Cost / Square Feet <span>
                                   ₹ {{ addNewPurchaseForm.get('costPerSQFT').value | indianCurrency}}
                                 </span>
                               </p> -->
-                              <!-- <p *ngIf="addNewPurchaseForm.get('sellingPricePerSQFT')?.value">
+                    <!-- <p *ngIf="addNewPurchaseForm.get('sellingPricePerSQFT')?.value">
                                 Selling Price / Square Feet <span>
                                   ₹ {{ addNewPurchaseForm.get('sellingPricePerSQFT').value | indianCurrency}}
                                 </span>
                               </p> -->
-                              <p *ngIf="addNewPurchaseForm.get('transportationCharges')?.value">
-                                Transport Charges<span>
-                                  ₹ {{ addNewPurchaseForm.get('transportationCharges').value | indianCurrency}}
-                                </span>
-                              </p>
-                              <p *ngIf="addNewPurchaseForm.get('otherCharges')?.value">
-                                Other Charges
-                                <span>
-                                  ₹ {{ addNewPurchaseForm.get('otherCharges').value | indianCurrency}}
-                                </span>
-                              </p>
-                              <p>
-                                Purchase Cost ( Paid To Supplier)
-                                <span>₹
-                                  {{ addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value ? (
-                                  addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value | indianCurrency ) : ' --
-                                  ' }}
-                                </span>
-                              </p>
-                              <p *ngIf="addNewPurchaseForm.get('purchaseDiscount').value">
-                                Purchase Discount (added)
-                                <span>₹
-                                  {{ addNewPurchaseForm.get("purchaseDiscount").value || 0.00 | indianCurrency }}
+                    <p *ngIf="addNewPurchaseForm.get('transportationCharges')?.value">
+                      Transport Charges<span>
+                        ₹ {{ addNewPurchaseForm.get('transportationCharges').value | indianCurrency}}
+                      </span>
+                    </p>
+                    <p *ngIf="addNewPurchaseForm.get('otherCharges')?.value">
+                      Other Charges
+                      <span>
+                        ₹ {{ addNewPurchaseForm.get('otherCharges').value | indianCurrency}}
+                      </span>
+                    </p>
+                    <p>
+                      Purchase Cost ( Paid To Supplier)
+                      <span>₹
+                        {{ addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value ? (
+                        addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value | indianCurrency ) : ' --
+                        ' }}
+                      </span>
+                    </p>
+                    <p *ngIf="addNewPurchaseForm.get('purchaseDiscount').value">
+                      Purchase Discount (added)
+                      <span>₹
+                        {{ addNewPurchaseForm.get("purchaseDiscount").value || 0.00 | indianCurrency }}
 
-                                </span>
-                              </p>
-                              <p *ngIf="addNewPurchaseForm.get('otherCharges').value">
-                                Other Charges
-                                <span>
-                                  ₹
-                                  {{ addNewPurchaseForm.get("otherCharges").value || 0.00 | indianCurrency }}
-                                </span>
-                              </p>
-                              <p *ngIf="addNewPurchaseForm.get('transportationCharges').value">
-                                Transportation Charges
-                                <span>
-                                  ₹
-                                  {{ addNewPurchaseForm.get("transportationCharges").value || 0.00 | indianCurrency }}
-                                </span>
-                              </p>
-                              <p *ngIf="addNewPurchaseForm.get('royaltyCharge')?.value">
-                                Royalty Charges
-                                <span>
-                                  ₹
-                                  {{ addNewPurchaseForm.get("royaltyCharge").value || 0.00 | indianCurrency }}
-                                </span>
-                              </p>
-                              <!-- Expenses Section -->
-                              <ng-container *ngIf="expenses && hasAnyPayment()">
-                                <div class="mt-3 mb-2">
-                                  <h5 class="expenses-title">Expenses</h5>
-                                </div>
-                                <ng-container *ngFor="let expense of expenses.controls; let i = index">
-                                  <p>
-                                    {{ getExpenseTypeName(expense.get('type')?.value) }}
-                                    <small class="text-muted ml-1">({{ expense.get('paidBy')?.value }})</small>
-                                    <span>
-                                      ₹ {{ expense.get('payment')?.value || 0.00 | indianCurrency }}
-                                    </span>
-                                  </p>
-                                </ng-container>
-                              </ng-container>
-                            </div>
-
-                            <div class="invoice-total-footer" *ngIf="lotTypeValue === 'Lot'">
-                              <p *ngIf="ItemDetails?.transportationCharge === undefined">
-                                Transport Charges / Ton<span> </span>
-                              </p>
-                              <p *ngIf="ItemDetails?.totalTransportationCharges">
-                                Transport Charges<span>
-                                  ₹ {{ ItemDetails?.totalTransportationCharges |indianCurrency }}
-                                </span>
-                              </p>
-                              <p *ngIf="ItemDetails?.royaltyCharge">
-                                Royalty Charges ( Other Charges )<span>
-                                  ₹
-                                  {{
-                                  ItemDetails?.royaltyCharge |indianCurrency}}
-                                </span>
-                              </p>
-                              <p *ngIf="ItemDetails?.royaltyCharge === undefined">
-                                Royalty Charges ( Other Charges )<span> </span>
-                              </p>
-                              <p *ngIf="ItemDetails?.purchaseDiscount > 0">
-                                Purchase Discount ( added )
-                                <span>₹ {{ ItemDetails?.purchaseDiscount |indianCurrency}} </span>
-                              </p>
-                              <p class="mt-2" *ngIf="addNewPurchaseForm.get('taxable')?.value">
-                                Tax Applied Amount
-                                <span>
-                                  ₹
-                                  {{
-                                  addNewPurchaseForm.get('taxable')?.value
-                                  | indianCurrency
-                                  }}
-                                </span>
-                              </p>
-                              <p class="mt-2" *ngIf="addNewPurchaseForm.get('nonTaxable')?.value">
-                                Non-Taxable Amount
-                                <span>
-                                  ₹
-                                  {{
-                                  addNewPurchaseForm.get('nonTaxable')?.value
-                                  | indianCurrency
-                                  }}
-                                </span>
-                              </p>
-                              <h4 *ngIf="lotTypeValue === 'Lot'">
-                                Total Purchase Cost
-                                <span>
-                                  {{ ItemDetails?.lotTotalCost
-                                  ? '₹ ' + (ItemDetails.lotTotalCost | indianCurrency)
-                                  : '₹ ' + (addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value |
-                                  indianCurrency)
-                                  }}
-                                </span>
-                              </h4>
-                            </div>
-                            <div class="invoice-total-footer" *ngIf="lotTypeValue === 'Slab'">
-                              <p class="mt-2" *ngIf="addNewPurchaseForm.get('taxable')?.value">
-                                Tax Applied Amount
-                                <span>
-                                  ₹
-                                  {{
-                                  addNewPurchaseForm.get('taxable')?.value
-                                  | indianCurrency
-                                  }}
-                                </span>
-                              </p>
-                              <p class="mt-2" *ngIf="addNewPurchaseForm.get('nonTaxable')?.value">
-                                Non-Taxable Amount
-                                <span>
-                                  ₹
-                                  {{
-                                  addNewPurchaseForm.get('nonTaxable')?.value
-                                  | indianCurrency
-                                  }}
-                                </span>
-                              </p>
-                              <h4>
-                                Total Purchase Cost
-                                <span>
-                                  {{ addNewPurchaseForm.get('purchaseTotalAmount')?.value
-                                  ? (addNewPurchaseForm.get('purchaseTotalAmount')?.value | indianCurrency)
-                                  : null }}
-                                </span>
-                              </h4>
-                            </div>
-                          </div>
-                        </div>
+                      </span>
+                    </p>
+                    <p *ngIf="addNewPurchaseForm.get('otherCharges').value">
+                      Other Charges
+                      <span>
+                        ₹
+                        {{ addNewPurchaseForm.get("otherCharges").value || 0.00 | indianCurrency }}
+                      </span>
+                    </p>
+                    <p *ngIf="addNewPurchaseForm.get('transportationCharges').value">
+                      Transportation Charges
+                      <span>
+                        ₹
+                        {{ addNewPurchaseForm.get("transportationCharges").value || 0.00 | indianCurrency }}
+                      </span>
+                    </p>
+                    <p *ngIf="addNewPurchaseForm.get('royaltyCharge')?.value">
+                      Royalty Charges
+                      <span>
+                        ₹
+                        {{ addNewPurchaseForm.get("royaltyCharge").value || 0.00 | indianCurrency }}
+                      </span>
+                    </p>
+                    <!-- Expenses Section -->
+                    <ng-container *ngIf="expenses && hasAnyPayment()">
+                      <div class="mt-3 mb-2">
+                        <h5 class="expenses-title">Expenses</h5>
                       </div>
-                    </div>
-                    <div class="d-flex pt-4 justify-content-between">
-                      <button type="button" class="btn btn-primary" (click)="backStep(prevCallback, 'Slab')">
-                        <i class="fa-solid fa-arrow-left"></i> Back
-                      </button>
-                      <button type="submit" class="border-0 btn btn-primary btn-gradient-primary">
-                        Submit
-                      </button>
-                    </div>
-                  </ng-template>
-                </p-stepperPanel>
-              </p-stepper>
-            </form>
+                      <ng-container *ngFor="let expense of expenses.controls; let i = index">
+                        <p>
+                          {{ getExpenseTypeName(expense.get('type')?.value) }}
+                          <small class="text-muted ml-1">({{ expense.get('paidBy')?.value }})</small>
+                          <span>
+                            ₹ {{ expense.get('payment')?.value || 0.00 | indianCurrency }}
+                          </span>
+                        </p>
+                      </ng-container>
+                    </ng-container>
+                  </div>
+
+                  <div class="invoice-total-footer" *ngIf="lotTypeValue === 'Lot'">
+                    <p *ngIf="ItemDetails?.transportationCharge === undefined">
+                      Transport Charges / Ton<span> </span>
+                    </p>
+                    <p *ngIf="ItemDetails?.totalTransportationCharges">
+                      Transport Charges<span>
+                        ₹ {{ ItemDetails?.totalTransportationCharges |indianCurrency }}
+                      </span>
+                    </p>
+                    <p *ngIf="ItemDetails?.royaltyCharge">
+                      Royalty Charges ( Other Charges )<span>
+                        ₹
+                        {{
+                        ItemDetails?.royaltyCharge |indianCurrency}}
+                      </span>
+                    </p>
+                    <p *ngIf="ItemDetails?.royaltyCharge === undefined">
+                      Royalty Charges ( Other Charges )<span> </span>
+                    </p>
+                    <p *ngIf="ItemDetails?.purchaseDiscount > 0">
+                      Purchase Discount ( added )
+                      <span>₹ {{ ItemDetails?.purchaseDiscount |indianCurrency}} </span>
+                    </p>
+                    <p class="mt-2" *ngIf="addNewPurchaseForm.get('taxable')?.value">
+                      Tax Applied Amount
+                      <span>
+                        ₹
+                        {{
+                        addNewPurchaseForm.get('taxable')?.value
+                        | indianCurrency
+                        }}
+                      </span>
+                    </p>
+                    <p class="mt-2" *ngIf="addNewPurchaseForm.get('nonTaxable')?.value">
+                      Non-Taxable Amount
+                      <span>
+                        ₹
+                        {{
+                        addNewPurchaseForm.get('nonTaxable')?.value
+                        | indianCurrency
+                        }}
+                      </span>
+                    </p>
+                    <h4 *ngIf="lotTypeValue === 'Lot'">
+                      Total Purchase Cost
+                      <span>
+                        {{ ItemDetails?.lotTotalCost
+                        ? '₹ ' + (ItemDetails.lotTotalCost | indianCurrency)
+                        : '₹ ' + (addNewPurchaseForm.get("paidToSupplierPurchaseCost")?.value |
+                        indianCurrency)
+                        }}
+                      </span>
+                    </h4>
+                  </div>
+                  <div class="invoice-total-footer" *ngIf="lotTypeValue === 'Slab'">
+                    <p class="mt-2" *ngIf="addNewPurchaseForm.get('taxable')?.value">
+                      Tax Applied Amount
+                      <span>
+                        ₹
+                        {{
+                        addNewPurchaseForm.get('taxable')?.value
+                        | indianCurrency
+                        }}
+                      </span>
+                    </p>
+                    <p class="mt-2" *ngIf="addNewPurchaseForm.get('nonTaxable')?.value">
+                      Non-Taxable Amount
+                      <span>
+                        ₹
+                        {{
+                        addNewPurchaseForm.get('nonTaxable')?.value
+                        | indianCurrency
+                        }}
+                      </span>
+                    </p>
+                    <h4>
+                      Total Purchase Cost
+                      <span>
+                        {{ addNewPurchaseForm.get('purchaseTotalAmount')?.value
+                        ? (addNewPurchaseForm.get('purchaseTotalAmount')?.value | indianCurrency)
+                        : null }}
+                      </span>
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+          <div class="d-flex pt-4 justify-content-between">
+            <button type="button" class="btn btn-primary" (click)="backStep(prevCallback, 'Slab')">
+              <i class="fa-solid fa-arrow-left"></i> Back
+            </button>
+            <button type="submit" class="border-0 btn btn-primary btn-gradient-primary">
+              Submit
+            </button>
+          </div>
+          </ng-template>
+          </p-stepperPanel>
+          </p-stepper>
+          </form>
         </div>
       </div>
     </div>
   </div>
+</div>
 </div>
