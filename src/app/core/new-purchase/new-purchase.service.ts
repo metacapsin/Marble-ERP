@@ -43,6 +43,10 @@ export class NewPurchaseService {
     return this.http.get(environment.apiUrl + `/Purchase/getPurchaseWithSlabDetail/${id}`);
   }
 
+  getAllGenralParty(){ 
+    return this.http.get(environment.apiUrl + `/GeneralParty/getAllGenralParty`);
+  }
+
   generateProductCode(data: any) {
     return this.http.post(environment.apiUrl + '/Purchase/generateProductCode', data);
   }

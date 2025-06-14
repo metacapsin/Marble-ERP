@@ -310,7 +310,6 @@ export class AddNewPurchaseComponent implements OnInit, OnDestroy {
         });
       });
     });
-
     // Restore attachments from local storage if available
     // const savedAttachments = this.localStorageService.getItem('purchase_attachments');
     // if (savedAttachments) {

@@ -114,7 +114,7 @@
                                                     <label>Supplier</label>
                                                     <ng-container
                                                         *ngIf="expense.get('type')?.value === 'transportationCharge' && expense.get('paidBy')?.value === 'self'">
-                                                        <p-checkbox inputId="rcm" (onClick)="updateTaxType(i, null)"
+                                                        <p-checkbox inputId="rcm" (onChange)="updateTaxType(i, null, 'rcm')"
                                                             binary="true" formControlName="rcmApplicable"></p-checkbox>
                                                         <label for="rcm" class="ml-2">RCM Applicable</label>
 
@@ -149,91 +149,121 @@
                                             *ngIf="(expense.get('type')?.value === 'transportationCharge' && expense.get('paidBy')?.value === 'self' && expense.get('rcmApplicable')?.value && expense.get('state_tax')?.value) || (expense.get('type')?.value === 'otherCharges' || expense.get('type')?.value === 'royaltyCharges') && expense.get('paidBy')?.value === 'self' && expense.get('state_tax')?.value">
                                             <td colspan="12">
                                                 <div class="row">
-                                                    <!-- Tax Dropdown -->
-                                                    <div class="{{expense.get('state_tax')?.value === 'intra_state_tax' ? 'col-md-6' : 'col-md-4'}}"
-                                                        class="mt-2">
-                                                        <div class="form-group local-forms">
-                                                            <p-dropdown [options]="orderTaxList"
-                                                                optionLabel="orderTaxName" optionValue="orderNamevalue"
-                                                                placeholder="Select Tax" [style]="{ width: '100%' }"
-                                                                [filter]="true" filterBy="name" [showClear]="false"
-                                                                required formControlName="ItemTax" name="ItemTax"
-                                                                (onChange)="calculateTotalAmount()"></p-dropdown>
-                                                        </div>
-                                                    </div>
+                                                    <div class="{{expense.get('rcmApplicable')?.value ? 'col-md-3' : 'col-0'}}">
 
-                                                    <!-- IGST -->
-                                                    <div class="mt-2"
-                                                        class="{{expense.get('state_tax')?.value === 'intra_state_tax' ? 'col-md-6 d-block' : 'd-none'}}">
-                                                        <div class="form-group local-forms">
-                                                            <label>IGST <span class="login-danger">*</span></label>
-                                                            <div class="input-group">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text">₹</span>
+                                                        <div class="row" *ngIf="expense.get('rcmApplicable')?.value">
+                                                            <div class="mt-2 col-12">
+                                                                <div class="form-group local-forms">
+                                                                    <p-dropdown [options]="serviceProviderList"
+                                                                        optionLabel="name"
+                                                                        optionValue="_id"
+                                                                        placeholder="Service Provider"
+                                                                        [style]="{ width: '100%' }" [filter]="true"
+                                                                        filterBy="name" [showClear]="false" required
+                                                                        formControlName="serviceProvider" name="serviceProvider"
+                                                                        (onChange)="calculateTotalAmount()"></p-dropdown>
                                                                 </div>
-                                                                <span class="form-control">{{ expense.get('IGST').value
-                                                                    }}</span>
                                                             </div>
                                                         </div>
                                                     </div>
-
-                                                    <!-- CGST -->
-                                                    <div class="mt-2"
-                                                        class="{{expense.get('state_tax')?.value === 'intra_state_tax' ? 'd-none' : 'col-md-4 d-block'}}">
-                                                        <div class="form-group local-forms">
-                                                            <label>CGST <span class="login-danger">*</span></label>
-                                                            <div class="input-group">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text">₹</span>
+                                                    <div class="{{expense.get('rcmApplicable')?.value ? 'col-md-9' : 'col-12'}}">
+                                                        <div class="row">
+                                                            <!-- Tax Dropdown -->
+                                                            <div class="{{expense.get('state_tax')?.value === 'intra_state_tax' ? 'col-md-6' : 'col-md-4'}}"
+                                                                class="mt-2">
+                                                                <div class="form-group local-forms">
+                                                                    <p-dropdown [options]="orderTaxList"
+                                                                        optionLabel="orderTaxName"
+                                                                        optionValue="orderNamevalue"
+                                                                        placeholder="Select Tax"
+                                                                        [style]="{ width: '100%' }" [filter]="true"
+                                                                        filterBy="name" [showClear]="false" required
+                                                                        formControlName="ItemTax" name="ItemTax"
+                                                                        (onChange)="calculateTotalAmount()"></p-dropdown>
                                                                 </div>
-                                                                <span class="form-control">{{ expense.get('CGST').value
-                                                                    }}</span>
                                                             </div>
-                                                        </div>
-                                                    </div>
 
-                                                    <!-- SGST -->
-                                                    <div class="mt-2"
-                                                        class="{{expense.get('state_tax')?.value === 'intra_state_tax' ? 'd-none' : 'col-md-4 d-block'}}">
-                                                        <div class="form-group local-forms">
-                                                            <label>SGST <span class="login-danger">*</span></label>
-                                                            <div class="input-group">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text">₹</span>
+                                                            <!-- IGST -->
+                                                            <div class="mt-2"
+                                                                class="{{expense.get('state_tax')?.value === 'intra_state_tax' ? 'col-md-6 d-block' : 'd-none'}}">
+                                                                <div class="form-group local-forms">
+                                                                    <label>IGST <span
+                                                                            class="login-danger">*</span></label>
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-prepend">
+                                                                            <span class="input-group-text">₹</span>
+                                                                        </div>
+                                                                        <span class="form-control">{{
+                                                                            expense.get('IGST').value
+                                                                            }}</span>
+                                                                    </div>
                                                                 </div>
-                                                                <span class="form-control">{{ expense.get('SGST').value
-                                                                    }}</span>
+                                                            </div>
+
+                                                            <!-- CGST -->
+                                                            <div class="mt-2"
+                                                                class="{{expense.get('state_tax')?.value === 'intra_state_tax' ? 'd-none' : 'col-md-4 d-block'}}">
+                                                                <div class="form-group local-forms">
+                                                                    <label>CGST <span
+                                                                            class="login-danger">*</span></label>
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-prepend">
+                                                                            <span class="input-group-text">₹</span>
+                                                                        </div>
+                                                                        <span class="form-control">{{
+                                                                            expense.get('CGST').value
+                                                                            }}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- SGST -->
+                                                            <div class="mt-2"
+                                                                class="{{expense.get('state_tax')?.value === 'intra_state_tax' ? 'd-none' : 'col-md-4 d-block'}}">
+                                                                <div class="form-group local-forms">
+                                                                    <label>SGST <span
+                                                                            class="login-danger">*</span></label>
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-prepend">
+                                                                            <span class="input-group-text">₹</span>
+                                                                        </div>
+                                                                        <span class="form-control">{{
+                                                                            expense.get('SGST').value
+                                                                            }}</span>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+
                                             </td>
                                         </tr>
 
                                         <tr *ngIf="expense.get('paidBy')?.value === 'self'">
-                                             <td colspan="12">
-                                            <div class="row" style="display: flex; justify-content: end;">
-                                                <div class="col-md-4">
-                                                    <div class="invoice-total-card">
-                                                        <div class="invoice-total-box">
-                                                            <div class="invoice-total-inner">
-                                                                <h3>
-                                                                    <p class="mt-2 mb-0">
-                                                                        Total Expenses
-                                                                        <span *ngIf="expense.get('taxAppliedExpense')?.value">
-                                                                            ₹
-                                                                            {{
-                                                                            expense.get('taxAppliedExpense')?.value
-                                                                            | number : "1.2-2"
-                                                                            }}
-                                                                        </span>
-                                                                    </p>
-                                                                </h3>
+                                            <td colspan="12">
+                                                <div class="row" style="display: flex; justify-content: end;">
+                                                    <div class="col-md-4">
+                                                        <div class="invoice-total-card">
+                                                            <div class="invoice-total-box">
+                                                                <div class="invoice-total-inner">
+                                                                    <h3>
+                                                                        <p class="mt-2 mb-0">
+                                                                            {{getSelectedType(i)}} <span
+                                                                                *ngIf="expense.get('taxAppliedExpense')?.value">
+                                                                                ₹
+                                                                                {{
+                                                                                expense.get('taxAppliedExpense')?.value
+                                                                                | number : "1.2-2"
+                                                                                }}
+                                                                            </span>
+                                                                        </p>
+                                                                    </h3>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
                                             </td>
                                         </tr>
                                     </ng-container>
