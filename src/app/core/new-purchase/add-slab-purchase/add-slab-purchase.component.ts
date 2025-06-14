@@ -1270,23 +1270,29 @@ export class AddSlabPurchaseComponent {
     });
 
     taxable = taxApplied + taxableAmount;
-    let paidToSupplierSlabAmount = taxable + nonTaxableAmount;
+    let paidToSupplierSlabAmount = Number.isNaN(taxable)
+      ? 0 + Number(nonTaxableAmount)
+      : Number(taxable) + Number(nonTaxableAmount);
 
+    console.log("paidToSupplierSlabAmount", paidToSupplierSlabAmount);
     console.log("Taxable:", taxable);
     console.log("Non-Taxable Amount:", nonTaxableAmount);
     console.log("Purchase Discount:", purchaseDiscount);
     console.log("Transportation Charge:", transportationCharge);
     console.log("Royalty Charge:", royaltyCharge);
 
+    const safeNumber = (value) => (Number.isNaN(value) ? 0 : value);
+
     const totalCost =
-      taxable +
-      nonTaxableAmount +
-      purchaseDiscount +
-      transportationCharge +
-      royaltyCharge +
-      otherCharge;
+      safeNumber(taxable) +
+      safeNumber(nonTaxableAmount) +
+      safeNumber(purchaseDiscount) +
+      safeNumber(transportationCharge) +
+      safeNumber(royaltyCharge) +
+      safeNumber(otherCharge);
 
     paidToSupplierSlabAmount = paidToSupplierSlabAmount - purchaseTDS;
+    console.log(paidToSupplierSlabAmount, "paidToSupplierSlabAmount");
 
     console.log("Total Cost:", totalCost);
     form.patchValue({
