@@ -394,32 +394,32 @@ export class DataService {
             },
           ],
         },
-        {
-          menuValue: "Ledger Pay",
-          hasSubRoute: true,
-          showSubRoute: false,
-          base: "ledger-pay",
-          icon: "fa-book",
-          faIcon: true,
-          role: [Role.Admin, Role.Provider, Role.HelpDesk],
-          subMenus: [
-            {
-              menuValue: "Dashboard",
-              route: routes.ledgerPayDashboard,
-              base: routes.ledgerPayDashboard,
-            },
-            {
-              menuValue: "New Payment",
-              route: routes.ledgerPayEntry,
-              base: routes.ledgerPayEntry,
-            },
-            {
-              menuValue: "History",
-              route: routes.ledgerPayHistory,
-              base: routes.ledgerPayHistory,
-            },
-          ],
-        },
+        // {
+        //   menuValue: "Ledger Pay",
+        //   hasSubRoute: true,
+        //   showSubRoute: false,
+        //   base: "ledger-pay",
+        //   icon: "fa-book",
+        //   faIcon: true,
+        //   role: [Role.Admin, Role.Provider, Role.HelpDesk],
+        //   subMenus: [
+        //     {
+        //       menuValue: "Dashboard",
+        //       route: routes.ledgerPayDashboard,
+        //       base: routes.ledgerPayDashboard,
+        //     },
+        //     {
+        //       menuValue: "New Payment",
+        //       route: routes.ledgerPayEntry,
+        //       base: routes.ledgerPayEntry,
+        //     },
+        //     {
+        //       menuValue: "History",
+        //       route: routes.ledgerPayHistory,
+        //       base: routes.ledgerPayHistory,
+        //     },
+        //   ],
+        // },
         {
           menuValue: "Expenses",
           hasSubRoute: true,
