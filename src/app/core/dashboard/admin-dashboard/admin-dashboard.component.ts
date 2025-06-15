@@ -304,20 +304,56 @@ export class AdminDashboardComponent {
       },
     };
 
+  //   this.optionsForSubCategoryChat = {
+  //     plugins: {
+  //       legend: {
+  //         display: true,  // Set to false to hide the legend
+  //         position: "bottom", // Options: 'top', 'bottom', 'left', 'right'
+  //  //   align: "right", // Aligns the legend within its position ('start', 'center', 'end')
+  //         labels: {
+  //           usePointStyle: true,
+  //           color: "#000000",
+  //         },
+  //       },
+  //     },
+  //   };
+
     this.optionsForSubCategoryChat = {
       plugins: {
         legend: {
-          display: true,  // Set to false to hide the legend
-          position: "bottom", // Options: 'top', 'bottom', 'left', 'right'
-   //   align: "right", // Aligns the legend within its position ('start', 'center', 'end')
+          display: true,
+          position: 'bottom',
           labels: {
             usePointStyle: true,
-            color: "#000000",
+            pointStyle: 'circle', // 'circle', 'rect', 'line', 'star', etc.
+            generateLabels: (chart) => {
+              const data = chart.data;
+              const dataset = data.datasets[0];
+              return data.labels
+                .map((label, i) => ({
+                  text: label,
+                  fillStyle: dataset.backgroundColor[i],
+                  strokeStyle: dataset.backgroundColor[i],
+                  index: i,
+                }))
+                .slice(0, 6); // Show only top 10 legend items
+            },
+          },
+        },
+        tooltip: {
+          callbacks: {
+            label: function (context) {
+              return `${context.label}: ${context.raw}`;
+            },
           },
         },
       },
     };
+ 
   }
+  
+
+  
 
   toggleRow(product: Product) {
     product.expanded = !product.expanded;
