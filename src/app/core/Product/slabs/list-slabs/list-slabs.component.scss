@@ -197,4 +197,12 @@
     }
   }
 }
+:host ::ng-deep .stock-type-btn {
+  .p-button {
+    height: 40px;
+  }
+  .text-success{
+    color: #55ce63 !important;
+  }
+}
   

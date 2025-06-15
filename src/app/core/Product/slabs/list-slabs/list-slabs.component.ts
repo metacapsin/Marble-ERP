@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
@@ -17,6 +17,10 @@ import { blockProcessorService } from "src/app/core/block-processor/block-proces
 import { SalesService } from "src/app/core/sales/sales.service";
 import { InvoiceDialogComponent } from "src/app/common-component/modals/invoice-dialog/invoice-dialog.component";
 import { ConfirmDialogComponent } from "src/app/common-component/modals/confirm-dialog/confirm-dialog.component";
+import { Table } from 'primeng/table';
+import { dashboardService } from "src/app/core/dashboard/dashboard.service";
+import { CategoriesService } from "src/app/core/settings/categories/categories.service";
+import { SubCategoriesService } from "src/app/core/settings/sub-categories/sub-categories.service";
 
 interface SlabInfo {
   _id: string;
@@ -42,6 +46,7 @@ interface SlabMedia {
   styleUrl: "./list-slabs.component.scss",
 })
 export class ListSlabsComponent implements OnInit {
+  @ViewChild('dt') dt: Table;
   public routes = routes;
   data: any = null;
   originalData: any = [];
@@ -82,6 +87,15 @@ export class ListSlabsComponent implements OnInit {
   salesDataById = [];
   showInvoiceDialog: boolean = false;
   paymentListData = [];
+  stockType: string = 'live'; // Default value
+  stockTypeOptions = [
+    { label: 'Live Stock', value: 'live', icon: 'fa-solid fa-circle text-success' },
+    { label: 'Sold Stock', value: 'sold', icon: 'fa-solid fa-circle text-secondary' }
+  ];
+  selectedCategory: any;
+  selectedSubCategory: any;
+  categoryData: any[] = [];
+  subCategoryData: any[] = [];
 
   // Static media for demonstration
   private staticMedia: { [key: string]: SlabMedia[] } = {
@@ -98,10 +112,13 @@ export class ListSlabsComponent implements OnInit {
     private service: SlabsService,
     private _snackBar: MatSnackBar,
     private messageService: MessageService,
-    private WarehouseService: WarehouseService,
+    private warehouseService: WarehouseService,
     private blockProcessorService: blockProcessorService,
     private SalesService: SalesService,
-    private http: HttpClient
+    private http: HttpClient,
+    private datefilter: dashboardService,
+    private categoriesService: CategoriesService,
+    private subCategoriesService: SubCategoriesService
   ) {}
 
   currentPage = 0;
@@ -381,16 +398,16 @@ this.getSlabsList();
   ngOnInit(): void {
     this.showDataLoader = true;
     this.getSlabsList();
+    this.getWarehouseList();
+    this.getCategories();
+    this.getAllSubCategories();
     this.blockProcessorService.getAllBlockProcessorData().subscribe((data) => {
       this.blockProcessorList = data as { _id: string; name: string }[];
     });
-    this.WarehouseService.getAllWarehouseList().subscribe((resp: any) => {
+    this.warehouseService.getAllWarehouseList().subscribe((resp: any) => {
       this.warehouseData = resp.data.map((element) => ({
         name: element.name,
-        _id: {
-          _id: element._id,
-          name: element.name,
-        },
+        _id: element._id
       }));
     });
   }
@@ -401,52 +418,32 @@ this.getSlabsList();
   ];
 
   onSearchInput(event: any) {
-    // Get the search term directly from the event
-    const searchTerm = event.target.value;
-    console.log("Search Term:", searchTerm);
-    // Filter data based on searchTerm value
-    let filteredData = this.allSlabsDaTa?.filter(
-      (item) =>
-        item?.categoryDetail?.name
-          ?.toLowerCase()
-          .includes(searchTerm.toLowerCase()) ||
-        item?.subCategoryDetail?.name
-          ?.toLowerCase()
-          .includes(searchTerm.toLowerCase()) ||
-        item?.slabName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item?.slabNo?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (item?.sellingPricePerSQFT &&
-          item?.sellingPricePerSQFT.toString().includes(searchTerm)) ||
-        (item?.costPerSQFT &&
-          item?.costPerSQFT.toString().includes(searchTerm)) ||
-        (item?.totalSQFT && item?.totalSQFT.toString().includes(searchTerm)) ||
-        // Check for size field
-        (item?.slabSize && item?.slabSize.toString().includes(searchTerm)) ||
-        item?.warehouseDetails?.name
-          ?.toLowerCase()
-          .toString()
-          .includes(searchTerm.toLowerCase())
-    );
-
-    // If selectedDate exists, apply date filtering
-    if (this.selectedDate) {
-      filteredData = filteredData.filter((item) => {
-        const itemDate = new Date(item?.slabDate); // Assuming each item has a 'slabDate' property
-        const selectedDate = new Date(this.selectedDate);
-        return itemDate.toDateString() === selectedDate.toDateString(); // Compare only the date (no time)
+    const searchValue = event.target.value.toLowerCase();
+    
+    if (!searchValue) {
+      this.allSlabsDaTa = [...this.originalData];
+    } else {
+      this.allSlabsDaTa = this.originalData.filter(item => {
+        return (
+          (item.slabName?.toLowerCase().includes(searchValue)) ||
+          (item.slabNo?.toLowerCase().includes(searchValue)) ||
+          (item.categoryDetail?.name?.toLowerCase().includes(searchValue)) ||
+          (item.subCategoryDetail?.name?.toLowerCase().includes(searchValue)) ||
+          (item.warehouseDetails?.name?.toLowerCase().includes(searchValue)) ||
+          (item.totalSQFT?.toString().includes(searchValue)) ||
+          (item.costPerSQFT?.toString().includes(searchValue)) ||
+          (item.sellingPricePerSQFT?.toString().includes(searchValue))
+        );
       });
     }
-    this.totalSqFtLeft = filteredData.reduce(
-      (sum, slab) => sum + slab.totalSQFT,
-      0
-    );
-    const startIndex = this.currentPage * this.rowsPerPage;
-    const endIndex = startIndex + this.rowsPerPage;
-    this.totalRecords = filteredData?.length;
-    this.pagedData = filteredData.slice(startIndex, endIndex);
 
-    // Optionally log the filtered data to verify
-    console.log("Filtered Data:", this.pagedData);
+    // Update total available stock based on filtered data
+    this.totalSqFtLeft = this.allSlabsDaTa.reduce((sum, slab) => sum + (slab.totalSQFT || 0), 0);
+    
+    // Reset pagination
+    this.currentPage = 0;
+    this.totalRecords = this.allSlabsDaTa.length;
+    this.updatePagedData();
   }
 
   getSlabsList(): void {
@@ -601,37 +598,8 @@ this.getSlabsList();
   }
 
   onSearchByChange(value: any): void {
-    console.log("value", value);
-    // If the search value is empty or null, return all original data
-    if (value == null) {
-      this.allSlabsDaTa = this.originalData;
-      this.allInDropDown = this.allSlabsDaTa;
-      const startIndex = this.currentPage * this.rowsPerPage;
-      const endIndex = startIndex + this.rowsPerPage;
-      this.totalRecords = this.allSlabsDaTa?.length;
-      this.pagedData = this.allSlabsDaTa.slice(startIndex, endIndex);
-      this.totalSqFtLeft = this.allSlabsDaTa.reduce(
-        (sum, slab) => sum + slab.totalSQFT,
-        0
-      );
-    } else {
-      this.allSlabsDaTa = this.originalData.filter((i) => {
-        return i.warehouseDetails && i.warehouseDetails._id == value._id;
-      });
-      this.allInDropDown = this.allSlabsDaTa;
-      const startIndex = this.currentPage * this.rowsPerPage;
-      const endIndex = startIndex + this.rowsPerPage;
-      this.totalRecords = this.allSlabsDaTa?.length;
-      this.pagedData = this.allSlabsDaTa.slice(startIndex, endIndex);
-      this.totalSqFtLeft = this.allSlabsDaTa.reduce(
-        (sum, slab) => sum + slab.totalSQFT,
-        0
-      );
-    }
-
-    // Update dropdown data with the filtered data
-
-    console.log(this.allSlabsDaTa);
+    this.warehouseDropDown = value;
+    this.applyFilters();
   }
 
   // for change layout
@@ -793,5 +761,200 @@ this.getSlabsList();
       url: ''
     }
   ];
+  }
+
+  getWarehouseList() {
+    this.warehouseService.getAllWarehouseList().subscribe((resp: any) => {
+      this.warehouseData = resp.data.map((element: any) => ({
+        name: element.name,
+        _id: element._id
+      }));
+    });
+  }
+
+  getCategories() {
+    this.categoriesService.getCategories().subscribe((resp: any) => {
+      this.categoryData = resp.data.map((element: any) => ({
+        name: element.name,
+        _id: element._id
+      }));
+    });
+  }
+
+  getAllSubCategories() {
+    this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
+      this.subCategoryData = resp.data.map((element: any) => ({
+        name: element.name,
+        _id: element._id
+      }));
+    });
+  }
+
+  onCategoryChange(value: any): void {
+    this.selectedCategory = value;
+    if (value) {
+      // Filter subcategories based on selected category
+      this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
+        this.subCategoryData = resp.data
+          .filter((element: any) => element.categoryId._id === value)
+          .map((element: any) => ({
+            name: element.name,
+            _id: element._id
+          }));
+      });
+    } else {
+      // If no category selected, show all subcategories
+      this.getAllSubCategories();
+    }
+    this.selectedSubCategory = null;
+    this.applyFilters();
+  }
+
+  onSubCategoryChange(value: any): void {
+    this.selectedSubCategory = value;
+    this.applyFilters();
+  }
+
+  applyFilters() {
+    let filteredData = [...this.originalData];
+    console.log('filteredData', filteredData)
+    console.log('warehouseDropDown', this.warehouseDropDown)
+    console.log('selectedCategory', this.selectedCategory)
+    console.log('selectedSubCategory', this.selectedSubCategory)
+
+    // Apply warehouse filter
+    if (this.warehouseDropDown) {
+      filteredData = filteredData.filter(item => 
+        item.warehouseDetails && item.warehouseDetails._id === this.warehouseDropDown
+      );
+    }
+
+    // Apply category filter
+    if (this.selectedCategory) {
+      filteredData = filteredData.filter(item => 
+        item.categoryDetail && item.categoryDetail._id === this.selectedCategory
+      );
+    }
+
+    // Apply subcategory filter
+    if (this.selectedSubCategory) {
+      filteredData = filteredData.filter(item => 
+        item.subCategoryDetail && item.subCategoryDetail._id === this.selectedSubCategory
+      );
+    }
+
+    // Apply stock type filter
+    if (this.stockType === 'sold') {
+      filteredData = filteredData.filter(item => item.totalSQFT === 0);
+    } else {
+      filteredData = filteredData.filter(item => item.totalSQFT > 0);
+    }
+
+    // Update the total available stock based on filtered data
+    this.totalSqFtLeft = filteredData.reduce((sum, slab) => sum + (slab.totalSQFT || 0), 0);
+
+    // Update the data and pagination
+    this.allSlabsDaTa = filteredData;
+    this.totalRecords = filteredData.length;
+    this.currentPage = 0; // Reset to first page when filters change
+    this.updatePagedData();
+  }
+
+  resetFilters() {
+    // Reset all filter values
+    this.warehouseDropDown = null;
+    this.selectedCategory = null;
+    this.selectedSubCategory = null;
+    this.stockType = 'live';
+    
+    // Clear search input if it exists
+    const searchInput = document.querySelector('input[placeholder="Enter Key Word here"]') as HTMLInputElement;
+    if (searchInput) {
+      searchInput.value = '';
+    }
+
+    // Reset data to original state
+    this.allSlabsDaTa = [...this.originalData];
+    
+    // Update total available stock
+    this.totalSqFtLeft = this.allSlabsDaTa.reduce((sum, slab) => sum + (slab.totalSQFT || 0), 0);
+    
+    // Reset pagination
+    this.currentPage = 0;
+    this.totalRecords = this.allSlabsDaTa.length;
+    this.updatePagedData();
+
+    // Reload all subcategories
+    this.getAllSubCategories();
+  }
+
+  exportSlabsToCSV() {
+    if (!this.allSlabsDaTa || this.allSlabsDaTa.length === 0) {
+        console.warn("No data to export.");
+        return;
+    }
+
+    const header = [
+        "Slab Name",
+        "Slab Number",
+        "Category",
+        "Sub Category",
+        "Size",
+        "Available Stock (Sq. Feet)",
+        "Initial Stock (Sq. Feet)",
+        "Cost/Sq. Feet",
+        "Selling Price/Sq. Feet",
+        "Warehouse",
+        "Stock Entry Date",
+        "Thickness (MM)",
+        "No of Pieces",
+        "Purchase Cost",
+        "Transportation Charges",
+        "Other Charges",
+        "Processing Fee",
+        "Processing Cost",
+        "Total Slab Cost",
+        "Notes"
+    ].join(',');
+
+    const rows = this.allSlabsDaTa.map(item => {
+        const slabSize = this.formatSlabSize(item.slabSize); // Assuming formatSlabSize exists in your component
+        return [
+            `"${item.slabName || ''}"`,
+            `"${item.slabNo || ''}"`,
+            `"${item.categoryDetail?.name || ''}"`,
+            `"${item.subCategoryDetail?.name || ''}"`,
+            `"${slabSize || ''}"`,
+            `"${item.totalSQFT || 0}"`,
+            `"${item.totalSlabSQFT || 0}"`,
+            `"${item.costPerSQFT || 0}"`,
+            `"${item.sellingPricePerSQFT || 0}"`,
+            `"${item.warehouseDetails?.name || ''}"`,
+            `"${item.date ? new Date(item.date).toLocaleDateString() : ''}"`,
+            `"${item.thickness || ''}"`,
+            `"${item.noOfPieces || ''}"`,
+            `"${item.purchaseCost || 0}"`,
+            `"${item.transportationCharges || 0}"`,
+            `"${item.otherCharges || 0}"`,
+            `"${item.processingFee || 0}"`,
+            `"${item.processingCost || 0}"`,
+            `"${item.totalSlabCost || 0}"`,
+            `"${item.notes || ''}"`
+        ].join(',');
+    });
+
+    const csvContent = [header, ...rows].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+
+    const link = document.createElement('a');
+    if (link.download !== undefined) { // feature detection
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'slabs_data.csv');
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
   }
 }

@@ -125,19 +125,19 @@ h3 {
         border-bottom: 1px solid #eee;
         
         &:nth-child(1) {
-            width: 40%;
+            width: 12%;
         }
         
         &:nth-child(2) {
-            width: 20%;
+            width: 12%;
         }
         
         &:nth-child(3) {
-            width: 30%;
+            width: 36%;
         }
         
         &:nth-child(4) {
-            width: 10%;
+            width: 5%;
         }
     }
     
@@ -192,6 +192,13 @@ h3 {
   max-height: 250px; /* adjust this based on row height */
   overflow-y: auto;
 }
+
+.p-table-wrapper {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
 
 ::ng-deep {
     .p-accordion-content{
