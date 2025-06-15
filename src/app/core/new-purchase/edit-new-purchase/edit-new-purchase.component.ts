@@ -196,6 +196,10 @@ export class EditNewPurchaseComponent implements OnInit {
     );
   }
 
+  public getTaxType(type: string):string {
+    return type === 'intra_state_tax' ? '( Intra State Tax )' : '( Inter State Tax )' 
+  }
+
   private handlePurchaseResponse(data: any) {
     this.editSlabValues = data.slabDetails || [];
     this.patchPurchaseFormValues(data);
@@ -422,6 +426,9 @@ export class EditNewPurchaseComponent implements OnInit {
     });
 
     this.SlabItemDetails = slabData;
+
+    console.log(this.SlabItemDetails, 'SlabItemDetails');
+    
   }
 
   handleFirstPageLotType() {
@@ -568,7 +575,15 @@ export class EditNewPurchaseComponent implements OnInit {
     return this.fb.group({
       type: [data?.type || ""],
       payment: [data?.payment || ""],
-      paidBy: [data?.paidBy || ""],
+      paidBy: [data?.paidBy],
+      state_tax: [data?.state_tax],
+      ItemTax: [data?.ItemTax],
+      IGST: [data?.IGST],
+      CGST: [data?.CGST],
+      SGST: [data?.SGST],
+      taxAppliedExpense: [data?.taxAppliedExpense],
+      rcmApplicable: [data?.rcmApplicable],
+      serviceProvider: [data?.serviceProvider],
     });
   }
 
@@ -609,10 +624,15 @@ export class EditNewPurchaseComponent implements OnInit {
 
   getSelectedWarehouseName(): string {
     const selectedId = this.editNewPurchaseForm.get("warehouseDetails")?.value;
+    console.log(selectedId, 'selectedId');
+    
     const selectedWarehouse = this.wareHousedata.find(
       (w) => w._id === selectedId
     );
+    console.log(selectedWarehouse, 'selectedWarehouse');
     return selectedWarehouse ? selectedWarehouse.name : "--";
+
+    
   }
 
   editNewPurchaseFormSubmit() {
@@ -631,7 +651,7 @@ export class EditNewPurchaseComponent implements OnInit {
       );
       const payload = this.preparePayload(formData, convertedDate);
 
-      this.submitPurchaseUpdate(payload);
+      this.submitPurchaseUpdate({...payload, _id: this.purchaseId});
     } catch (error) {
       this.messageService.add({
         severity: "error",
@@ -705,7 +725,8 @@ export class EditNewPurchaseComponent implements OnInit {
     taxVendorObj: any | null
   ): any {
     this.updateSlabWarehouseDetails();
-
+    console.log(formData, 'formData')
+    console.log(this.ItemDetails, 'this.ItemDetails')
     return {
       purchaseInvoiceNumber: formData.invoiceNumber,
       supplier: formData.supplier,
@@ -729,6 +750,7 @@ export class EditNewPurchaseComponent implements OnInit {
       vehicleNo: formData?.vehicleNo?.length > 0 ? formData.vehicleNo : null,
       totalSQFT: formData.totalSQFT,
       purchaseExpenses: this.expensesForm.value.expenses,
+      warehouseDetails: formData.warehouseDetails ? formData.warehouseDetails : this.ItemDetails?.warehouseDetails,
       ...this.getSlabAdditionalDetails(),
     };
   }
@@ -749,12 +771,16 @@ export class EditNewPurchaseComponent implements OnInit {
 
   private updateSlabWarehouseDetails(): void {
     if (Array.isArray(this.SlabItemDetails.slabDetails)) {
+      console.log(this.SlabItemDetails, 'this.SlabItemDetails');
+      
       this.SlabItemDetails.slabDetails = this.SlabItemDetails.slabDetails.map(
         (slab) => ({
           ...slab,
           warehouseDetails: this.getSelectedWarehouseDetails(),
         })
       );
+
+      console.log(this.SlabItemDetails, 'this.SlabItemDetails')
     }
   }
 
@@ -807,7 +833,9 @@ export class EditNewPurchaseComponent implements OnInit {
   }
 
   getSelectedWarehouseDetails(): { _id: string; name: string } | null {
-    const selectedId = this.editNewPurchaseForm.get("warehouse")?.value;
+    const selectedId = this.editNewPurchaseForm.get("warehouseDetails")?.value;
+    console.log(selectedId, 'selectedIdselectedId');
+    
     const warehouse = this.wareHousedata.find((w) => w._id === selectedId);
     return warehouse ? { _id: warehouse._id, name: warehouse.name } : null;
   }
