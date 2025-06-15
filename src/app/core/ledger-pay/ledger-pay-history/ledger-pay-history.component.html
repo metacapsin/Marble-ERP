@@ -1,0 +1,99 @@
+<!-- Page Header -->
+<!-- /Page Header -->
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card card-table show-entire">
+      <div class="page-table-header mb-2">
+        <div class="row align-items-center">
+          <div class="col">
+            <div class="doctor-table-blk">
+              <h3>Payment History</h3>
+              <div class="doctor-search-blk col-md-6">
+                <div class="top-nav-search table-search-blk me-3">
+                  <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="searchQuery">
+                  <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                </div>
+                <div class="add-group textbtn gap-3">
+                  <button pButton type="button" label="New Payment" icon="pi pi-plus" class="p-button-primary" routerLink="entry"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="row mb-4">
+        <div class="col-md-3">
+          <div class="form-group local-forms">
+            <label>Date Range</label>
+            <p-calendar [(ngModel)]="dateRange" selectionMode="range" [showIcon]="true" styleClass="w-100"></p-calendar>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group local-forms">
+            <label>Payment Type</label>
+            <p-dropdown [options]="paymentTypes" [(ngModel)]="selectedPaymentType" placeholder="All Types" styleClass="w-100"></p-dropdown>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Table -->
+      <p-table
+        [value]="payments"
+        [loading]="loading"
+        [paginator]="true"
+        [rows]="rows"
+        [totalRecords]="totalRecords"
+        [lazy]="true"
+        (onPage)="onPageChange($event)"
+        (onSort)="onSort($event)"
+        styleClass="p-datatable-striped">
+        
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon></th>
+            <th pSortableColumn="ledgerName">Ledger Name <p-sortIcon field="ledgerName"></p-sortIcon></th>
+            <th pSortableColumn="paymentType">Payment Type <p-sortIcon field="paymentType"></p-sortIcon></th>
+            <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon></th>
+            <th pSortableColumn="reference">Reference <p-sortIcon field="reference"></p-sortIcon></th>
+            <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+            <th>Actions</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-payment>
+          <tr>
+            <td>{{payment.date | date:'dd-MMM-yyyy'}}</td>
+            <td>{{payment.ledgerName}}</td>
+            <td>
+              <span [class]="payment.paymentType === 'Payment In' ? 'badge bg-success' : 'badge bg-danger'">
+                {{payment.paymentType}}
+              </span>
+            </td>
+            <td>{{payment.amount | number:'1.2-2'}}</td>
+            <td>{{payment.reference}}</td>
+            <td>
+              <span [class]="payment.status === 'Completed' ? 'badge bg-success' : 'badge bg-warning'">
+                {{payment.status}}
+              </span>
+            </td>
+            <td>
+              <div class="btn-group">
+                <button pButton type="button" icon="pi pi-pencil" class="p-button-rounded p-button-text" pTooltip="Edit"></button>
+                <button pButton type="button" icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger" pTooltip="Delete"></button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="7" class="text-center">No payments found</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div> 

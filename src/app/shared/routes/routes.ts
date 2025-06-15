@@ -760,4 +760,20 @@ export class routes {
   public static get viewGeneralParties(): string {
     return this.baseUrl + '/general-parties/view-general-parties';
   }
+
+  public static get ledgerPay(): string {
+    return this.baseUrl + '/ledger-pay';
+  }
+
+  public static get ledgerPayDashboard(): string {
+    return this.baseUrl + '/ledger-pay/dashboard';
+  }
+
+  public static get ledgerPayEntry(): string {
+    return this.baseUrl + '/ledger-pay/entry';
+  }
+
+  public static get ledgerPayHistory(): string {
+    return this.baseUrl + '/ledger-pay/history';
+  }
 }

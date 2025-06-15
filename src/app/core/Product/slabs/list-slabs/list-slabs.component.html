@@ -1,3 +1,42 @@
+<style>
+.analytics-item {
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.analytics-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.analytics-item h5 {
+  color: #97704f;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.analytics-item p {
+  color: #333;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.card-header {
+  background-color: #fff;
+  border-bottom: 1px solid #e8e8e8;
+  padding: 15px 20px;
+}
+
+.card-title {
+  color: #333;
+  font-size: 18px;
+  font-weight: 500;
+}
+</style>
+
 <p-toast></p-toast>
 <div class="page-wrapper">
   <div class="content">
@@ -22,520 +61,366 @@
 
     <div class="row">
       <div class="col-sm-12">
-        <div class="card card-table show-entire">
+        <div class="card mb-4" >
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h4 class="card-title mb-0">Filter</h4>
+            <div class="d-flex align-items-center">
+              <div class="add-group textbtn mx-3" style="border:1px solid #97704f; border-radius: none;">
+                <a
+                  appShowHide
+                  style="border:none; border-radius: none !important;padding: 10px;"
+                  [roles]="['admin', 'super-admin']"
+                  [routerLink]="['/slabs/slab-add']"
+                  class="btn add-pluss ms-2"
+                  ><img src="assets/img/icons/plus.svg" alt="" /> Add New</a
+                >
+              </div>
+              <a href="javascript:;" class="me-2 mt-2"><img src="assets/img/icons/pdf-icon-03.svg" alt="" pTooltip="Download data in CSV file " tooltipPosition="left"
+                (click)="exportSlabsToCSV()" tooltipStyleClass="tooltip" /></a>
+            </div>
+          </div>
           <div class="card-body">
             <div class="page-table-header mb-2">
               <div class="row align-items-center">
                 <div class="col">
-                  <div class="doctor-table-blk">
-                  <div class="d-flex col-md-3">
-                    <h3 class="mt-2">Slabs List</h3>
-                    <div class="add-group textbtn mx-3" style="border:1px solid #97704f; border-radius: none;">
-                      <a
-                        appShowHide
-                        style="border:none; border-radius: none !important;padding: 10px;"
-                        [roles]="['admin', 'super-admin']"
-                        [routerLink]="['/slabs/slab-add']"
-                        class="btn add-pluss ms-2"
-                        ><img src="assets/img/icons/plus.svg" alt="" /> Add
-                        New</a
-                      >
-                    </div>
-                  </div>
-                    <div class="doctor-search-blk col-md-6">
-                    
-                      <div class="form-group local-forms mt-3">
-                        <div
-                          class="top-nav-search table-search-blk d-flex mt-2"
-                          style="border: 1px solid #97704f; border-radius: 1px"
-                        >
-                          <!-- Warehouse Dropdown -->
-                          <p-dropdown
-                            [options]="warehouseData"
-                            styleClass=""
-                            appendTo="body"
-                            placeholder="Select Warehouse"
-                            [style]="{border:'none', minWidth:'200px' }"
-                            [filter]="true"
-                            optionLabel="name"
-                            optionValue="_id"
-                            [showClear]="true"
-                            class="w-full md:w-56"
-                            (onChange)="onSearchByChange($event.value)"
-                            [(ngModel)]="warehouseDropDown"
-                          ></p-dropdown>
-
-                          <!-- Search Input with Icon -->
-                          <div style="position: relative; width: 95%;">
+                    <!-- Filter Section (New Structure) -->
+                    <div class="row " >
+                      <div class="col-lg-3 col-md-6 col-sm-12 mb-3 d-flex align-items-center">
+                        <div class="input-group flex-grow-1">
                             <input
-                              type="text"
-                              class="form-control bg-white"
-                              placeholder="Enter Key Word here"
-                              #searchTable
-                              (input)="dt.filterGlobal(searchTable.value, 'contains') ; onSearchInput($event)"
-
-                              style="
-                               border-left: 2px solid #e8e8e8;
-                                border-radius: 0px 0 0 0px;
-                                width: 100%;
-                                padding-right: 0px;
-                              "
-                            />
-                            <!-- Search Icon -->
-                            <a
-                              class="btn"
-                              style="
-                                position: absolute;
-                                left: 84% !important;
-                                top: 49.9%;
-                                transform: translateY(-50%);
-                                background-color: #97704f;
-                                border-radius: 0px;
-                              "
+                                type="text"
+                                class="form-control bg-white"
+                                placeholder="Enter Key Word here"
+                                #searchTable
+                                (input)="onSearchInput($event)"
                             >
-                              <!-- <img src="assets/img/icons/search-normal.svg" alt="" /> -->
+                            <span class="input-group-text" style="background-color: #97704f; border: none;">
                               <i class="fas fa-search text-white"></i>
-                            </a>
-                          </div>
-                          
+                            </span>
                         </div>
-                        
-                      </div>
-                   
-                      
+               
                     </div>
-                    <div class="col-md-2 mt-3 h-2 ">
-                      <div class="form-group local-forms">
-                        <!-- <label for="warehouseDetails">Layout</label> -->
-                        <p-dropdown
-                          [options]="isViewsystemtyp"
-                          appendTo="body"
-                          placeholder="Choose Layout"
-                          [style]="{ width: '100%', borderBottom: '1px solid #97704f', borderTop: 'none', borderLeft: 'none', borderRight: 'none' }"
-                          [filter]="true"
-                          optionLabel="value"
-                          optionValue="code"
-                          [showClear]="false"
-                          (onChange)="onchangeLayout($event.value)"
-                          [(ngModel)]="selectedLayout"
-                        >
-                        </p-dropdown>
-                      </div>
-                   
+                      <!-- Warehouse Dropdown -->
+                        <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+                            <p-dropdown
+                                [options]="warehouseData"
+                                appendTo="body"
+                                placeholder="Select Warehouse"
+                                [style]="{ minWidth:'100%' }"
+                                [filter]="true"
+                                optionLabel="name"
+                                optionValue="_id"
+                                [showClear]="true"
+                                class="w-full"
+                                (onChange)="onSearchByChange($event.value)"
+                                [(ngModel)]="warehouseDropDown"
+                            ></p-dropdown>
+                        </div>
+
+                        <!-- Category Dropdown -->
+                        <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+                            <p-dropdown
+                                [options]="categoryData"
+                                appendTo="body"
+                                placeholder="Select Category"
+                                [style]="{ minWidth:'100%' }"
+                                [filter]="true"
+                                optionLabel="name"
+                                optionValue="_id"
+                                [showClear]="true"
+                                class="w-full"
+                                (onChange)="onCategoryChange($event.value)"
+                                [(ngModel)]="selectedCategory"
+                            ></p-dropdown>
+                        </div>
+
+
+                        <!-- Search Input and Reset Button combined -->
+                        <div class="col-lg-3 col-md-6 col-sm-12 mb-3 d-flex align-items-center">
+                            <div class="input-group flex-grow-1">
+                              <p-dropdown
+                              [options]="subCategoryData"
+                              appendTo="body"
+                              placeholder="Select Sub Category"
+                              [style]="{ minWidth:'100%' }"
+                              [filter]="true"
+                              optionLabel="name"
+                              optionValue="_id"
+                              [showClear]="true"
+                              class="w-full"
+                              (onChange)="onSubCategoryChange($event.value)"
+                              [(ngModel)]="selectedSubCategory"
+                          ></p-dropdown>
+                            </div>
+                            <div class="add-group textbtn ms-2" style="border:1px solid #97704f; border-radius: none; flex-shrink: 0;">
+                              <button
+                                class="btn add-pluss"
+                                style="border:none; border-radius: none !important; padding: 10px;"
+                                (click)="resetFilters()"
+                                pTooltip="Reset All Filters"
+                                tooltipPosition="bottom"
+                                tooltipStyleClass="tooltip">
+                                <i class="fas fa-undo"></i> Reset
+                              </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-auto text-end float-end ms-auto download-grp" >
-                      <!-- <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""  pTooltip="Download data in PDF file" tooltipPosition="left"
-                                            tooltipStyleClass="tooltip" /></a> -->
-                      <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt="" pTooltip="Download data in CSV file " tooltipPosition="left"
-                        (click)="dt.exportCSV()"         tooltipStyleClass="tooltip" /></a>
-                    </div>
-                  </div>
                 </div>
             
               </div>
-            
             </div>
-            <div class="card-body p-2">
-              <span *ngIf="selectedLayout === 'Card'" class="col-12 col-md-12">
-                <div class="p-2"><strong>Total Available Stock :</strong> <span  style="font-weight: 500;"> {{ totalSqFtLeft | indianCurrency }} Sq. Feet</span></div>
-                <div class="container mt-4" *ngFor="let item of pagedData">
-                  <div class="row">
-                    <div class="col-md-8 container-box">
-                      <!-- Image/Video Carousel -->
-                      <div class="slab-carousel mb-0">
-                        <p-carousel [value]="getSlabMedia(item)" [numVisible]="3" [numScroll]="1" [circular]="true" [autoplayInterval]="3000" [showIndicators]="true" [showNavigators]="true">
-                          <ng-template let-media pTemplate="item">
-                            <div class="carousel-item">
-                              <div class="no-media-container">
-                                <i class="fas fa-image no-media-icon"></i>
-                                <p class="no-media-text">No Slab Image Preview</p>
-                              </div>
-                            </div>
-                          </ng-template>
-                        </p-carousel>
-                      </div>
-
-                      <div
-                        class="d-flex justify-content-between align-items-center"
-                      >
-                        <h4 class="header-text">
-                          {{ item?.subCategoryDetail?.name }}
-                          <span class="text-muted"
-                            >({{ item?.categoryDetail?.name }})</span
-                          >
-                        </h4>
-                        <div
-                          class="d-flex justify-content-between align-items-center"
-                        >
-                          <a (click)="getSlabDetailsById(item?._id)" class="view-more"  pTooltip="View More" tooltipPosition="bottom"
-                            ><i class="fa-solid fa-eye"></i
-                          ></a>
-                          <a (click)="deleteSlabs(item?._id)" class="view-more"  pTooltip="Delete" tooltipPosition="bottom"
-                            ><i class="fa-solid fa-trash"></i
-                          ></a>
-                          <a  (click)="showSlabHistoryDetails(item?._id)" class="view-more"  pTooltip="Sales History" tooltipPosition="bottom"
-                            ><i class="fa-solid fa-clock-rotate-left"></i
-                          ></a>
-                          <!-- <button class="view-more-btn" (click)="showSlabDetails(item?._id)">
-                            View More
-                            <i class="fas fa-arrow-right mx-3"></i> 
-                          </button> -->
-                        </div>
-                      </div>
-                      <hr />
-                      <div class="row text-muted">
-                        <div class="col">
-                          <strong>Slab Name</strong><br />{{ item?.slabName }}
-                        </div>
-                        <div class="col">
-                          <strong>Slab Number</strong><br />{{ item?.slabNo }}
-                        </div>
-                        <div class="col">
-                          <strong>Size</strong><br />{{ formatSlabSize(item?.slabSize) }}
-                        </div>
-                   
-                        <div class="col">
-                          <strong>Stock Entry Date </strong><br />
-                          {{ item?.date | date : "dd-MMM-yyyy" }}
-                        </div>
-                      </div>
-                      <div class="row mt-3 text-muted">
-                        <div class="col">
-                          <strong>Available Stock</strong><br />{{
-                            item?.totalSQFT | indianCurrency
-                          }} Sq. Feet
-                        </div>
-                        <div class="col">
-                          <strong>Initial Stock</strong><br />{{
-                            item?.totalSlabSQFT | indianCurrency
-                          }}  Sq. Feet
-                        </div>
-                        <div class="col">
-                          <strong>Cost/Sq. Feet</strong><br />&#8377;
-                          {{ item?.costPerSQFT | indianCurrency }}
-                        </div>
-                        <div class="col">
-                          <strong>Warehouse</strong><br />{{
-                            item?.warehouseDetails?.name
-                          }}
-                        </div>
-                      </div>
-                      <div class="progress mt-3">
-                        <div
-                          class="progress-bar"
-                          role="progressbar"
-                          [style.width.%]="(item?.totalSQFT / item?.totalSlabSQFT) * 100"
-                          [attr.aria-valuenow]="item?.totalSQFT" 
-                          [attr.aria-valuemin]="0"
-                          [attr.aria-valuemax]="item?.totalSlabSQFT" 
-                        ></div>
-                      </div>
-                      
-                    </div>
-                    <div class="col-md-4 sales-revenue">
-                      <div
-                        class="d-flex justify-content-between align-items-center"
-                      >
-                        <h4>Sales Revenue</h4>
-                        <!-- <button class="view-more-btn" (click)="showSlabHistoryDetails(item?._id)">
-                          <i class="fas fa-arrow-right"></i> 
-                        </button> -->
-                      </div>
-                      <hr />
-                      <p class="sales-detail">
-                        <strong>Total Sales:</strong>₹ {{ item?.slabHistory?.totalSales?.toFixed(2) }}
-                      </p>
-                      <!-- <p class="sales-detail">
-                        <span class="label">Tax Amount:</span>
-                        <span class="value">₹ {{item?.slabHistory?.totalTaxAmount ?item?.slabHistory?.totalTaxAmount.toFixed(2) : "0"}}</span>
-                      </p> -->
-                      <p class="sales-detail">
-                        <span class="label">Cost Of Goods Sold:</span>
-                        <span class="value">₹ {{item?.slabHistory?.totalCostPerSQFT || 0}}</span>
-                      </p>
-                      <p class="sales-detail">
-                        <span class="label">Tax Profit:</span>
-                        <span class="value">₹ {{item?.slabHistory?.taxProfit || 0}}</span>
-                      </p>
-                      <p class="sales-detail">
-                        <span class="label">Profit/Loss:</span>
-                        <span class="value">₹ {{item?.slabHistory?.profit || 0}}</span>
-                      </p>
-                     
-                    
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <!-- Stock Analytics Card -->
+            <div class="card mb-4">
+              <div class="card-header">
+                <h4 class="card-title mb-0">Stock Analytics</h4>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="analytics-item">
+                      <h5>Available Stock</h5>
+                      <p class="mb-0">{{ totalSqFtLeft | indianCurrency }} Sq. Feet</p>
                     </div>
                   </div>
+                  <div class="col-md-3">
+                    <div class="analytics-item">
+                      <h5>Slab/Lot Count</h5>
+                      <p class="mb-0">{{ allSlabsDaTa?.length || 0 }}</p>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="analytics-item">
+                      <h5>Categories</h5>
+                      <p class="mb-0">{{ categoryData?.length || 0 }}</p>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="analytics-item">
+                      <h5>Sub Categories</h5>
+                      <p class="mb-0">{{ subCategoryData?.length || 0 }}</p>
+                    </div>
+                  </div>
+              
                 </div>
-
-                <div *ngIf="!allSlabsDaTa && showDataLoader"
-                colspan="10"
-                class="text-center"
-              >
-                      <p-progressSpinner ariaLabel="loading" />
+              </div>
+            </div>
+          </div>
+        </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="card card-table show-entire">
+                  <div class="card-body">
+            <div class="card-body p-2">
+              <div class="p-2">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <div class="form-group mb-0">
+                      <p-dropdown
+                        [options]="isViewsystemtyp"
+                        appendTo="body"
+                        placeholder="Choose Layout"
+                        [style]="{ width: '200px', borderBottom: '1px solid #97704f', borderTop: 'none', borderLeft: 'none', borderRight: 'none' }"
+                        [filter]="true"
+                        optionLabel="value"
+                        optionValue="code"
+                        [showClear]="false"
+                        (onChange)="onchangeLayout($event.value)"
+                        [(ngModel)]="selectedLayout"
+                      >
+                      </p-dropdown>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center gap-3">
+                 
+                    <p-selectButton [(ngModel)]="stockType" styleClass="p-button-sm stock-type-btn" style="height: 40px;" [options]="stockTypeOptions" size="small" />
+                    <!-- <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt="" pTooltip="Download data in CSV file " tooltipPosition="left"
+                      (click)="exportSlabsToCSV()" tooltipStyleClass="tooltip" /></a> -->
+                  </div>
                 </div>
-                <p-paginator
-                *ngIf="totalRecords > 0"
-                  [first]="currentPage * rowsPerPage"
-                  [rows]="rowsPerPage"
-                  [totalRecords]="totalRecords"
-                  [rowsPerPageOptions]="[5, 10, 20]"
-                  (onPage)="paginate($event)"
-                  (onPageChange)="paginate($event)"
-                >
-                </p-paginator>
+              </div>
+              <div class="container mt-4" *ngIf="selectedLayout === 'Card'">
+                <div class="row mb-4" *ngFor="let item of pagedData">
+                  <div class="col-md-8 container-box">
+                    <!-- Card View Content -->
+                    <div class="slab-carousel mb-0">
+                      <p-carousel [value]="getSlabMedia(item)" [numVisible]="3" [numScroll]="1" [circular]="true" [autoplayInterval]="3000" [showIndicators]="true" [showNavigators]="true">
+                        <ng-template let-media pTemplate="item">
+                          <div class="carousel-item">
+                            <div class="no-media-container">
+                              <i class="fas fa-image no-media-icon"></i>
+                              <p class="no-media-text">No Slab Image Preview</p>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </p-carousel>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <h4 class="header-text">
+                        {{ item?.subCategoryDetail?.name }}
+                        <span class="text-muted">({{ item?.categoryDetail?.name }})</span>
+                      </h4>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <a (click)="getSlabDetailsById(item?._id)" class="view-more" pTooltip="View More" tooltipPosition="bottom">
+                          <i class="fa-solid fa-eye"></i>
+                        </a>
+                        <a (click)="deleteSlabs(item?._id)" class="view-more" pTooltip="Delete" tooltipPosition="bottom">
+                          <i class="fa-solid fa-trash"></i>
+                        </a>
+                        <a (click)="showSlabHistoryDetails(item?._id)" class="view-more" pTooltip="Sales History" tooltipPosition="bottom">
+                          <i class="fa-solid fa-clock-rotate-left"></i>
+                        </a>
+                      </div>
+                    </div>
+                    <hr />
+                    <div class="row text-muted">
+                      <div class="col">
+                        <strong>Slab Name</strong><br />{{ item?.slabName }}
+                      </div>
+                      <div class="col">
+                        <strong>Slab Number</strong><br />{{ item?.slabNo }}
+                      </div>
+                      <div class="col">
+                        <strong>Size</strong><br />{{ formatSlabSize(item?.slabSize) }}
+                      </div>
+                      <div class="col">
+                        <strong>Stock Entry Date </strong><br />
+                        {{ item?.date | date : "dd-MMM-yyyy" }}
+                      </div>
+                    </div>
+                    <div class="row mt-3 text-muted">
+                      <div class="col">
+                        <strong>Available Stock</strong><br />{{ item?.totalSQFT | indianCurrency }} Sq. Feet
+                      </div>
+                      <div class="col">
+                        <strong>Initial Stock</strong><br />{{ item?.totalSlabSQFT | indianCurrency }} Sq. Feet
+                      </div>
+                      <div class="col">
+                        <strong>Cost/Sq. Feet</strong><br />&#8377; {{ item?.costPerSQFT | indianCurrency }}
+                      </div>
+                      <div class="col">
+                        <strong>Warehouse</strong><br />{{ item?.warehouseDetails?.name }}
+                      </div>
+                    </div>
+                    <div class="progress mt-3" style="height: 20px;">
+                      <div class="progress-bar" role="progressbar" 
+                        [style.width.%]="(item?.totalSQFT / item?.totalSlabSQFT) * 100"
+                        [attr.aria-valuenow]="item?.totalSQFT" 
+                        [attr.aria-valuemin]="0"
+                        [attr.aria-valuemax]="item?.totalSlabSQFT">
+                        {{ item?.totalSQFT }} ft² / {{ item?.totalSlabSQFT }} ft²
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 sales-revenue">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <h4>Sales Revenue</h4>
+                    </div>
+                    <hr />
+                    <p class="sales-detail">
+                      <strong>Total Sales:</strong>₹ {{ item?.slabHistory?.totalSales?.toFixed(2) }}
+                    </p>
+                    <p class="sales-detail">
+                      <span class="label">Cost Of Goods Sold:</span>
+                      <span class="value">₹ {{item?.slabHistory?.totalCostPerSQFT || 0}}</span>
+                    </p>
+                    <p class="sales-detail">
+                      <span class="label">Tax Profit:</span>
+                      <span class="value">₹ {{item?.slabHistory?.taxProfit || 0}}</span>
+                    </p>
+                    <p class="sales-detail">
+                      <span class="label">Profit/Loss:</span>
+                      <span class="value">₹ {{item?.slabHistory?.profit || 0}}</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-                <p
-                colspan="10"
-                class="text-center"
-                *ngIf="totalRecords <= 0"
-              >
-                No slabs found.
-              </p>
-              </span>
-
-              <span
-                [ngStyle]="{
-                  display: selectedLayout === 'Card' ? 'none' : 'block'
-                }"
-              >
+              <!-- Table View -->
+              <div *ngIf="selectedLayout === 'Table'">
                 <p-table
-                  [value]="allSlabsDaTa"
-                  [tableStyle]="{ 'min-width': '60rem' }"
-                  [paginator]="allSlabsDaTa?.length >= 5"
-                  [rows]="10"
-                  [rowsPerPageOptions]="[5, 10, 20]"
+                  [value]="pagedData"
                   styleClass="p-datatable-striped"
-                  (onPage)="onPageChange($event)"
-                  [(selection)]="selectedSlabs"
-                  #dt
-                  [columns]="cols"
-                  [exportHeader]="'customExportHeader'"
-                  exportFilename="Slabs"
-                  [globalFilterFields]="[
-                    'slabNo',
-                    'slabName',
-                    'slabSize',
-                    'categoryDetail?.name',
-                    'subCategoryDetail?.name',
-                    'totalSQFT',
-                    'costPerSQFT',
-                    'sellingPricePerSQFT',
-                    'warehouseDetails?.name'
-                  ]"
+                  [tableStyle]="{ 'min-width': '60rem' }"
+                  [paginator]="true"
+                  [rows]="rowsPerPage"
+                  [rowsPerPageOptions]="[10, 20, 50]"
+                  [totalRecords]="totalRecords"
+                  (onPage)="paginate($event)"
                 >
                   <ng-template pTemplate="header">
                     <tr>
-                      <th pSortableColumn="slabNo">
-                        Slab Number<p-sortIcon field="slabNo"></p-sortIcon>
-                        <p-columnFilter
-                          matchMode="contains"
-                          hideOnClear="true"
-                          type="text"
-                          field="slabNo"
-                          display="menu"
-                        ></p-columnFilter>
-                      </th>
-                      <th pSortableColumn="slabName">
-                        Slab Name<p-sortIcon field="slabName"></p-sortIcon>
-                        <p-columnFilter
-                          matchMode="contains"
-                          hideOnClear="true"
-                          type="text"
-                          field="slabName"
-                          display="menu"
-                        ></p-columnFilter>
-                      </th>
-                      <th pSortableColumn="slabSize">
-                        Size<p-sortIcon field="slabSize"></p-sortIcon>
-                        <p-columnFilter
-                          matchMode="contains"
-                          hideOnClear="true"
-                          type="text"
-                          field="slabSize"
-                          display="menu"
-                        ></p-columnFilter>
-                      </th>
-                      <th pSortableColumn="categoryDetail?.name">
-                        Category<p-sortIcon
-                          field="categoryDetail?.name"
-                        ></p-sortIcon>
-                        <p-columnFilter
-                          matchMode="contains"
-                          hideOnClear="true"
-                          type="text"
-                          field="categoryDetail?.name"
-                          display="menu"
-                        ></p-columnFilter>
-                      </th>
-                      <th pSortableColumn="subCategoryDetail?.name">
-                        Sub Category<p-sortIcon
-                          field="subCategoryDetail?.name"
-                        ></p-sortIcon>
-                        <p-columnFilter
-                          matchMode="contains"
-                          hideOnClear="true"
-                          type="text"
-                          field="subCategoryDetail?.name"
-                          display="menu"
-                        ></p-columnFilter>
-                      </th>
-
-                      <th pSortableColumn="costPerSQFT">
-                        Cost / Sq. Feet<p-sortIcon
-                          field="costPerSQFT"
-                        ></p-sortIcon>
-                        <p-columnFilter
-                          matchMode="contains"
-                          hideOnClear="true"
-                          type="text"
-                          field="costPerSQFT"
-                          display="menu"
-                        ></p-columnFilter>
-                      </th>
-                      <th pSortableColumn="sellingPricePerSQFT">
-                        Selling Price<p-sortIcon
-                          field="sellingPricePerSQFT"
-                        ></p-sortIcon>
-                        <p-columnFilter
-                          matchMode="contains"
-                          hideOnClear="true"
-                          type="text"
-                          field="sellingPricePerSQFT"
-                          display="menu"
-                        ></p-columnFilter>
-                      </th>
-                      <th pSortableColumn="totalSQFT">
-                        Sq. Feet Left<p-sortIcon field="totalSQFT"></p-sortIcon>
-                        <p-columnFilter
-                          matchMode="contains"
-                          hideOnClear="true"
-                          type="text"
-                          field="totalSQFT"
-                          display="menu"
-                        ></p-columnFilter>
-                      </th>
-                      <th pSortableColumn="warehouseDetails?.name">
-                        Warehouse<p-sortIcon
-                          field="warehouseDetails?.name"
-                        ></p-sortIcon>
-                        <p-columnFilter
-                          matchMode="contains"
-                          hideOnClear="true"
-                          type="text"
-                          field="warehouseDetails?.name"
-                          display="menu"
-                        ></p-columnFilter>
-                      </th>
-                      <th width="5%">Action</th>
+                      <th>Slab Name</th>
+                      <th>Slab Number</th>
+                      <th>Category</th>
+                      <th>Sub Category</th>
+                      <th>Size</th>
+                      <th>Available Stock</th>
+                      <th>Cost/Sq. Feet</th>
+                      <th>Warehouse</th>
+                      <th>Actions</th>
                     </tr>
                   </ng-template>
-                  <ng-template pTemplate="body" let-slabs>
+                  <ng-template pTemplate="body" let-item>
                     <tr>
+                      <td>{{ item?.slabName }}</td>
+                      <td>{{ item?.slabNo }}</td>
+                      <td>{{ item?.categoryDetail?.name }}</td>
+                      <td>{{ item?.subCategoryDetail?.name }}</td>
+                      <td>{{ formatSlabSize(item?.slabSize) }}</td>
+                      <td>{{ item?.totalSQFT | indianCurrency }} Sq. Feet</td>
+                      <td>₹ {{ item?.costPerSQFT | indianCurrency }}</td>
+                      <td>{{ item?.warehouseDetails?.name }}</td>
                       <td>
-                        {{ slabs?.slabNo }}
+                        <div class="d-flex gap-2">
+                          <a (click)="getSlabDetailsById(item?._id)" class="view-more" pTooltip="View More" tooltipPosition="bottom">
+                            <i class="fa-solid fa-eye"></i>
+                          </a>
+                          <a (click)="deleteSlabs(item?._id)" class="view-more" pTooltip="Delete" tooltipPosition="bottom">
+                            <i class="fa-solid fa-trash"></i>
+                          </a>
+                          <a (click)="showSlabHistoryDetails(item?._id)" class="view-more" pTooltip="Sales History" tooltipPosition="bottom">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                          </a>
+                        </div>
                       </td>
-                      <td>
-                        {{ slabs?.slabName }}
-                      </td>
-                      <td>
-                        {{ formatSlabSize(slabs?.slabSize) }}
-                      </td>
-                      <td>
-                        {{ slabs?.categoryDetail?.name }}
-                      </td>
-                      <td>
-                        {{ slabs?.subCategoryDetail?.name }}
-                      </td>
-
-                      <td>₹ {{ slabs?.costPerSQFT | indianCurrency }}</td>
-                      <td>
-                        ₹ {{ slabs?.sellingPricePerSQFT | indianCurrency }}
-                      </td>
-                      <td>
-                        {{ slabs?.totalSQFT | indianCurrency }}
-                      </td>
-                      <td>
-                        {{ slabs?.warehouseDetails?.name }}
-                      </td>
-                      <td
-                        appShowHide
-                        [roles]="['admin', 'super-admin']"
-                        class="action-buttons"
-                      >
-                        <p-button
-                          [text]="true"
-                          icon="fa-solid fa-eye"
-                          pTooltip="View"
-                          tooltipPosition="left"
-                          tooltipStyleClass="tooltip"
-                          (click)="getSlabDetailsById(slabs?._id)"
-                        ></p-button>
-                        <p-button
-                          [text]="true"
-                          icon="fa-solid fa-trash"
-                          pTooltip="View"
-                          tooltipPosition="left"
-                          tooltipStyleClass="tooltip"
-                          (click)="deleteSlabs(slabs?._id)"
-                        ></p-button>
-                        <p-button
-                          [text]="true"
-                          icon="fa-solid fa-clock-rotate-left"
-                          (click)="showSlabHistoryDetails(slabs?._id)"
-                          pTooltip="History"
-                          tooltipPosition="left"
-                          tooltipStyleClass="tooltip"
-                        ></p-button>
-                      </td>
-                      <!-- <td appShowHide [roles]="['admin', 'super-admin']">
-                                            <div class="action-buttons">
-
-                                                <p-button === false" [text]="true" icon="fa fa-edit"
-                                                    (click)="updateSlabs(slabs._id)"></p-button>
-                                                <p-button === false" [text]=" true" icon="fa fa-trash"
-                                                (click)="deleteSlabs(slabs._id)"></p-button>
-                                            </div>
-                                        </td> -->
                     </tr>
                   </ng-template>
                   <ng-template pTemplate="emptymessage">
                     <tr>
-                      <td
-                        *ngIf="!allSlabsDaTa && showDataLoader"
-                        colspan="10"
-                        class="text-center"
-                      >
-                        <p-progressSpinner ariaLabel="loading" />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        colspan="10"
-                        class="text-center"
-                        *ngIf="!showDataLoader"
-                      >
-                        No slabs found.
-                      </td>
+                      <td colspan="9" class="text-center">No slabs found.</td>
                     </tr>
                   </ng-template>
-                  <ng-template pTemplate="footer">
-                    <tr>
-                      <td colspan="6"></td>
-                      <td *ngIf="allSlabsDaTa">Total Available Stock</td>
-                      <td class="total-sqft">
-                        {{ totalSqFtLeft | indianCurrency }}Sq. Feet
-                      </td>
-                      <td colspan="2"></td>
-                    </tr>
-                  </ng-template>
-
-                  <!-- <ng-template>
-                                        <td *ngIf="!allSlabsDaTa && showDataLoader" colspan="10" class="text-center">
-                                            <p-progressSpinner ariaLabel="loading" />
-                                        </td>
-                                    </ng-template> -->
                 </p-table>
-              </span>
+              </div>
+
+              <div *ngIf="!allSlabsDaTa && showDataLoader"
+                colspan="10"
+                class="text-center"
+              >
+                <p-progressSpinner ariaLabel="loading" />
+              </div>
+              <p-paginator
+              *ngIf="totalRecords > 0 && selectedLayout === 'Card'"
+                [first]="currentPage * rowsPerPage"
+                [rows]="rowsPerPage"
+                [totalRecords]="totalRecords"
+                [rowsPerPageOptions]="[10, 20, 50]"
+                (onPage)="paginate($event)"
+                (onPageChange)="paginate($event)"
+              >
+              </p-paginator>
+
+              <p
+              colspan="10"
+              class="text-center"
+              *ngIf="totalRecords <= 0"
+            >
+              No slabs found.
+            </p>
             </div>
           </div>
         </div>
@@ -1682,3 +1567,5 @@
 </p-dialog>
 <app-invoice-dialog *ngIf="showInvoiceDialog" [showInvoiceDialog]="showInvoiceDialog" [salesDataById]="salesDataById" [header]="header"
   [paymentDataListById]="paymentListData" (callbackModal)="callBackModalForInvoice()" (close)="closeForInvocie()"></app-invoice-dialog>
+
+

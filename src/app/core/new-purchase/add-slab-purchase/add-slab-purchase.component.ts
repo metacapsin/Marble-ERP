@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+} from "@angular/core";
 import {
   AbstractControl,
   FormArray,
@@ -23,6 +30,7 @@ import { TaxesService } from "src/app/core/settings/taxes/taxes.service";
 import { CategoriesService } from "src/app/core/settings/categories/categories.service";
 import { SubCategoriesService } from "src/app/core/settings/sub-categories/sub-categories.service";
 import { co } from "@fullcalendar/core/internal-common";
+import { AreaConversions } from "src/app/utils/area-conversions";
 @Component({
   selector: "app-add-slab-purchase",
   standalone: true,
@@ -33,6 +41,7 @@ import { co } from "@fullcalendar/core/internal-common";
 })
 export class AddSlabPurchaseComponent {
   @Input() tab!: string;
+  @Input() editSlabValues?: any = [];
   @Input() addSlabdisableBtn: boolean = false;
   slabAddForm: FormGroup;
   expensesForm: FormGroup;
@@ -43,7 +52,7 @@ export class AddSlabPurchaseComponent {
   slabDetails: any[] = [];
   marbleName: string;
   slabNumber: string;
-  barcodeImage: string
+  barcodeImage: string;
   category: any = {};
   subCategory: any = {};
   noOfPieces: number;
@@ -52,9 +61,11 @@ export class AddSlabPurchaseComponent {
   thickness: number;
   finishes: any = {};
   quantity: number;
+  quantityMeter: number;
   ratePerSqFeet: number;
   totalAmount: number;
   addvisible: boolean = false;
+  ratePerSqMeter: number;
   addbarcodevisible: boolean = false;
   vehicleRegex = /^[A-Z]{2}[ -]?[0-9]{1,2}(?: ?[A-Z])?(?: ?[A-Z]*)? ?[0-9]{4}$/;
   slabTotalCost: number = 0;
@@ -66,10 +77,12 @@ export class AddSlabPurchaseComponent {
   // nonTaxableAmount: number;
   allSubCategoryList: any = [];
   subCategorListByCategory: any = [];
+  serviceProviderList: any = [];
   maxPurchaseAmount = 0;
   previousSlabData: any;
   products: any[] = [];
-
+  unitsType = "square_feet";
+  totalQuantityMeter: any;
   finisheshList = [
     { name: "Polished" },
     { name: "Unpolished" },
@@ -81,12 +94,18 @@ export class AddSlabPurchaseComponent {
   expensesExpanded: boolean = true;
   // expenses: any[] = [];
   expenseTypeOptions = [
-    { name: 'Transportation Charges', value: 'transportationCharge' },
-    { name: 'Royalty Charges', value: 'royaltyCharges' },
-    { name: 'Other Charges', value: 'otherCharges' }
+    { name: "Transportation Charges", value: "transportationCharge" },
+    { name: "Royalty Charges", value: "royaltyCharges" },
+    { name: "Other Charges", value: "otherCharges" },
   ];
-  @Output() nextBtnDisabled = new EventEmitter<any>();
 
+  unitsList = [
+    { name: "Square Feet", value: "square_feet" },
+    { name: "Square Meter", value: "square_meter" },
+  ];
+  AreaConversions = AreaConversions;
+
+  @Output() nextBtnDisabled = new EventEmitter<any>();
 
   constructor(
     private fb: FormBuilder,
@@ -114,6 +133,11 @@ export class AddSlabPurchaseComponent {
         royaltyCharge: ["", [Validators.min(0), Validators.max(100000)]],
         totalCost: [""],
         totalSQFT: [""],
+        purchaseTDS: [''],
+        state_tax: [''],
+        IGST: [''],
+        CGST: [''],
+        SGST: ['']
       },
       {
         //  validators: atLeastOneRequiredValidator()
@@ -134,24 +158,44 @@ export class AddSlabPurchaseComponent {
     };
   }
 
-  isEditMode: boolean = false
+  getNewUnit(value) {
+    this.unitsType = value;
+    this.rows = []; // Reset rows when unit type changes
+    this.totalQuantity = 0; // Reset total quantity
+    this.totalQuantityMeter = 0; // Reset total quantity in meters
+    this.ratePerSqFeet = null; // Reset rate per square feet
+    this.ratePerSqMeter = null; // Reset rate per square feet
+    this.totalAmount = null; // Reset total amount
+    this.getSlabDetails(true);
+  }
+
+  isEditMode: boolean = false;
   discountModifiedByUser: boolean = false;
 
   ngOnInit(): void {
-     this.expensesForm = this.fb.group({
-    expenses: this.fb.array([])
-  });
-
-  // ✅ Now access form array after initialization
-  const expensesData = this.NewPurchaseService.getFormData("expensesData");
-
-  if (expensesData && expensesData.length) {
-    expensesData.forEach((exp: any) => {
-      this.expenses.push(this.createExpenseGroup(exp));
+    this.expensesForm = this.fb.group({
+      expenses: this.fb.array([]),
     });
-  } else {
-    this.addExpense(); // one empty row
-  }
+
+    console.log(this.editSlabValues, "editSlabValues");
+    if (this.editSlabValues.length > 0) {
+      this.getSubCategories("patch");
+      this.patchSlabDataFromAPI(this.editSlabValues[0]);
+      console.log(this.slabDetails?.length, "this.slabDetails?.length");
+      this.slabDetails = this.editSlabValues[0] || {};
+      this.NewPurchaseService.slabDetailsLengthCount(this.slabDetails?.length);
+    }
+
+    // ✅ Now access form array after initialization
+    const expensesData = this.NewPurchaseService.getFormData("expensesData");
+
+    if (expensesData && expensesData.length) {
+      expensesData.forEach((exp: any) => {
+        this.expenses.push(this.createExpenseGroup(exp));
+      });
+    } else {
+      this.addExpense(); // one empty row
+    }
 
     this.previousSlabData =
       this.NewPurchaseService.getFormData("stepFirstSlabData");
@@ -177,12 +221,13 @@ export class AddSlabPurchaseComponent {
         },
       }));
       if (this.previousSlabData) {
-        console.log('yes previous value found')
-        this.isEditMode = true
+        console.log("yes previous value found");
+        this.isEditMode = true;
         this.discountModifiedByUser = false; // Reset flag when editing existing data
         this.patchSlabValue();
       }
     });
+    this.getSubCategories();
     this.categoriesService.getCategories().subscribe((resp: any) => {
       this.categoryList = resp.data;
       this.CategoryListsEditArray = [];
@@ -195,9 +240,6 @@ export class AddSlabPurchaseComponent {
           },
         });
       });
-    });
-    this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
-      this.allSubCategoryList = resp.data;
     });
 
     this.slabAddForm.get("vehicleNo")?.valueChanges.subscribe((value) => {
@@ -218,29 +260,109 @@ export class AddSlabPurchaseComponent {
         });
       });
     });
+    this.getAllGenralParty()
   }
 
+    getAllGenralParty() {
+      this.NewPurchaseService.getAllGenralParty().subscribe((resp) => {
+        this.serviceProviderList = resp;
+        this.serviceProviderList = this.serviceProviderList.map((element: any) => ({
+          name: element.name,
+          _id: {
+            _id: element._id,
+            name: element.name,
+          },
+        }));
+      })
+    }
+  
+
+  getSubCategories(value?: any) {
+    this.subCategoriesService.getSubCategories().subscribe((resp: any) => {
+      this.allSubCategoryList = resp.data;
+      if (value === "patch") {
+        this.findSubCategory(this.editSlabValues[0].categoryDetail);
+        this.subCategory = this.editSlabValues[0].subCategoryDetail;
+      }
+    });
+  }
   ngOnDestroy(): void {
     setTimeout(() => {
       this.NewPurchaseService.setFormData("expensesData", this.expenses.value);
     }, 500);
   }
 
-  createExpenseGroup(data?: any): FormGroup {
-    return this.fb.group({
-      type: [data?.type || ''],
-      payment: [data?.payment || ''],
-      paidBy: [data?.paidBy || '']
-    });
+  patchSlabDataFromAPI(slabData: any) {
+    console.log("patchSlabDataFromAPI", slabData);
+
+    if (!slabData) return;
+
+    // Patch main slab values
+    this.marbleName = slabData.slabName;
+    this.slabNumber = slabData.slabNo;
+    (this.category = slabData.categoryDetail),
+      (this.subCategory = slabData.subCategoryDetail);
+    this.noOfPieces = slabData.noOfPieces;
+    this.width = slabData.width;
+    this.length = slabData.length;
+    this.thickness = slabData.thickness;
+    this.finishes = slabData.finishes;
+    this.quantity = slabData.totalSQFT;
+    this.ratePerSqFeet = slabData.ratePerSqFeet;
+    this.totalAmount = slabData.totalCosting;
+    // this.getSubCategories(slabData.categoryDetail);
+    // Clear existing rows
+    this.rows = [];
+
+    // Patch pieces details to rows array
+    if (Array.isArray(slabData.piecesDetails)) {
+      this.rows = slabData.piecesDetails.map((piece: any): any => ({
+        pieceNumber: piece.pieceNumber,
+        length: piece.length,
+        width: piece.width,
+        thickness: piece.thickness,
+        quantity: Number(piece.quantity?.toFixed(2)) || 0,
+        finish: piece.finish || this.finishes,
+        isEditing: false,
+      }));
+    }
+
+    // Update total quantity
+    this.totalQuantity = this.rows.reduce((sum, row) => {
+      return sum + (row.quantity || 0);
+    }, 0);
+
+    // Force calculation update
+    this.getSlabDetails(true);
+
+    // Update change detection
+    this.cdRef.detectChanges();
   }
 
+  createExpenseGroup(data?: any): FormGroup {
+    return this.fb.group({
+      type: [data?.type || ""],
+      payment: [data?.payment || ""],
+      paidBy: [data?.paidBy],
+      state_tax: [data?.state_tax],
+      ItemTax: [data?.ItemTax],
+      IGST: [data?.IGST],
+      CGST: [data?.CGST],
+      SGST: [data?.SGST],
+      taxAppliedExpense: [data?.taxAppliedExpense],
+      rcmApplicable: [data?.rcmApplicable],
+      serviceProvider: [data?.serviceProvider],
+    });
+  }
 
   patchSlabValue() {
     if (this.previousSlabData) {
       console.log("previousSlabData", this.previousSlabData);
 
       // Create a deep copy of slabDetails array to avoid reference issues
-      this.slabDetails = this.previousSlabData.slabDetails ? JSON.parse(JSON.stringify(this.previousSlabData.slabDetails)) : [];
+      this.slabDetails = this.previousSlabData.slabDetails
+        ? JSON.parse(JSON.stringify(this.previousSlabData.slabDetails))
+        : [];
       this.slabTotalCost = this.previousSlabData.slabTotalCost;
       console.log("previousSlabData", this.previousSlabData);
 
@@ -265,13 +387,24 @@ export class AddSlabPurchaseComponent {
         taxApplied: this.previousSlabData.taxApplied,
         totalCost: this.previousSlabData.totalCost,
         totalSQFT: this.previousSlabData.totalSQFT,
+        purchaseTDS: this.previousSlabData.purchaseTDS,
+        state_tax: this.previousSlabData.state_tax,
+        IGST: this.previousSlabData.IGST,
+        CGST: this.previousSlabData.CGST,
+        SGST: this.previousSlabData.SGST
       });
     }
-
 
     this.calculateTotalAmount();
   }
   addSlabDialog() {
+    this.addvisible = true;
+    if (this.editSlabValues && this.editSlabValues.length > 0) {
+      return;
+    }
+
+    console.log("not run");
+    this.unitsType = "square_feet";
     console.log(this.slabDetails);
     this.rows = [];
     this.marbleName = "";
@@ -284,32 +417,36 @@ export class AddSlabPurchaseComponent {
     this.thickness = null;
     this.finishes = {};
     this.quantity = null;
+    this.quantityMeter = null;
     this.ratePerSqFeet = null;
     this.totalAmount = null;
-    this.addvisible = true;
-    this.finishes = this.finisheshList.find(f => f.name === 'Unpolished');
+    this.finishes = this.finisheshList.find((f) => f.name === "Unpolished");
   }
 
   deleteAccordian(index: number) {
     // Subtract the cost of the deleted slab from the total
     this.slabTotalCost -= Number(this.slabDetails[index].totalCosting || 0);
-  
+
     // Remove the slab at the specified index
     this.slabDetails.splice(index, 1);
-  
+
     // Update the slab count in the service
     this.NewPurchaseService.slabDetailsLengthCount(this.slabDetails?.length);
-  
+
     // Update calculations
     this.calculateTotalAmount();
-  
+
     // Get the current form data
     const formData = this.slabAddForm.value;
-  
+
     // Update the service data with the modified slabDetails array
     const payload = {
       warehouseDetails: formData?.warehouse,
-      vehicleNo: formData?.vehicleNo ? (formData.vehicleNo.length === 0 ? null : formData.vehicleNo) : null,
+      vehicleNo: formData?.vehicleNo
+        ? formData.vehicleNo.length === 0
+          ? null
+          : formData.vehicleNo
+        : null,
       transportationCharge: Number(formData?.transportationCharge || 0),
       royaltyCharge: Number(formData?.royaltyCharge || 0),
       slabDetails: this.slabDetails || [], // Updated slab details with deleted slab removed
@@ -324,10 +461,10 @@ export class AddSlabPurchaseComponent {
       taxApplied: Number(formData?.taxApplied || 0)?.toFixed(2),
       totalSQFT: Number(formData?.totalSQFT || 0),
     };
-  
+
     // Update the service with the modified data
     this.NewPurchaseService.setFormData("stepFirstSlabData", payload);
-  
+
     // Emit event for parent component
     this.saveClicked.emit();
   }
@@ -338,25 +475,26 @@ export class AddSlabPurchaseComponent {
       category: this.category.name,
       subCategory: this.marbleName,
     };
-    this.NewPurchaseService.generateProductCode(payload).subscribe((resp: any) => {
-      if (resp) {
-        if (resp.status === "success") {
-          this.slabNumber = resp.data.productCode;
-          this.NewPurchaseService.clearFormData();
-          const message = "Generate Product Code has been generated";
-          this.messageService.add({ severity: "success", detail: message });
-        } else {
-          const message = resp.message;
-          this.messageService.add({ severity: "error", detail: message });
+    this.NewPurchaseService.generateProductCode(payload).subscribe(
+      (resp: any) => {
+        if (resp) {
+          if (resp.status === "success") {
+            this.slabNumber = resp.data.productCode;
+            this.NewPurchaseService.clearFormData();
+            const message = "Product code and BAR code has been Generated";
+            this.messageService.add({ severity: "success", detail: message });
+          } else {
+            const message = resp.message;
+            this.messageService.add({ severity: "error", detail: message });
+          }
         }
       }
-    });
-
+    );
   }
 
   generateBarCode() {
     const payload = {
-      productId: this.slabNumber
+      productId: this.slabNumber,
     };
     this.NewPurchaseService.generateBarCode(payload).subscribe((resp: any) => {
       if (resp) {
@@ -372,7 +510,6 @@ export class AddSlabPurchaseComponent {
       }
     });
   }
-
 
   getHsnCode(event) {
     this.marbleName = event.name;
@@ -399,7 +536,7 @@ export class AddSlabPurchaseComponent {
     this.addbarcodevisible = false;
   }
 
-  addSlabDetails(myForm: NgForm,rowsCopy:any) {
+  addSlabDetails(myForm: NgForm, rowsCopy: any) {
     this.addvisible = false;
     this.cdRef.detectChanges();
 
@@ -409,7 +546,6 @@ export class AddSlabPurchaseComponent {
 
     if (
       !this.slabNumber ||
-      this.totalQuantity === null ||
       this.totalAmount === null ||
       this.ratePerSqFeet === null
     ) {
@@ -419,41 +555,57 @@ export class AddSlabPurchaseComponent {
     }
 
     // Ensure values are numbers and not null/undefined before calculations
-  const totalQuantity = Number(this.totalQuantity) || 0;
-  const totalAmount = Number(this.totalAmount) || 0;
-  const noOfPieces = Number(this.noOfPieces) || 1; // Avoid division by zero
-  const quantity = Number(this.quantity) || 0;
-  
-  const newSlab = {
+    const totalQuantity = Number(this.totalQuantity) || 0;
+    const totalQuantityMeter = Number(this.totalQuantityMeter) || 0;
+    const totalAmount = Number(this.totalAmount) || 0;
+    const noOfPieces = Number(this.noOfPieces) || 1; // Avoid division by zero
+    const quantity = Number(this.quantity) || 0;
+    const quantityMeter = Number(this.quantityMeter) || 0;
+
+    const newSlab = {
       slabName: this.marbleName,
       slabNo: this.slabNumber,
       categoryDetail: this.category,
       subCategoryDetail: this.subCategory,
       noOfPieces: noOfPieces,
       width: this.width,
+      unit: this.unitsType,
       length: this.length,
       thickness: this.thickness,
       finishes: this.finishes,
       totalSQFT: totalQuantity,
+      totalSQMT: totalQuantityMeter,
       ratePerSqFeet: this.ratePerSqFeet,
+      ratePerSqMeter: this.ratePerSqMeter,
       totalCosting: totalAmount,
-      // purchaseCost: this.totalAmount,
-      // warehouseDetails: this.slabAddForm.get("warehouse").value,
-
+      sqmtPerPiece: Number(quantityMeter / noOfPieces || 0).toFixed(2),
       sqftPerPiece: Number(quantity / noOfPieces || 0).toFixed(2),
-      costPerSQFT: totalQuantity > 0 ? Number(totalAmount / totalQuantity || 0).toFixed(2) : "0",
-      piecesDetails: rowsCopy
+      costPerSQMT:
+        totalQuantityMeter > 0
+          ? Number(totalAmount / totalQuantityMeter || 0).toFixed(2)
+          : "0",
+      costPerSQFT:
+        totalQuantity > 0
+          ? Number(totalAmount / totalQuantity || 0).toFixed(2)
+          : "0",
+      piecesDetails: rowsCopy,
     };
 
-    console.log(this.quantity,"newSlab", newSlab,'noOfPieces',this.noOfPieces);
+    console.log(
+      this.quantity,
+      "newSlab",
+      newSlab,
+      "noOfPieces",
+      this.noOfPieces
+    );
 
     this.slabDetails.push(newSlab);
-  this.NewPurchaseService.slabDetailsLengthCount(this.slabDetails?.length);
-  
-  // Recalculate the total cost from all slabs to ensure accuracy
-  this.slabTotalCost = this.slabDetails.reduce((total, slab) => {
-    return total + (Number(slab.totalCosting) || 0);
-  }, 0);
+    this.NewPurchaseService.slabDetailsLengthCount(this.slabDetails?.length);
+
+    // Recalculate the total cost from all slabs to ensure accuracy
+    this.slabTotalCost = this.slabDetails.reduce((total, slab) => {
+      return total + (Number(slab.totalCosting) || 0);
+    }, 0);
 
     this.marbleName = "";
     this.slabNumber = "";
@@ -465,24 +617,29 @@ export class AddSlabPurchaseComponent {
     this.thickness = null;
     this.finishes = {};
     this.quantity = null;
+    this.quantityMeter = null;
     this.ratePerSqFeet = null;
     this.totalAmount = null;
 
     this.calculateTotalAmount();
 
     // Reset the form to clear validation messages
-    this.saveClicked.emit()
+    this.saveClicked.emit();
     myForm.resetForm();
   }
 
   findSubCategory(value: any) {
+    console.log(value, "value");
+
     this.category = value;
     let SubCategoryData = [];
     this.subCategory = {};
+    console.log(this.allSubCategoryList, "allSubCategoryList");
 
     SubCategoryData = this.allSubCategoryList?.filter(
       (e) => e.categoryId._id == value._id
     );
+    console.log(SubCategoryData, "SubCategoryData SubCategoryData");
 
     this.subCategorListByCategory = SubCategoryData?.map((e) => ({
       name: e.name,
@@ -498,23 +655,52 @@ export class AddSlabPurchaseComponent {
     }
   }
 
-
-  getSlabDetails(calculateTotalQTY: boolean) {
+  getSlabDetails(calculateTotalQTY: boolean, totalCalculate?: boolean) {
     console.log("getSlabDetails", calculateTotalQTY);
-    if (this.ratePerSqFeet && this.totalQuantity) {
-      this.totalAmount = +(this.totalQuantity * this.ratePerSqFeet).toFixed(2);
-    }
-    else if (this.width && this.length && this.ratePerSqFeet) {
-      this.quantity = this.width * this.length / 144;
-      this.totalAmount = +(this.totalQuantity * this.ratePerSqFeet).toFixed(2);
-    } else if (this.width && this.length) {
-      this.quantity = this.width * this.length / 144;
-    } else{
+    if (totalCalculate) {
+      console.log(totalCalculate, "totalCalculate");
+
       return;
     }
+    switch (this.unitsType) {
+      case "square_feet":
+        if (this.width && this.length) {
+          console.log("w l");
+          const { squareFeet, squareMeters } = AreaConversions.calculateArea(
+            this.width,
+            this.length,
+            "inches"
+          );
+          this.quantity = squareFeet;
+          this.quantityMeter = squareMeters;
+        } else {
+          return;
+        }
+        break;
+
+      case "square_meter":
+        if (this.width && this.length) {
+          console.log("w l");
+          const { squareFeet, squareMeters } = AreaConversions.calculateArea(
+            this.width,
+            this.length,
+            "meters"
+          );
+          this.quantity = squareFeet;
+          this.quantityMeter = squareMeters;
+        } else {
+          return;
+        }
+        break;
+
+      default:
+        return;
+    }
+
+    console.log("Quantity get call");
 
     // Generate rows based on noOfPieces
-    if (this.noOfPieces && this.noOfPieces > 0 && this.ratePerSqFeet == null) {
+    if (this.noOfPieces && this.noOfPieces > 0) {
       // Clear existing rows
       this.rows = [];
 
@@ -525,31 +711,45 @@ export class AddSlabPurchaseComponent {
           length: this.length || null,
           width: this.width || null,
           thickness: this.thickness || null,
-          quantity: this.getFormattedQuantity(),
+          quantity: parseFloat(this.quantity?.toFixed(2)),
+          totalQuantityMeter: parseFloat(this.quantityMeter.toFixed(2)),
           finish: this.finishes,
-          isEditing: false
+          isEditing: false,
         });
       }
     }
 
     if (calculateTotalQTY) {
+      console.log("Calculating total quantity after slab details update");
+
       setTimeout(() => {
         this.calculateTotalQuantity();
       }, 500);
     }
+  }
 
-    // if (
-    //   !this.slabNumber ||
-    //   this.quantity === null ||
-    //   this.ratePerSqFeet === null
-    // ) {
-    //   return;
-    // }
+  getTaxType() {
+
   }
 
   getFormattedQuantity(): number | null {
     if (this.length && this.width) {
-      const result = this.length * this.width / 144;
+      const result = AreaConversions.inchesToSquareFeet(
+        this.width,
+        this.length
+      );
+      console.log("Formatted Quantity:", result);
+
+      return parseFloat(result.toFixed(2)); // toFixed returns a string, so convert back to number
+    }
+    return null;
+  }
+  getFormattedQuantityMeter(): number | null {
+    if (this.length && this.width) {
+      const result = AreaConversions.inchesToSquareMeters(
+        this.width,
+        this.length
+      );
       console.log("Formatted Quantity:", result);
 
       return parseFloat(result.toFixed(2)); // toFixed returns a string, so convert back to number
@@ -557,25 +757,81 @@ export class AddSlabPurchaseComponent {
     return null;
   }
 
+  // Function call when a row is edited, To update the quantity
   updateQuantity(row: any) {
     const width = parseFloat(row.width) || 0;
     const length = parseFloat(row.length) || 0;
-
-    const calculatedQuantity = (width * length) / 144;
-    row.quantity = +calculatedQuantity.toFixed(2); // convert back to number
+    const { squareFeet, squareMeters } = AreaConversions.calculateArea(
+      width,
+      length,
+      "inches"
+    );
+    this.quantity = squareFeet;
+    this.quantityMeter = squareMeters;
+    row.quantity = +squareFeet.toFixed(2); // convert back to number
+    row.totalQuantityMeter = +squareMeters.toFixed(2); // convert back to number
     this.calculateTotalQuantity();
   }
 
+  // Function to calculate total quantity from all rows, and set totalQuantity and totalQuantityMeter
   calculateTotalQuantity() {
-    this.totalQuantity = this.rows.reduce((sum, row) => {
-      const qty = parseFloat(row.quantity);
-      return sum + (isNaN(qty) ? 0 : qty);
-    }, 0);
-
-    this.totalQuantity = +this.totalQuantity.toFixed(2);
+    if (this.unitsType === "square_feet") {
+      const { totalQuantity, totalQuantityMeter } =
+        AreaConversions.calculateTotalQuantities(this.rows);
+      this.totalQuantity = +totalQuantity.toFixed(2);
+      this.totalQuantityMeter = Number(
+        AreaConversions.squareFeetToSquareMeters(totalQuantity)
+      );
+      if (this.ratePerSqFeet) {
+        this.totalAmount = +(this.totalQuantity * this.ratePerSqFeet).toFixed(
+          2
+        );
+      }
+    }
+    if (this.unitsType === "square_meter") {
+      const { totalQuantity, totalQuantityMeter } =
+        AreaConversions.calculateTotalQuantities(this.rows);
+      this.totalQuantity = Number(
+        AreaConversions.squareMetersToSquareFeet(totalQuantityMeter)
+      );
+      this.totalQuantityMeter = +totalQuantityMeter.toFixed(2);
+      if (this.ratePerSqMeter) {
+        this.totalAmount = +(
+          this.totalQuantityMeter * this.ratePerSqMeter
+        ).toFixed(2);
+      }
+    }
   }
 
+  getRate(type: string) {
+    if (type === "meter" && this.unitsType === "square_meter") {
+      this.ratePerSqFeet = AreaConversions.convertRatePerSQFT(
+        this.ratePerSqMeter
+      );
+      return;
+    }
+    if (type === "feet" && this.unitsType === "square_feet") {
+      this.ratePerSqMeter = AreaConversions.convertRatePerSQMT(
+        this.ratePerSqFeet
+      );
+      return;
+    }
+  }
 
+  updateTotalQuantity(type: string) {
+    if (type === "meter") {
+      this.totalQuantity = AreaConversions.squareMetersToSquareFeet(
+        this.totalQuantityMeter
+      );
+      return;
+    }
+    if (type === "feet") {
+      this.totalQuantityMeter = AreaConversions.squareFeetToSquareMeters(
+        this.totalQuantity
+      );
+      return;
+    }
+  }
 
   public setValidations(formControlName: string) {
     return (
@@ -599,22 +855,48 @@ export class AddSlabPurchaseComponent {
     let otherByChargesSelf = 0;
 
     this.expenses.controls.forEach((expenseGroup: any) => {
-      const type = expenseGroup.get('type')?.value;
-      const paidBy = expenseGroup.get('paidBy')?.value;
-      const payment = Number(expenseGroup.get('payment')?.value) || 0;
+      const type = expenseGroup.get("type")?.value;
+      const paidBy = expenseGroup.get("paidBy")?.value;
+      const ItemTax = expenseGroup.get("ItemTax")?.value;
+      const CGST = expenseGroup.get("CGST")?.value;
+      const IGST = expenseGroup.get("IGST")?.value;
+      const SGST = expenseGroup.get("SGST")?.value;
+      const payment = Number(expenseGroup.get("payment")?.value) || 0;
 
-      if (paidBy === 'supplier') {
-        if (type === 'transportationCharge') transportationChargesBySupplier += payment;
-        if (type === 'royaltyCharges') royaltyChargesBySupplier += payment;
-        if (type === 'otherCharges') otherByChargesSupplier += payment;
-      } else if (paidBy === 'self') {
-        if (type === 'transportationCharge') transportationChargesBySelf += payment;
-        if (type === 'royaltyCharges') royaltyChargesBySelf += payment;
-        if (type === 'otherCharges') otherByChargesSelf += payment;
+      console.log(ItemTax, CGST, IGST, SGST);
+      
+
+    let taxApplied = 0;
+    let totalTax = 0;
+    if (ItemTax) {
+        taxApplied += (payment * ItemTax.taxRate) / 100;
+        expenseGroup.get('IGST')?.setValue(ItemTax.taxRate)
+        const halfTaxRate = ItemTax.taxRate / 2;
+        expenseGroup.get('CGST')?.setValue(halfTaxRate);
+        expenseGroup.get('SGST')?.setValue(halfTaxRate);    
+    } else {
+      taxApplied = (payment * ItemTax) / 100;
+    }
+    totalTax += taxApplied + payment;
+    expenseGroup.get('taxAppliedExpense').setValue(totalTax)
+    console.log(taxApplied, 'taxApplied', payment, 'payment', totalTax, 'totalTax');
+    
+
+      if (paidBy === "supplier") {
+        if (type === "transportationCharge")
+          transportationChargesBySupplier += payment;
+        if (type === "royaltyCharges") royaltyChargesBySupplier += payment;
+        if (type === "otherCharges") otherByChargesSupplier += payment;
+      } else if (paidBy === "self") {
+        if (type === "transportationCharge")
+          transportationChargesBySelf += payment;
+        if (type === "royaltyCharges") royaltyChargesBySelf += payment;
+        if (type === "otherCharges") otherByChargesSelf += payment;
       }
     });
 
-    const totalTransportation = transportationChargesBySupplier + transportationChargesBySelf;
+    const totalTransportation =
+      transportationChargesBySupplier + transportationChargesBySelf;
     const totalRoyalty = royaltyChargesBySupplier + royaltyChargesBySelf;
     const totalOther = otherByChargesSupplier + otherByChargesSelf;
 
@@ -625,30 +907,35 @@ export class AddSlabPurchaseComponent {
       otherCharge: totalOther,
     });
 
-    console.log('--- Expense Breakdown ---');
-    console.log('Transportation by Supplier:', transportationChargesBySupplier);
-    console.log('Transportation by Self:', transportationChargesBySelf);
-    console.log('Royalty by Supplier:', royaltyChargesBySupplier);
-    console.log('Royalty by Self:', royaltyChargesBySelf);
-    console.log('Other by Supplier:', otherByChargesSupplier);
-    console.log('Other by Self:', otherByChargesSelf);
+    console.log("--- Expense Breakdown ---");
+    console.log("Transportation by Supplier:", transportationChargesBySupplier);
+    console.log("Transportation by Self:", transportationChargesBySelf);
+    console.log("Royalty by Supplier:", royaltyChargesBySupplier);
+    console.log("Royalty by Self:", royaltyChargesBySelf);
+    console.log("Other by Supplier:", otherByChargesSupplier);
+    console.log("Other by Self:", otherByChargesSelf);
 
     return {
-      transportation: { supplier: transportationChargesBySupplier, self: transportationChargesBySelf },
-      royalty: { supplier: royaltyChargesBySupplier, self: royaltyChargesBySelf },
+      transportation: {
+        supplier: transportationChargesBySupplier,
+        self: transportationChargesBySelf,
+      },
+      royalty: {
+        supplier: royaltyChargesBySupplier,
+        self: royaltyChargesBySelf,
+      },
       other: { supplier: otherByChargesSupplier, self: otherByChargesSelf },
       total: {
         transportation: totalTransportation,
         royalty: totalRoyalty,
-        other: totalOther
-      }
+        other: totalOther,
+      },
     };
   }
 
   get expenseControls(): FormGroup[] {
     return this.expenses.controls as FormGroup[];
   }
-
 
   // Helper method to prevent NaN values and ensure proper formatting
   safeNumber(value: any, defaultValue: number = 0): string {
@@ -659,19 +946,26 @@ export class AddSlabPurchaseComponent {
   calculateTotalAmount() {
     this.nextBtnDisabled.emit(this.slabAddForm);
     const expenseBreakdown = this.calculateExpenseCharges();
-    
+
     // Fix any existing NaN values in slabDetails
     if (this.slabDetails && this.slabDetails.length > 0) {
-      this.slabDetails = this.slabDetails.map(slab => {
-        if (slab && (slab.costPerSQFT === 'NaN' || isNaN(slab.costPerSQFT))) {
+      this.slabDetails = this.slabDetails.map((slab) => {
+        if (slab && (slab.costPerSQFT === "NaN" || isNaN(slab.costPerSQFT))) {
           const totalSQFT = Number(slab.totalSQFT) || 0;
           const totalCosting = Number(slab.totalCosting) || 0;
-          slab.costPerSQFT = totalSQFT > 0 ? this.safeNumber(totalCosting / totalSQFT) : '0.00';
+          slab.costPerSQFT =
+            totalSQFT > 0 ? this.safeNumber(totalCosting / totalSQFT) : "0.00";
+        }
+        if (slab && (slab.costPerSQMT === "NaN" || isNaN(slab.costPerSQMT))) {
+          const totalSQMT = Number(slab.totalSQMT) || 0;
+          const totalCosting = Number(slab.totalCosting) || 0;
+          slab.costPerSQMT =
+            totalSQMT > 0 ? this.safeNumber(totalCosting / totalSQMT) : "0.00";
         }
         return slab;
       });
     }
-    
+
     // Always recalculate slabTotalCost from all slabs in slabDetails to ensure accuracy
     if (this.slabDetails && this.slabDetails.length > 0) {
       // Recalculate slabTotalCost from all slabs
@@ -681,30 +975,46 @@ export class AddSlabPurchaseComponent {
     } else {
       this.slabTotalCost = 0; // Reset if no slabs
     }
-    
-    this.NewPurchaseService.taxableAmountFun(this.slabAddForm.get('taxableAmount')?.value);
-    console.log(this.slabAddForm.get('ItemTax')?.value, "ItemTax");
-    this.NewPurchaseService.taxFun(this.slabAddForm.get('ItemTax')?.value);
+
+    this.NewPurchaseService.taxableAmountFun(
+      this.slabAddForm.get("taxableAmount")?.value
+    );
+    console.log(this.slabAddForm.get("ItemTax")?.value, "ItemTax");
+    this.NewPurchaseService.taxFun(this.slabAddForm.get("ItemTax")?.value);
 
     // this.slabAddForm.patchValue({
     //   nonTaxableAmount: this.slabTotalCost -  this.slabAddForm.get('taxableAmount')?.value
     // });
 
     // this.nonTaxableAmount = this.slabAddForm.get("nonTaxableAmount").value;
-    const totalSupplierExpenses = expenseBreakdown.royalty.supplier + expenseBreakdown.transportation.supplier + expenseBreakdown.other.supplier
+    const totalSupplierExpenses =
+      expenseBreakdown.royalty.supplier +
+      expenseBreakdown.transportation.supplier +
+      expenseBreakdown.other.supplier;
     const form = this.slabAddForm;
     const slabTotalAmount = this.slabTotalCost;
     // const royaltyCharge = Number(form.get("royaltyCharge")?.value) || 0;
-    const royaltyCharge = expenseBreakdown.royalty.self || expenseBreakdown.royalty.supplier;
-    const otherCharge = expenseBreakdown.other.self || expenseBreakdown.other.supplier;
+    const royaltyCharge =
+      expenseBreakdown.royalty.self || expenseBreakdown.royalty.supplier;
+    const otherCharge =
+      expenseBreakdown.other.self || expenseBreakdown.other.supplier;
     // const transportationCharge =
     //   Number(form.get("transportationCharge")?.value) || 0;
-    const transportationCharge = expenseBreakdown.transportation.self || expenseBreakdown.transportation.supplier;
+    const transportationCharge =
+      expenseBreakdown.transportation.self ||
+      expenseBreakdown.transportation.supplier;
     const purchaseDiscount = Number(form.get("purchaseDiscount")?.value) || 0;
-    const tax = form.get("ItemTax")?.value || [];
+    const purchaseTDS = Number(form.get("purchaseTDS")?.value) || 0;
+    const tax = form.get("ItemTax")?.value || {};
     let taxableAmount = Number(form.get("taxableAmount")?.value) || 0;
     let nonTaxableAmount = Number(form.get("nonTaxableAmount")?.value) || 0;
-    console.log(this.slabAddForm.get("nonTaxableAmount").value, "nonTaxableAmount", nonTaxableAmount);
+    console.log(
+      this.slabAddForm.get("nonTaxableAmount").value,
+      "nonTaxableAmount",
+      nonTaxableAmount
+    );
+    console.log(tax, 'tax tax tax');
+    
     let taxable = 0;
     let transportationAndOtherChargePerSQFT = 0;
     let transportationChargesPerSlab = 0;
@@ -720,9 +1030,6 @@ export class AddSlabPurchaseComponent {
       this.originalNonTaxableAmount = nonTaxableAmount;
       this.originalTaxApplied = 0;
     }
-
-
-
 
     let totalSQFT = 0;
     let totalSlabAmount = 0;
@@ -751,14 +1058,15 @@ export class AddSlabPurchaseComponent {
     }
 
     let taxApplied = 0;
-    if (Array.isArray(tax)) {
-      tax.forEach((selectedTax: any) => {
-        taxApplied += (taxableAmount * selectedTax.taxRate) / 100;
-      });
-    } else if (tax) {
+    if (tax) {
+        taxApplied += (taxableAmount * tax.taxRate) / 100;
+        this.slabAddForm.get('IGST')?.setValue(tax.taxRate)
+        const halfTaxRate = tax.taxRate / 2;
+        this.slabAddForm.get('CGST')?.setValue(halfTaxRate);
+        this.slabAddForm.get('SGST')?.setValue(halfTaxRate);    
+    } else {
       taxApplied = (taxableAmount * tax) / 100;
     }
-
 
     // Check if slabDetails is empty   code  Add by ravi
     if (this.slabDetails.length === 0) {
@@ -774,8 +1082,13 @@ export class AddSlabPurchaseComponent {
       });
       this.slabDetails = []; // Clear slabDetails data
       const formData = this.slabAddForm.value;
-
+      console.log(formData, 'formData');
+      
       const payload = {
+        state_tax: formData.state_tax,
+        IGST: formData.IGST,
+        CGST: formData.CGST,
+        SGST: formData.SGST,
         warehouseDetails: formData.warehouse,
         vehicleNo: formData.vehicleNo,
         transportationCharge: Number(formData.transportationCharge),
@@ -785,6 +1098,7 @@ export class AddSlabPurchaseComponent {
         // totalCost: Number(formData?.totalCost),
         // paidToSupplierSlabCost: Number(formData.paidToSupplierSlabCost),
         purchaseDiscount: Number(formData.purchaseDiscount),
+        purchaseTDS: Number(formData.purchaseTDS),
         // nonTaxableAmount: Number(formData.nonTaxableAmount),
         // taxableAmount: Number(formData.taxableAmount),
         // taxable: Number(formData.taxable),
@@ -797,6 +1111,9 @@ export class AddSlabPurchaseComponent {
         totalCost: 0,
         totalSQFT: 0,
       };
+      
+      console.log(payload, 'payload');
+      
       this.NewPurchaseService.setFormData("stepFirstSlabData", payload);
 
       return; // Exit the function early as there's no data
@@ -806,12 +1123,12 @@ export class AddSlabPurchaseComponent {
       ...e,
       taxAmountPerSQFT: Number(
         ((taxApplied / this.slabTotalCost) * Number(e.totalCosting)) /
-        Number(e.totalSQFT)
+          Number(e.totalSQFT)
       ).toFixed(2),
     }));
 
     if (this.isEditMode && this.previousSlabData) {
-      console.log('🟡 Edit Mode - Using API Values');
+      console.log("🟡 Edit Mode - Using API Values", this.previousSlabData);
 
       const apiTaxableAmount = this.previousSlabData.taxableAmount || 0;
       const apiPurchaseDiscount = this.previousSlabData.purchaseDiscount || 0;
@@ -827,17 +1144,13 @@ export class AddSlabPurchaseComponent {
 
       // Step 3: Deduct the Purchase Discount following original logic
       let remainingDiscount = this.discountModifiedByUser
-        ? purchaseDiscount  // Use user's updated discount value
-        : apiPurchaseDiscount;  // Use API's original discount value
-
-
+        ? purchaseDiscount // Use user's updated discount value
+        : apiPurchaseDiscount; // Use API's original discount value
 
       nonTaxableAmount =
         taxableAmount && taxableAmount <= slabTotalAmount
           ? slabTotalAmount - taxableAmount + totalSupplierExpenses
           : slabTotalAmount - 0 + totalSupplierExpenses;
-
-
 
       if (nonTaxableAmount > 0) {
         const discountApplied = Math.min(nonTaxableAmount, remainingDiscount);
@@ -845,12 +1158,12 @@ export class AddSlabPurchaseComponent {
         remainingDiscount -= discountApplied;
       }
 
-
       if (remainingDiscount > 0) {
         taxableAmount -= remainingDiscount;
       }
 
-
+      console.log(remainingDiscount, taxableAmount, nonTaxableAmount, apiPurchaseDiscount, apiTaxableAmount);
+      
 
       form.patchValue({
         nonTaxableAmount: Number(nonTaxableAmount).toFixed(2),
@@ -858,32 +1171,34 @@ export class AddSlabPurchaseComponent {
         // purchaseDiscount: apiPurchaseDiscount ? Number(apiPurchaseDiscount).toFixed(2) : 0
         purchaseDiscount: this.discountModifiedByUser
           ? Number(purchaseDiscount).toFixed(2) // Preserve modified value
-          : Number(apiPurchaseDiscount).toFixed(2) // Use API value if untouched
+          : Number(apiPurchaseDiscount).toFixed(2), // Use API value if untouched
       });
-
     } else {
       // New Entry Mode Logic
-      console.log('🟢 New Entry Mode - Using Original Discount Logic');
+      console.log("🟢 New Entry Mode - Using Original Discount Logic");
 
       nonTaxableAmount =
         taxableAmount && taxableAmount <= slabTotalAmount
           ? slabTotalAmount - taxableAmount + totalSupplierExpenses
           : slabTotalAmount - 0 + totalSupplierExpenses;
-
+      console.log(nonTaxableAmount, taxableAmount, totalSupplierExpenses, purchaseDiscount, slabTotalAmount, 'purchaseDiscountpurchaseDiscountpurchaseDiscount');
+      
       // Discount Logic (Your Original Logic)
-      if (purchaseDiscount) {
-        let remainingDiscount = purchaseDiscount;
+      console.log(purchaseDiscount, 'purchaseDiscountpurchaseDiscountpurchaseDiscount');
+      
+      // if (purchaseDiscount) {
+      //   let remainingDiscount = purchaseDiscount;
 
-        if (nonTaxableAmount > 0) {
-          const discountApplied = Math.min(nonTaxableAmount, remainingDiscount);
-          nonTaxableAmount -= discountApplied;
-          remainingDiscount -= discountApplied;
-        }
+      //   if (nonTaxableAmount > 0) {
+      //     const discountApplied = Math.min(nonTaxableAmount, remainingDiscount);
+      //     nonTaxableAmount -= discountApplied;
+      //     remainingDiscount -= discountApplied;
+      //   }
 
-        if (remainingDiscount > 0) {
-          taxableAmount = Math.max(taxableAmount - remainingDiscount, 0);
-        }
-      }
+      //   if (remainingDiscount > 0) {
+      //     taxableAmount = Math.max(taxableAmount - remainingDiscount, 0);
+      //   }
+      // }
 
       let taxApplied = 0;
       if (Array.isArray(tax)) {
@@ -897,8 +1212,10 @@ export class AddSlabPurchaseComponent {
       form.patchValue({
         nonTaxableAmount: Number(nonTaxableAmount).toFixed(2),
         taxableAmount: taxableAmount ? Number(taxableAmount).toFixed(2) : 0,
-        purchaseDiscount: purchaseDiscount ? Number(purchaseDiscount).toFixed(2) : 0,
-        taxApplied: Number(taxApplied).toFixed(2)
+        purchaseDiscount: purchaseDiscount
+          ? Number(purchaseDiscount).toFixed(2)
+          : 0,
+        taxApplied: Number(taxApplied).toFixed(2),
       });
     }
 
@@ -909,46 +1226,46 @@ export class AddSlabPurchaseComponent {
       const ratePerSqFeet = Number(e.ratePerSqFeet) || 0;
       const taxAmountPerSQFT = Number(e.taxAmountPerSQFT) || 0;
       const transportCharge = Number(transportationAndOtherChargePerSQFT) || 0;
-      
+
       // Calculate the cost - this should never be NaN now
       const costValue = ratePerSqFeet + taxAmountPerSQFT + transportCharge;
-      
+
       // Final safety check - if somehow it's still NaN, use 0
       const finalCostPerSQFT = isNaN(costValue) ? 0 : costValue;
-      
+
       return {
         ...e,
         costPerSQFT: Number(finalCostPerSQFT).toFixed(2),
         sellingPricePerSQFT: Number(
           (Number(e.ratePerSqFeet) || 0) +
-          (Number(e.taxAmountPerSQFT) || 0) +
-          (Number(transportationAndOtherChargePerSQFT) || 0)
+            (Number(e.taxAmountPerSQFT) || 0) +
+            (Number(transportationAndOtherChargePerSQFT) || 0)
         ).toFixed(2),
-      transportationCharges: Number(
-        transportationChargesPerSlab * e.totalSQFT
-      ).toFixed(2),
-      royaltyCharges: Number(royaltyChargesPerSlab * e.totalSQFT).toFixed(2),
-      otherCharges: Number(otherChargesPerSlab * e.totalSQFT).toFixed(2),
-      slabSize: `${e.width ? e.width : " "} x ${e.length ? e.length : " "} x ${e.thickness ? e.thickness : " "
-        }`,
-      purchaseCost:
-        ((Number(e.ratePerSqFeet) || 0) +
-          (Number(e.taxAmountPerSQFT) || 0) +
-          (Number(transportationAndOtherChargePerSQFT) || 0)) *
-        (Number(e.totalSQFT) || 0),
-      warehouseDetails: this.slabAddForm?.value?.warehouse,
-    };
+        transportationCharges: Number(
+          transportationChargesPerSlab * e.totalSQFT
+        ).toFixed(2),
+        royaltyCharges: Number(royaltyChargesPerSlab * e.totalSQFT).toFixed(2),
+        otherCharges: Number(otherChargesPerSlab * e.totalSQFT).toFixed(2),
+        slabSize: `${e.width ? e.width : " "} x ${
+          e.length ? e.length : " "
+        } x ${e.thickness ? e.thickness : " "}`,
+        purchaseCost:
+          ((Number(e.ratePerSqFeet) || 0) +
+            (Number(e.taxAmountPerSQFT) || 0) +
+            (Number(transportationAndOtherChargePerSQFT) || 0)) *
+          (Number(e.totalSQFT) || 0),
+        warehouseDetails: this.slabAddForm?.value?.warehouse,
+      };
     });
 
     taxable = taxApplied + taxableAmount;
-    const paidToSupplierSlabAmount = taxable + nonTaxableAmount;
+    let paidToSupplierSlabAmount = taxable + nonTaxableAmount;
 
     console.log("Taxable:", taxable);
     console.log("Non-Taxable Amount:", nonTaxableAmount);
     console.log("Purchase Discount:", purchaseDiscount);
     console.log("Transportation Charge:", transportationCharge);
     console.log("Royalty Charge:", royaltyCharge);
-
 
     const totalCost =
       taxable +
@@ -957,6 +1274,9 @@ export class AddSlabPurchaseComponent {
       transportationCharge +
       royaltyCharge +
       otherCharge;
+
+
+    paidToSupplierSlabAmount = paidToSupplierSlabAmount - purchaseTDS
 
     console.log("Total Cost:", totalCost);
     form.patchValue({
@@ -972,6 +1292,12 @@ export class AddSlabPurchaseComponent {
     this.slabDetails = [...calculatedDetails];
 
     this.setValidator();
+
+
+
+
+    console.log(this.slabAddForm, 'slabAddFormslabAddFormslabAddFormslabAddFormslabAddFormslabAddFormslabAddForm');
+    
   }
 
   trackByFn(index: number, item: any) {
@@ -996,40 +1322,58 @@ export class AddSlabPurchaseComponent {
     this.slabAddForm.get("taxableAmount")?.updateValueAndValidity;
   }
 
+  getValue(index, value){
+    console.log(value, 'getValue');
+    
+    const expenseControl = this.expenses.at(index);
+    if (expenseControl) {
+      expenseControl.get("type")?.setValue(value);
+      // this.calculateTotalAmount();
+    }
+  }
+
   slabAddFormSubmit() {
     this.calculateTotalAmount(); // Ensure calculations are up-to-date
     const formData = this.slabAddForm.value;
-    console.log('formData', formData)
-    
+    console.log("formData", formData);
+
     // Helper function to safely convert values to numbers and format them
     const safeNumberFormat = (value: any, defaultValue: number = 0): string => {
       const num = Number(value);
       return isNaN(num) ? defaultValue.toFixed(2) : num.toFixed(2);
     };
-    
+
     // Ensure we have valid values for all numeric fields
     const slabTotalCost = Number(this.slabTotalCost) || 0;
-    
+
     // Check if nonTaxableAmount is 0 but there's a total amount, recalculate it
     let nonTaxableAmount = Number(formData?.nonTaxableAmount || 0);
-    if (nonTaxableAmount === 0 && slabTotalCost > 0 && this.slabDetails?.length > 0) {
+    if (
+      nonTaxableAmount === 0 &&
+      slabTotalCost > 0 &&
+      this.slabDetails?.length > 0
+    ) {
       // If nonTaxableAmount is 0 but we have slabs, recalculate it
       const taxableAmount = Number(formData?.taxableAmount || 0);
       nonTaxableAmount = slabTotalCost - taxableAmount;
       if (nonTaxableAmount < 0) nonTaxableAmount = 0;
-      
+
       // Update the form value
       this.slabAddForm.patchValue({
-        nonTaxableAmount: nonTaxableAmount.toFixed(2)
+        nonTaxableAmount: nonTaxableAmount.toFixed(2),
       });
-      
+
       // Get the updated form data
       formData.nonTaxableAmount = nonTaxableAmount.toFixed(2);
     }
-    
+
     const payload = {
       warehouseDetails: formData?.warehouse,
-      vehicleNo: formData?.vehicleNo ? (formData.vehicleNo.length === 0 ? null : formData.vehicleNo) : null,
+      vehicleNo: formData?.vehicleNo
+        ? formData.vehicleNo.length === 0
+          ? null
+          : formData.vehicleNo
+        : null,
       transportationCharge: Number(formData?.transportationCharge || 0),
       royaltyCharge: Number(formData?.royaltyCharge || 0),
       slabDetails: this.slabDetails || [],
@@ -1043,8 +1387,15 @@ export class AddSlabPurchaseComponent {
       purchaseItemTax: formData?.ItemTax,
       taxApplied: safeNumberFormat(formData?.taxApplied),
       totalSQFT: Number(formData?.totalSQFT || 0),
+      state_tax: formData.state_tax,
+      purchaseTDS: formData.purchaseTDS,
+      IGST: formData.IGST,
+      CGST: formData.CGST,
+      SGST: formData.SGST,
     };
+
     
+
     this.NewPurchaseService.setFormData("stepFirstSlabData", payload);
     // this.saveClicked.emit()
   }
@@ -1052,26 +1403,26 @@ export class AddSlabPurchaseComponent {
   addEmptyRow() {
     this.products.push({
       id: this.products.length + 1,
-      code: '',
-      name: '',
-      inventoryStatus: '',
-      price: ''
+      code: "",
+      name: "",
+      inventoryStatus: "",
+      price: "",
     });
   }
 
   addRow() {
-    const lastPieceNumber = this.rows.length > 0
-      ? this.rows[this.rows.length - 1].pieceNumber
-      : 0;
+    const lastPieceNumber =
+      this.rows.length > 0 ? this.rows[this.rows.length - 1].pieceNumber : 0;
 
     const newRow = {
       pieceNumber: lastPieceNumber + 1,
-      length: 0,
-      width: 0,
-      thickness: 0,
-      quantity: 0,
-      finish: null,
-      isEditing: true
+      length: this.length || 0,
+      width: this.width || 0,
+      thickness: this.width || 0,
+      quantity: this.getFormattedQuantity() || 0,
+      totalQuantityMeter: this.getFormattedQuantityMeter() || 0,
+      finish: this.finishes || {},
+      isEditing: true,
     };
 
     this.rows.push(newRow);
@@ -1079,7 +1430,7 @@ export class AddSlabPurchaseComponent {
     setTimeout(() => {
       this.calculateTotalQuantity();
     }, 500);
-    this.getSlabDetails(false);
+    // this.getSlabDetails(false);
   }
 
   deleteRow(index: number) {
@@ -1091,10 +1442,8 @@ export class AddSlabPurchaseComponent {
     });
     this.noOfPieces = this.rows.length;
     this.calculateTotalQuantity();
-    this.getSlabDetails(false);
+    // this.getSlabDetails(false);
   }
-
-
 
   //   addRow() {
   //   this.rows.push({
@@ -1116,10 +1465,23 @@ export class AddSlabPurchaseComponent {
     this.editedRowBackup = { ...row }; // shallow copy
   }
 
+  getSelectedType(index) {
+    const expenseControl = this.expenses.at(index);
+    return this.expenseTypeOptions.find(ele => ele.value === expenseControl.get('type')?.value)?.name
+  }
+
   saveRow(row: any) {
+    console.log(row, "saveRow");
+    console.log(this.rows, "this.rows");
+    this.rows.forEach((r: any, i) => {
+      if (r.pieceNumber === row.pieceNumber) {
+        this.rows[i] = row; // update the row in the array
+      }
+    });
+    console.log("Updated Rows:", this.rows);
     row.isEditing = false;
     this.editedRowBackup = null;
-    this.getSlabDetails(false);
+    // this.getSlabDetails(false);
   }
 
   cancelEdit(row: any) {
@@ -1133,24 +1495,50 @@ export class AddSlabPurchaseComponent {
   }
 
   get expenses(): FormArray {
-    return this.expensesForm.get('expenses') as FormArray;
+    return this.expensesForm.get("expenses") as FormArray;
   }
 
   updatePaidBy(index: number, value: string) {
     const expenseControl = this.expenses.at(index);
     if (expenseControl) {
-      expenseControl.get('paidBy')?.setValue(value);
+      expenseControl.get("paidBy")?.setValue(value);
+      // this.calculateTotalAmount();
+    }
+  }
+
+  updateTaxType(index: number, value: string, type?: string) {
+    const expenseControl = this.expenses.at(index);
+    console.log(value);
+    if(type === 'rcm' || value == 'supplier') {
+      const rcmApplicable = expenseControl.get("rcmApplicable")?.value;
+      !rcmApplicable || value == 'supplier' ? (expenseControl.get("ItemTax")?.setValue(null), expenseControl.get("serviceProvider")?.setValue(null)) : null
+    }
+    if (expenseControl) {
+      expenseControl.get("state_tax")?.setValue(value);
       this.calculateTotalAmount();
     }
   }
 
+onRcmChange(index: number, value: boolean) {
+  const control = this.expenses.at(index);
+  control.get('rcmApplicable')?.setValue(value);
+  // any other logic you want on checkbox change
+}
 
 
   createExpense(): FormGroup {
     return this.fb.group({
-      type: ['', Validators.required],
-      payment: ['', Validators.required],
-      paidBy: ['self', Validators.required]
+      type: ["", Validators.required],
+      payment: ["", Validators.required],
+      paidBy: ["", Validators.required],
+      state_tax: [''],
+      ItemTax: [''],
+      IGST: [''],
+      CGST: [''],
+      SGST: [''],
+      taxAppliedExpense:[''],
+      serviceProvider:[''],
+      rcmApplicable: [false],
     });
   }
 
@@ -1166,19 +1554,15 @@ export class AddSlabPurchaseComponent {
     this.calculateTotalAmount();
   }
 
-  logSlabDetails(myForm:NgForm): void {
+  logSlabDetails(myForm: NgForm): void {
     console.log("<<<<<<<<<<<<<<<<<<<<<rows:", this.rows);
     // First make a deep copy of the rows data to preserve it
+    console.log("<<<<<<<<<<<<<<<<<<<<<myForm:", myForm.value);
     const rowsCopy = JSON.parse(JSON.stringify(this.rows));
     // Calculate total amount and add slab details
     this.calculateTotalAmount();
-    this.addSlabDetails(myForm,rowsCopy);
+    this.addSlabDetails(myForm, rowsCopy);
     // Set form data after processing is complete, using the preserved copy
     // this.NewPurchaseService.setFormData("piecesDetails", rowsCopy);
   }
-
-
-
 }
-
-
